@@ -1,4 +1,4 @@
-const booze = [
+[
     {
         "name": "Henderson Blended Whiskey",
         "url": "https://ishopliquor.com/products/henderson-blended-whiskey",
@@ -10,7 +10,7 @@ const booze = [
     {
         "name": "McAfee's Benchmark Old No. 8 Kentucky Straight Bourbon Whiskey",
         "url": "https://ishopliquor.com/products/mcafees-benchmark-old-no-8-kentucky-straight-bourbon-whiskey",
-        "type": "",
+        "type": "Whiskey",
         "handle": "mcafees-benchmark-old-no-8-kentucky-straight-bourbon-whiskey",
         "proof": "80/40%",
         "image": "https://cdn.shopify.com/s/files/1/0307/2848/7048/files/Untitled-11_1fa1d6f6-d295-4cdd-a9e2-f0fbd863062d.png?v=1702654102"
@@ -11754,4 +11754,3 @@ const booze = [
         "image": "https://cdn.shopify.com/s/files/1/0307/2848/7048/products/88-anejo-tequila_750.jpg?v=1588040644"
     }
 ]
-  
