@@ -1,21 +1,38 @@
+const { findByIdAndRemove } = require("../models/Inventory.js");
 const urlData = require ("./URL.js");
 const boozeInventory = require("./boozeFetch.js");
 const fs = require ('fs');
 
+//const basepage = "https://ishopliquor.com/collections/all-acohol"
+const basepage = "https://craftshack.com"
+const collectionpage = "https://craftshack.com/collections/buy-liquor-online"
 
-const filePath = "C:/Users/fishe/Desktop/boozeInventory.txt";
+//const smallfilePath = "C:/Users/fishe/Desktop/boozeInventory.txt";
+const smallfilePath = "C:/Users/Alan/Desktop/boozeInventory.txt"
+const largefilePath =  "C:/Users/Alan/Desktop/totalInventory.txt"
 
-function condenseInfo (urls, boozeInfo) {
+function condenseInfo (urls, boozeInfo, basepage) {
 
     const finalArray = [];
 
-    function createBoozeObject (element,index) {
+    function findABV(string){
+        const regex = /(\d+(\.\d+)?%)/  ;
+        match = string.match(regex)
+        if (match) {
+            return `${match[1]} ABV`
+        } else {
+            return "0.0% ABV"
+        }
+    }
+
+    function createBoozeObject (element,index,basepage) {
         const dataObject = {
             name: element.product.title,
-            url: `https://ishopliquor.com${urls[index]}`,
+            url: `${basepage}${urls[index]}`,
             type: element.product.product_type,
             handle: element.product.handle,
-            proof: element.product.variants[0].option2,
+            tags: element.product.tags,
+            proof: findABV(element.product.body_html),
         }
         if (element.product.image && element.product.image.src){
             dataObject.image = element.product.image.src
@@ -28,7 +45,7 @@ function condenseInfo (urls, boozeInfo) {
     if (boozeInfo !== null) {
         boozeInfo.forEach((element,index) => {
             if (element !== null) {
-                const dataEntry = createBoozeObject(element,index)
+                const dataEntry = createBoozeObject(element,index,basepage)
                 finalArray.push(dataEntry);
             }
         });
@@ -39,10 +56,17 @@ function condenseInfo (urls, boozeInfo) {
 
 (async () => {
     try {
-        const urls = await urlData();
-        const onlineInventory = await boozeInventory(urls);
-        const spiritLabInventory = condenseInfo(urls, onlineInventory);
-        fs.writeFile(filePath, JSON.stringify(spiritLabInventory, null, 2), (err) => {
+        const urls = await urlData(collectionpage);
+        const onlineInventory = await boozeInventory(urls,basepage);
+        const spiritLabInventory = condenseInfo(urls, onlineInventory, basepage);
+        fs.writeFile(smallfilePath, JSON.stringify(spiritLabInventory, null, 2), (err) => {
+            if (err) {
+                console.error('Error writing to file:', err);
+                return;
+            }
+            console.log('File has been written successfully.');
+        });
+        fs.writeFile(largefilePath, JSON.stringify(onlineInventory, null, 2), (err) => {
             if (err) {
                 console.error('Error writing to file:', err);
                 return;

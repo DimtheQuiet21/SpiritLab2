@@ -1,21 +1,19 @@
 const cheerio = require('cheerio');
 
-const startScrapePage = 120;
-
-async function scrapeLoop (maxPage) {
+async function scrapeLoop (maxPage, collectionpage) {
     const hrefHolder = [];
     for (let i = 1; i <= maxPage; i++) { 
         let page = i;
-        let hrefs = await scrape(page);  
+        let hrefs = await scrape(collectionpage, page);  
         hrefs.forEach((url) => hrefHolder.push(url))
     }
     console.log(hrefHolder);
     return hrefHolder
 }
 
-async function scrape (page) {
+async function scrape (collectionpage, page) {
     try {
-      const response = await fetch(`https://ishopliquor.com/collections/all-acohol?page=${page}`)
+      const response = await fetch(`${collectionpage}?page=${page}`)
     if (!response.ok) {
       throw new Error('Network response was not ok', response);
     }
@@ -41,8 +39,8 @@ async function scrape (page) {
     };
 }
 
-const getPageMax = async () => {
-    const response = await fetch('https://ishopliquor.com/collections/all-acohol/') 
+const getPageMax = async (collectionpage) => {
+    const response = await fetch(`${collectionpage}/`) 
     if (!response.ok) {
           throw new Error('Network response was not ok', response);
     }
@@ -71,13 +69,14 @@ const getPageMax = async () => {
     return Math.max(...pageNumbers); //We spread function the array of page Numbers to enter all values as arguments
 }   
 
-async function urlData() {
-    const maxPage = await getPageMax();
-    const hrefLibrary = await scrapeLoop(maxPage);
+async function urlData(collectionpage) {
+    const maxPage = await getPageMax(collectionpage);
+    console.log(maxPage);
+    const hrefLibrary = await scrapeLoop(maxPage, collectionpage);
     return hrefLibrary.filter((value, index, self) => self.indexOf(value) === index);
 }
 
-console.log(urlData());
+
 
 module.exports = urlData;
 

@@ -1,8 +1,8 @@
-async function boozeInventory (urls) {
+async function boozeInventory (urls,basepage) {
     try {
         const boozes = await Promise.all(
             urls.map( async(element) => {
-                const response = await fetch (`https://ishopliquor.com${element}`, {
+                const response = await fetch (`${basepage}${element}`, {
                     headers: {
                         'Accept':'application/json'
                     }

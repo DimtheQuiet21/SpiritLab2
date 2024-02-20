@@ -5,6 +5,7 @@ type Inventory {
     url : String
     type: String
     handle: String
+    tags: [String]
     proof: String
     image: String
     icon: Int
