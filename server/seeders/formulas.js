@@ -1,71 +1,71 @@
 const ale = "ale";
-const paleAle = "pale ale";
-const stout = "stout";
-const irishStout = "irish stout"
-const brandy = "brandy";
-const lager = "lager";
-const mexicanLager = "mexican lager";
-const mexicanDark = "mexican dark beer"
-const vodka = "vodka";
-const mandarinVodka = "mandarin-flavored vodka";
-const citronVodka = "citron vodka";
-const champagne = "champagne";
-const hardCider = "hard cider";
 const beer = "beer";
-const whiskey = "whiskey";
-const peppermintSchnapps = "peppermint schnapps";
+const brandy = "brandy";
+const champagne = "champagne";
+const citronVodka = "citron vodka";
+const cointreau = "cointreau";
 const gin = "gin";
-const tequila = "tequila";
+const grandMarnier = "grand marnier";
+const hardCider = "hard cider";
+const irishStout = "irish stout";
+const lager = "lager";
+const mandarinVodka = "mandarin-flavored vodka";
+const mexicanDark = "mexican dark beer";
+const mexicanLager = "mexican lager";
+const nigoriSake = "nigori-sake";
+const paleAle = "pale ale";
+const peppermintSchnapps = "peppermint schnapps";
 const rubyPort = "ruby port";
 const sake = "sake";
-const nigoriSake ="nigori-sake";
-const grandMarnier = "grand marnier";
-const cointreau = "cointreau";
+const stout = "stout";
+const tequila = "tequila";
 const vermouth = "vermouth";
+const vodka = "vodka";
+const whiskey = "whiskey";
 
-const lemonJuice = "lemon juice";
-const limeJuice = "lime juice";
-const orangeJuice ="orange juice"
-const tomatoJuice = "tomato juice";
 const blackCurrantSyrup = "black currant syrup";
-const simpleSyrup = "simple syrup";
-const gingerSyrup = "ginger syrup";
-const lemonLimeSoda = "lemon-lime soda";
 const gingerBeer = "ginger beer";
-const sweetSour = "sweet and sour sauce";
+const gingerSyrup = "ginger syrup";
+const lemonJuice = "lemon juice";
+const lemonLimeSoda = "lemon-lime soda";
+const limeJuice = "lime juice";
 const mangoPuree = "mango puree";
-const whitePeachPuree = "white peach puree"
+const orangeJuice = "orange juice";
+const simpleSyrup = "simple syrup";
+const sweetSour = "sweet and sour sauce";
+const tomatoJuice = "tomato juice";
+const whitePeachPuree = "white peach puree";
 
-const ginger = "ginger";
+const blackPepper = "black pepper";
 const candiedGinger = "candied ginger";
-const sugar = "sugar";
-const hotSauce = "hot sauce";
+const cinnamon = "cinnamon";
+const coconutMilk = "coconut milk";
+const cranberryJuice = "cranberry juice";
+const cucumber = "cucumber";
 const eggYolk = "egg yolk";
-const lime = "lime wedge";
-const limeTwist = "lime twist"
+const ginger = "ginger";
+const hotSauce = "hot sauce";
+const kosherSalt = "kosher salt";
 const lemon = "lemon wedge";
-const lemonTwist ="lemon twist";
-const orangeWedge ="orange wedge";
+const lemonTwist = "lemon twist";
+const lime = "lime wedge";
+const limeTwist = "lime twist";
+const mintLeaves = "mint leaves";
+const mintSprig = "mint sprig";
+const nutmeg = "nutmeg";
 const orangeSlice = "orange slice";
 const orangeTwist = "orange twist";
+const orangeWedge = "orange wedge";
 const peachSlice = "peach slice";
 const pineappleJuice = "pineapple juice";
 const pineappleSlice = "pineapple slice";
-const cranberryJuice = "cranberry juice";
-const coconutMilk = "coconut milk";
-const kosherSalt = "kosher salt";
 const salt = "salt";
 const soySauce = "soy sauce";
-const worcester = "worcestershire sauce";
-const blackPepper ="black pepper";
-const nutmeg = "nutmeg";
-const cinnamon = "cinnamon";
+const sugar = "sugar";
 const wasabi = "wasabi";
-const mintLeaves = "mint leaves";
-const mintSprig = "mint sprig";
-const cucumber = "cucumber";
+const worcester = "worcestershire sauce";
 
-const forumlas = [
+const formulas = [
     {
         "name":"Ale Flip",
         "type":beer,
@@ -163,7 +163,8 @@ const forumlas = [
             {
                 "name":hardCider,
                 "amount": "6 oz"
-            },stout, hardCider],
+            }
+        ],
         "liquid": [],
         "garnish": [] 
     },
@@ -774,11 +775,6 @@ const forumlas = [
             },
         ] 
     },
-    {
-        "name":"",
-        "type":"",
-        "alcohol":[],
-        "liquid": [],
-        "garnish": [] 
-    },
 ]
+
+module.exports = formulas

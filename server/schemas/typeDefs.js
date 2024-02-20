@@ -10,9 +10,25 @@ type Inventory {
     icon: Int
   }
 
-  type Query {
+type Formulas {
+    _id: ID
+    name: String
+    type : String
+    alcohol: [Ingredient]
+    liquid: [Ingredient]
+    garnish: [Ingredient]
+    icon: Int 
+}
+
+type Ingredient {
+    name: String
+    amount: String
+}
+
+type Query {
     inventory: [Inventory]
-  }
+    formulas:[Formulas]
+}
 
 `
 module.exports = typeDefs;
