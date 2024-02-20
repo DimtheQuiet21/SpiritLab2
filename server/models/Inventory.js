@@ -23,6 +23,11 @@ const inventorySchema = new Schema ({
         required: true,
         trim: true,
     },
+    tags: {
+        type: [String],
+        required: false,
+        trim: true
+    },
     proof :{
         type: String,
         required: false,
