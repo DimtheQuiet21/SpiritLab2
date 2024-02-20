@@ -18,12 +18,13 @@ type Formulas {
     alcohol: [Ingredient]
     liquid: [Ingredient]
     garnish: [Ingredient]
-    icon: Int 
+    assembly: String
 }
 
 type Ingredient {
     name: String
     amount: String
+    technique: String
 }
 
 type User {

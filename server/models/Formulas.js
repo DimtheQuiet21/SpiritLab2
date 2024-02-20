@@ -27,6 +27,11 @@ const formulaSchema = new Schema ({
                 required: false,
                 trim: true
             },
+            technique :{
+                type: String,
+                required: false,
+                trim: true
+            }
         }
     ],
 
@@ -42,6 +47,11 @@ const formulaSchema = new Schema ({
                 required: false,
                 trim: true
             },
+            technique :{
+                type: String,
+                required: false,
+                trim: true
+            }
         }
     ],
 
@@ -57,13 +67,19 @@ const formulaSchema = new Schema ({
                 required: false,
                 trim: true
             },
+            technique :{
+                type: String,
+                required: false,
+                trim: true
+            }
         }
     ],
 
-    icon:{
-        type:Number,
+    assembly: {
+        type: String,
         required: false,
-    }
+        trim: true
+    },
 })
 
 const Formulas = model('Formulas', formulaSchema); 
