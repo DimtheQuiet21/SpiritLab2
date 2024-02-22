@@ -9,7 +9,7 @@ type Inventory {
     proof: String
     image: String
     icon: Int
-  }
+    }
 
 type Formulas {
     _id: ID
