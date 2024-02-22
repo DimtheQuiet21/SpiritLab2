@@ -41,7 +41,11 @@ type Auth {
 
 type Query {
     inventory: [Inventory]
+    inventorybyterms(terms:[String]!):[Inventory]
     formulas:[Formulas]
+    formulasbytype(type: String!):[Formulas]
+    formulasbyingredient(alcohol: [String]!, liquid: [String]!, garnish:[String]!):[Formulas]
+    formula(name: String!): Formulas
     users: [User]
     user(userName: String!): User
 }
