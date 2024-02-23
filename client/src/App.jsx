@@ -52,7 +52,6 @@ function App() {
     <ApolloProvider client={client}>
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <div>
           <Navbar />
           <Container maxWidth='lg'>
             <Search />
@@ -60,7 +59,6 @@ function App() {
            </Container>
           <Footer />
          </ThemeProvider>
-      </div>
     </ApolloProvider>
   );
 
