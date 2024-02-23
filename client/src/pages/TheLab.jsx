@@ -1,8 +1,10 @@
+import Concoct from '../components/concoct/concoct';
+
 function TheLab() {
 
     return (
-        <h3>This is the lab content</h3>
+        <Concoct/>
     )
   }
   
-  export default TheLab
+export default TheLab

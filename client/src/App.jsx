@@ -1,4 +1,14 @@
-import './App.css'
+import * as React from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
 
 import { Outlet } from 'react-router-dom';
 import Navbar from './components/main/Navbar';
@@ -38,15 +48,22 @@ function App() {
   // </StoreProvider> Put this in later to return STATE functionality.
 
   return (
+
     <ApolloProvider client={client}>
+      <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <div>
           <Navbar />
-          <Search />
-          <Outlet />
+          <Container maxWidth='lg'>
+            <Search />
+            <Outlet />
+           </Container>
           <Footer />
+         </ThemeProvider>
       </div>
     </ApolloProvider>
   );
+
 }
 
 export default App
