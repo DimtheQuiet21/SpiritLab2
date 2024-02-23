@@ -1,16 +1,12 @@
 import Search from "../components/main/Search";
-
-
-
-
-
+import Welcome from "../components/home/Welcome";
 
 function Home() {
     
 
     return (
         <div>
-            <h3>This is the home page</h3>
+            <Welcome />
         </div>
 
     )
