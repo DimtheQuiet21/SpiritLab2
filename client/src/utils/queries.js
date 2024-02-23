@@ -10,9 +10,17 @@ export const QUERY_ME = gql`
   }
 `;
 
+export const GET_ALL_FORMULA_NAMES = gql`
+  query getFormulaNames {
+    formulas {
+      name
+    }
+  }
+`;
+
 //To make this query run, the body of the request must have req.body = {"name":"THE ACTUAL FORMULA NAME"}
 export const GET_FORMULA_BY_NAME = gql`
-  query Query($name: String!) {
+  query geFormulaByName($name: String!) {
     formula(name: $name) {
       name
       type
@@ -39,7 +47,7 @@ export const GET_FORMULA_BY_NAME = gql`
 
 // To make this query run, the body of the quest must have req.body = {"name" : [ARRAY OF TERMS IN SEARCH BAR], "liquid": [ARRAY OF TERMS IN SEARCH BAR], "garnish": [ARRAY OF TERMS IN SEARCH BAR]}
 export const SEARCH_FORMULA_BY_INGREDIENT = gql`
-  query Query($alcohol: [String]!, $liquid: [String]!, $garnish: [String]!) {
+  query searchFormulaByIngredient($alcohol: [String]!, $liquid: [String]!, $garnish: [String]!) {
     formulasbyingredient(alcohol: $alcohol, liquid: $liquid, garnish: $garnish) {
       name
     }

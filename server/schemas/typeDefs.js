@@ -44,7 +44,7 @@ type Query {
     inventorybyterms(terms:[String]!):[Inventory]
     formulas:[Formulas]
     formulasbytype(type: String!):[Formulas]
-    formulasbyingredient(alcohol: [String]!, liquid: [String]!, garnish:[String]!):[Formulas]
+    formulasbyingredient(terms:[String]!):[Formulas]
     formula(name: String!): Formulas
     users: [User]
     user(userName: String!): User

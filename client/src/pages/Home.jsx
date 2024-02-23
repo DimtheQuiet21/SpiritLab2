@@ -1,7 +1,18 @@
+import Search from "../components/main/Search";
+
+
+
+
+
+
 function Home() {
+    
 
     return (
-        <h3>This is the home page</h3>
+        <div>
+            <h3>This is the home page</h3>
+        </div>
+
     )
   }
   
