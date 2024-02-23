@@ -10,10 +10,19 @@ export const QUERY_ME = gql`
   }
 `;
 
-export const GET_ALL_FORMULA_NAMES = gql`
+export const GET_ALL_FORMULAS = gql`
   query getFormulaNames {
     formulas {
       name
+      alcohol {
+        name
+      }
+      liquid {
+        name
+      }
+      garnish {
+        name
+      }
     }
   }
 `;
@@ -46,10 +55,12 @@ export const GET_FORMULA_BY_NAME = gql`
 `;
 
 // To make this query run, the body of the quest must have req.body = {"name" : [ARRAY OF TERMS IN SEARCH BAR], "liquid": [ARRAY OF TERMS IN SEARCH BAR], "garnish": [ARRAY OF TERMS IN SEARCH BAR]}
-export const SEARCH_FORMULA_BY_INGREDIENT = gql`
-  query searchFormulaByIngredient($alcohol: [String]!, $liquid: [String]!, $garnish: [String]!) {
-    formulasbyingredient(alcohol: $alcohol, liquid: $liquid, garnish: $garnish) {
-      name
-    }
-  }
-`;
+// export const GET_FORMULA_INGREDIENTS = gql`
+//   query getFormulasByIngredients($terms: [String]!) {
+//     formulas(terms: $terms) {
+//       name
+      
+//     }
+//   }
+// `;
+
