@@ -1,16 +1,17 @@
+import { useQuery, gql } from "@apollo/client";
 import { Typography, Box, Button } from "@mui/material";
 import IngredientsList from "../randoDrink/IngredientsList";
 import DrinkImage from "../randoDrink/DrinkImage";
+import { RANDOM_COCKTAIL_QUERY } from "../../utils/queries";
 
 function RandomGen() {
-  const ingredients = [
-    "Ingredient 1",
-    "Ingredient 2",
-    "Ingredient 3",
-    "Ingredient 4",
-    "Ingredient 5",
-    "Ingredient 6",
-  ];
+  const { loading, error, data, refetch } = useQuery(RANDOM_COCKTAIL_QUERY);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  const { name, ingredients, image } = data.randomCocktail;
+  // console.log(data.randomCocktail);
 
   return (
     <Box
@@ -22,7 +23,6 @@ function RandomGen() {
         width: "750px",
         flex: 1,
         margin: "auto",
-      
       }}
     >
       <Typography
@@ -44,22 +44,23 @@ function RandomGen() {
         variant="contained"
         color="primary"
         sx={{ width: "100%", marginBottom: "20px", fontSize: "1.2rem" }}
+        onClick={() => refetch()}
       >
         Quench your thirst
       </Button>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <DrinkImage />
+        <DrinkImage image={image}/>
         <Box>
           <Typography
-            variant="h5"
+            variant="h4"
             component="h2"
             color="white"
             sx={{ textAlign: "start", marginLeft: "10px" }}
           >
-            Name of Drink
+            {name}
           </Typography>
           <IngredientsList ingredients={ingredients} />
-          <Box >
+          <Box>
             {/* <Button
               variant="contained"
               color="primary"

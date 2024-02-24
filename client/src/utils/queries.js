@@ -54,6 +54,16 @@ export const GET_FORMULA_BY_NAME = gql`
   }
 `;
 
+export const RANDOM_COCKTAIL_QUERY = gql`
+  query RandomCocktail {
+    randomCocktail {
+      name
+      ingredients
+      image
+    }
+  }
+`;
+
 // To make this query run, the body of the quest must have req.body = {"name" : [ARRAY OF TERMS IN SEARCH BAR], "liquid": [ARRAY OF TERMS IN SEARCH BAR], "garnish": [ARRAY OF TERMS IN SEARCH BAR]}
 // export const GET_FORMULA_INGREDIENTS = gql`
 //   query getFormulasByIngredients($terms: [String]!) {

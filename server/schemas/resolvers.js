@@ -3,7 +3,6 @@ const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-
     inventory: async () => {
       return Inventory.find({});
     },
@@ -13,32 +12,32 @@ const resolvers = {
     },
 
     formula: async (parent, { name }) => {
-      return Formulas.findOne({name: name})
+      return Formulas.findOne({ name: name });
     },
 
     formulasbytype: async (parent, { type }) => {
-      return Formulas.find({type: type})
+      return Formulas.find({ type: type });
     },
 
-    formulasbyingredient: async (parent, {terms}) => {
-      const regex = terms.map(term => new RegExp(term, 'i')); // this creates an array of regex expressions that are not case sensitive. 
+    formulasbyingredient: async (parent, { terms }) => {
+      const regex = terms.map((term) => new RegExp(term, "i")); // this creates an array of regex expressions that are not case sensitive.
       return Formulas.find({
         $or: [
-          {"alcohol.name":{$in: regex }},
-          {"liquid.name":{$in: regex }},
-          {"garnish.name":{$in: regex }}
-        ]
-      })
+          { "alcohol.name": { $in: regex } },
+          { "liquid.name": { $in: regex } },
+          { "garnish.name": { $in: regex } },
+        ],
+      });
     },
 
-    inventorybyterms: async (parent, {terms}) => {
-      const regex = terms.map(term => new RegExp(term, 'i')); // this creates an array of regex expressions that are not case sensitive. 
+    inventorybyterms: async (parent, { terms }) => {
+      const regex = terms.map((term) => new RegExp(term, "i")); // this creates an array of regex expressions that are not case sensitive.
       return Inventory.find({
         $or: [
-          {"name": {$in: regex}}, //This will look to see if there is a partial match between the regex object and the name of a inventory object.
-          {"tags.type":{$in: regex}}
-        ]
-      })
+          { name: { $in: regex } }, //This will look to see if there is a partial match between the regex object and the name of a inventory object.
+          { "tags.type": { $in: regex } },
+        ],
+      });
     },
 
     users: async (parent, { userName }) => {
@@ -49,6 +48,25 @@ const resolvers = {
       return User.findOne({ userName });
     },
 
+    randomCocktail: async () => {
+      const response = await fetch(
+        "https://www.thecocktaildb.com/api/json/v1/1/random.php"
+      );
+      const data = await response.json();
+      const drink = data.drinks[0]; // Will get us the first drink from the array
+      return {
+        name: drink.strDrink,
+        ingredients: [
+          drink.strIngredient1,
+          drink.strIngredient2,
+          drink.strIngredient3,
+          drink.strIngredient4,
+          drink.strIngredient5,
+          drink.strIngredient6,
+        ].filter(Boolean), // This will remove any null or undefined values from array (in case the drink has less than 6 ingredients)
+        image: drink.strDrinkThumb,
+      };
+    },
   },
 
   Mutation: {
@@ -56,14 +74,14 @@ const resolvers = {
       // Check if the username already exists
       const existingUser = await User.findOne({ userName });
       if (existingUser) {
-        throw new Error('Username already exists');
+        throw new Error("Username already exists");
       }
-  
+
       // Check if the username is null or empty
       if (!userName) {
-        throw new Error('Username cannot be null or empty');
+        throw new Error("Username cannot be null or empty");
       }
-  
+
       // Create the new user
       const user = await User.create({ userName, email, password });
       console.log(user);

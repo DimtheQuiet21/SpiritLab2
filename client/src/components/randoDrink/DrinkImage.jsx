@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
 
-export default function DrinkImage() {
+export default function DrinkImage({ image }) {
   return (
     <Box sx={{ marginRight: "20px" }}>
       <img
-        src="https://via.placeholder.com/250"
+        src={image}
         alt="Drink"
         style={{ width: "300px", height: "300px" }}
       />
