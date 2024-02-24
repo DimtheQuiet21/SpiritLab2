@@ -1,14 +1,7 @@
 import React from "react";
-const ingredients = [
-    "Ingredient 1",
-    "Ingredient 2",
-    "Ingredient 3",
-    "Ingredient 4",
-    "Ingredient 5",
-    "Ingredient 6",
-  ];
 
-function IngredientsList() {
+
+function IngredientsList({ ingredients }) {
   return (
     <ul
       style={{
