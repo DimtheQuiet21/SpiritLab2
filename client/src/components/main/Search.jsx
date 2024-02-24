@@ -1,104 +1,193 @@
 import {GET_ALL_FORMULAS} from "../../utils/queries"
 import { useQuery } from '@apollo/client';
-import {Autocomplete, TextField, ToggleButton, Button, ToggleButtonGroup} from '@mui/material';
+import {Autocomplete, TextField, ToggleButton, Button, ToggleButtonGroup, ButtonGroup} from '@mui/material';
 import { useState, useEffect } from 'react';
 
 
 function Search() {
 
-    const [searchToggle, setToggle] = useState(false);
+    const [searchToggle, setToggle] = useState(true);
     const [searchLabel, setLabel] = useState('Formulas');
     const [searchOptions, setOptions] = useState([]);
     const [searchTerm, setTerm] = useState("");
+    const [formulas, setFormulas] = useState([]);
     const { loading, data, error } = useQuery (GET_ALL_FORMULAS);
 
     useEffect(() => {
-        if (!loading && data) {
             
-            const formulaArray = data.formulas
-
-            if (searchToggle === false){
-                const names = formulaArray.map(formula => formula.name);
-                setOptions(names);    
-            } else {
-                const alcohols = formulaArray.map(formula => formula.alcohol.map(element=> element.name));
-                const liquids = formulaArray.map(formula => formula.liquid.map(element=> element.name));
-                const garnishes = formulaArray.map(formula => formula.garnish.map(element=> element.name));
-                //So we first concatenate the arrays THEN we flatten them. Apparently, nested arrays don't have their duplicates filtered.
-                //apparently the ... spread function on the concat would also do the trick
-                const ingredients = alcohols.concat(liquids,garnishes).flat(); 
-                //Now we filter out the duplicate ingredients.
-                const uniqueIngredients = ingredients.filter((value, index, self) => self.indexOf(value) === index);
-                setOptions(uniqueIngredients);
+            if (!loading && data) {
+                const formulaArray = data.formulas
+                if (searchToggle){
+                    const names = formulaArray.map(formula => formula.name);
+                    setOptions(names);    
+                } else {
+                    const alcohols = formulaArray.map(formula => formula.alcohol.map(element=> element.name));
+                    const liquids = formulaArray.map(formula => formula.liquid.map(element=> element.name));
+                    const garnishes = formulaArray.map(formula => formula.garnish.map(element=> element.name));
+                    //So we first concatenate the arrays THEN we flatten them. Apparently, nested arrays don't have their duplicates filtered.
+                    //apparently the ... spread function on the concat would also do the trick
+                    const ingredients = alcohols.concat(liquids,garnishes).flat(); 
+                    //Now we filter out the duplicate ingredients.
+                    const uniqueIngredients = ingredients.filter((value, index, self) => self.indexOf(value) === index);
+                    setOptions(uniqueIngredients);
+                }
             }
-        }
-        //Anytime the loading, data, or SearchToggle changes, run this UseEffect Again.
+    //Anytime the loading, data, or SearchToggle changes, run this UseEffect Again.
     }, [loading, data, searchToggle]);
 
-    const handleToggle = (event, newToggle) => {
-        if (newToggle !== null) {
-            setToggle(!searchToggle); //Just inverse the boolean to alternate
-            if (searchLabel === "Formulas") {
-                setLabel("Ingredients")
-            } else {
-                setLabel("Formulas")
+    // Anytime we complete the updating of the terms, we change the label.
+    // This was throwing harsh timing related errors before. I eventually had to give up on updating
+    // The multiple property. A simple conditional render is the best way to go.
+    //But there will need to be additional options show based on what the 
+    useEffect(()=>{
+
+        if (searchLabel === "Formulas") {
+            setLabel("Ingredients")
+        } else {
+            setLabel("Formulas")
+        }
+    }, [searchOptions])
+
+    useEffect(()=>{
+        //I was throwing an error because I alternate between strings and arrays.
+        if (searchTerm && Array.isArray(searchTerm)){
+            //We go over all the search terms in the array, we go over all Formulas, We go over all ingredients
+            const validFormulaArray = [];
+            const counts = {};
+
+            function pickBackgroundColor (number) {
+                if(number ===1) {
+                    return "rgb(18, 18, 18)"
+                }
+                if(number === 2) {
+                    return "rgb(50, 22, 98)"
+                }
+                if (number === 3){
+                    return "rgb(27, 151, 238)"
+                }
+                if (number > 3) {
+                    return "rgb(27, 238, 231)"
+                }
             }
-        }    
-    };
-    
-    const handleOptionSelect = (event,value) => {
-        const newTerm = document.getElementById("combo-box-demo").value
-        console.log(newTerm)
-        setTerm(newTerm);
-        console.log(searchTerm);
-      };
+
+            function compareCount (a,b) {
+                return b.count - a.count
+            }
+
+            searchTerm.forEach(term => {
+                const validFormula = data.formulas.filter((formula) =>
+                    formula.alcohol.some((element) => element.name.includes(term)) ||
+                    formula.liquid.some((element) => element.name.includes(term)) ||
+                    formula.garnish.some((element) => element.name.includes(term))
+                );
+                validFormulaArray.push(...validFormula)
+            })
+
+            validFormulaArray.forEach(formula => {
+                counts[formula.name] = (counts[formula.name] || 0) + 1;
+            });
+
+            const uniqueFormulas = [...new Set(validFormulaArray)];
+            const uniqueFormulaNames = uniqueFormulas.map((element) => element.name)
+            const uniqueFormulaObjects = uniqueFormulaNames.map((formula) => ({   
+                    name:formula,
+                    count:counts[formula],
+                    backgroundcolor:pickBackgroundColor(counts[formula])
+                
+            }))
+
+            uniqueFormulaObjects.sort(compareCount)
+            console.log(validFormulaArray)
+            console.log(uniqueFormulaNames)
+            console.log(counts);
+            console.log(uniqueFormulaObjects)
+            const buttons = uniqueFormulaObjects.map((element,index) => {
+                return <Button sx = {{backgroundColor: element.backgroundcolor}}key = {index}>{element.name}</Button>
+            })
+            setFormulas(buttons)
+        } else {
+            setFormulas([])
+        }
+        return () => setFormulas([]) //cleansup after unmounting the component
+    },[searchTerm])
+
+
+
 
     return (
         <div>
             <h2>I am the search component. I will be toggleable.</h2>
-            <ToggleButtonGroup
-                value = {searchToggle}
-                exclusive
-                onChange = {handleToggle}
-                label = "Search By:"
-            >
-                <ToggleButton value="Formulas" aria-label="formulas">
-                </ToggleButton>
-                <ToggleButton value="Ingredients" aria-label="ingredients">
-                    
-                </ToggleButton>  
-            </ToggleButtonGroup> 
-
 
             {loading ? 
                 ( 
                     <div>Loading...</div> 
                 ) : (
                     <div>
-                        <Autocomplete
+                    <ToggleButtonGroup
+                        exclusive
+                        onChange = {() => {
+                            setToggle(!searchToggle);
+                        }}
+                        label = "Search By:"
+                    >
+                        <ToggleButton value="Formulas" aria-label="formulas">
+                        </ToggleButton>
+
+                    </ToggleButtonGroup> 
+
+                    {searchToggle? (
+                        <div key = "formulaAutocomplete">
+                            <Autocomplete
                             disablePortal
-                            id="combo-box-demo"
+                            id="combo-box"
                             options={searchOptions || {}}
                             sx={{ width: 300 }}
-                            onChange = {handleOptionSelect}
+                            onChange = {(event,value) => {
+                                console.log(value)
+                                setTerm(value);
+                            }}
                             renderInput={(params) => 
                                 <TextField
                                     {...params}
                                     label={searchLabel}
                                     
                                 />}
-                        />
-                        <Button variant="contained">Contained</Button>
-                    </div>
-                )
-            }
-            {searchToggle ?(
-                <div>Hi</div>
-                ):(
-                <div></div>)
-            }
+                            />
+                            <Button variant="contained">Contained</Button>          
+                        </div>
+                    ):(
+                        <div key = "ingredientsAutocomplete">
+                        <Autocomplete
+                        multiple = {true}
+                        disablePortal
+                        id="combo-box"
+                        options={searchOptions || {}}
+                        sx={{ width: 300 }}
+                        onChange = {(event,value) => {
+                            console.log(value)
+                            setTerm(value);
+                        }}
+                        renderInput={(params) => 
+                            <TextField
+                                {...params}
+                                label={searchLabel}
+                                
+                            />}
+                         />
+                         <div>Pick a Formula with Your Ingredients</div>
+                         {formulas? (
+                         <ButtonGroup
+                         sx={{}}>
+                            {formulas}
+                         </ ButtonGroup>
+                         ):(
+                         <div>/</div>
+                         )}
+                        </div>
+                )}
         </div>
     )}
-
+</div>
+)}
   
   export default Search
