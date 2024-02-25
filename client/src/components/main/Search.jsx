@@ -2,6 +2,7 @@ import {GET_ALL_FORMULAS} from "../../utils/queries"
 import { useQuery } from '@apollo/client';
 import {Autocomplete, TextField, ToggleButton, Button, ToggleButtonGroup, ButtonGroup} from '@mui/material';
 import { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
 
 
 function Search() {
@@ -11,7 +12,10 @@ function Search() {
     const [searchOptions, setOptions] = useState([]);
     const [searchTerm, setTerm] = useState("");
     const [formulas, setFormulas] = useState([]);
+    const [chosenFormula, setChosenFormula] = useState({});
+
     const { loading, data, error } = useQuery (GET_ALL_FORMULAS);
+    
 
     useEffect(() => {
             
@@ -102,7 +106,14 @@ function Search() {
             console.log(counts);
             console.log(uniqueFormulaObjects)
             const buttons = uniqueFormulaObjects.map((element,index) => {
-                return <Button sx = {{backgroundColor: element.backgroundcolor}}key = {index}>{element.name}</Button>
+                return <Button 
+                    sx = {{backgroundColor: element.backgroundcolor}}
+                    key = {index}
+                    onClick = {() => {
+                        handleSetChoice(element.name)
+                    }}
+                    component={Link} to="/lab/"
+                    >{element.name}</Button>
             })
             setFormulas(buttons)
         } else {
@@ -111,7 +122,23 @@ function Search() {
         return () => setFormulas([]) //cleansup after unmounting the component
     },[searchTerm])
 
-
+    function handleSetChoice (choice) {
+        if (searchToggle) {
+            const formulaMatch= data.formulas.find((element) => {
+                return element.name == searchTerm
+            })
+            setChosenFormula(formulaMatch);
+        } else {
+            const formulaMatch= data.formulas.find((element) => {
+                return element.name == choice
+            })
+            setChosenFormula(formulaMatch);
+            }
+        }
+    
+    useEffect(() => {
+        console.log(chosenFormula);
+    },[chosenFormula])
 
 
     return (
@@ -153,7 +180,13 @@ function Search() {
                                     
                                 />}
                             />
-                            <Button variant="contained">Contained</Button>          
+                            <Button 
+                                variant="contained"
+                                component={Link} to="/lab/"
+                                onClick = {(event) => {
+                                    handleSetChoice()
+                                }}
+                                >Concoct</Button>          
                         </div>
                     ):(
                         <div key = "ingredientsAutocomplete">
