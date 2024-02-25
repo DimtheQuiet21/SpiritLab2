@@ -46,7 +46,8 @@ function PopularDrink() {
         color="white"
         sx={{ marginLeft: "20px" }}
       >
-        Top Drinks
+        Top Drinks🥇🥂
+
       </Typography>
       <Box
         sx={{

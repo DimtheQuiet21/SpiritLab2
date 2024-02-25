@@ -31,7 +31,7 @@ function RandomGen() {
         color="white"
         sx={{ textAlign: "left", marginBottom: "20px" }}
       >
-        Feeling Lucky?
+        Feeling Lucky❓ 🎲 🎰
       </Typography>
       <Typography
         variant="h4"

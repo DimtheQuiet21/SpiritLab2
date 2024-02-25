@@ -2,15 +2,17 @@ import React from "react";
 import { Typography } from "@mui/material";
 
 function IngredientList({ ingredients }) {
+  if (!ingredients) return null;
+
   return (
     <Typography color="white" fontSize={"1.2rem"}>
-      <ul
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "25px"}}
+      <div
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem" }}
       >
         {ingredients.map((ingredient, index) => (
-          <li key={index}>{ingredient}</li>
+          <div key={index}>{ingredient}</div>
         ))}
-      </ul>
+      </div>
     </Typography>
   );
 }
