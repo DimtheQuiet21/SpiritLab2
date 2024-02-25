@@ -1,6 +1,28 @@
 const { Inventory, Formulas, User } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
+const fetchCocktail = async (url) => {
+  // For resusability, this makes a fetch request to the cocktail API and returns the data
+  const response = await fetch(url);
+  const data = await response.json();
+  const drink = data.drinks[0]; // Will get us the first drink from the array
+  if (!drink) {
+    throw new Error("No drink found");
+  }
+  return {
+    name: drink.strDrink,
+    ingredients: [
+      drink.strIngredient1,
+      drink.strIngredient2,
+      drink.strIngredient3,
+      drink.strIngredient4,
+      drink.strIngredient5,
+      drink.strIngredient6,
+    ].filter(Boolean), // This will remove any null or undefined values from array (in case the drink has less than 6 ingredients)
+    image: drink.strDrinkThumb,
+  };
+};
+
 const resolvers = {
   Query: {
     inventory: async () => {
@@ -49,23 +71,14 @@ const resolvers = {
     },
 
     randomCocktail: async () => {
-      const response = await fetch(
+      return fetchCocktail(
         "https://www.thecocktaildb.com/api/json/v1/1/random.php"
       );
-      const data = await response.json();
-      const drink = data.drinks[0]; // Will get us the first drink from the array
-      return {
-        name: drink.strDrink,
-        ingredients: [
-          drink.strIngredient1,
-          drink.strIngredient2,
-          drink.strIngredient3,
-          drink.strIngredient4,
-          drink.strIngredient5,
-          drink.strIngredient6,
-        ].filter(Boolean), // This will remove any null or undefined values from array (in case the drink has less than 6 ingredients)
-        image: drink.strDrinkThumb,
-      };
+    },
+    drinkOfDay: async () => {
+      return fetchCocktail(
+        "https://www.thecocktaildb.com/api/json/v1/1/random.php"
+      );
     },
   },
 

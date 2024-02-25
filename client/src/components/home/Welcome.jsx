@@ -13,10 +13,10 @@ function Welcome() {
       }}
     >
       <Typography variant="h3" component="h2" color="white" sx={{textAlign: "left"}}>
-        Welcome to Spirit Labs 2.0:
+        Welcome to Spirit Labs 2.0🧪:
       </Typography>
       <Typography variant="h5" color="white" sx={{textAlign: "left"}}>
-        You gotta be 21 to be here, bruh
+        You gotta be 21 to be here, bruh🎭
       </Typography>
       <Divider sx={{ backgroundColor: "white", margin: "20px auto" }} />
       <Typography

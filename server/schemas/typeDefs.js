@@ -32,6 +32,13 @@ type Cocktail {
     ingredients: [String]
     image: String
 }
+
+type DayDrink {
+    name: String
+    ingredients: [String]
+    image: String
+}
+
 type User {
     _id: ID
     userName: String
@@ -52,6 +59,7 @@ type Query {
     formulasbyingredient(terms:[String]!):[Formulas]
     formula(name: String!): Formulas
     randomCocktail: Cocktail
+    drinkOfDay: DayDrink
     users: [User]
     user(userName: String!): User
 }

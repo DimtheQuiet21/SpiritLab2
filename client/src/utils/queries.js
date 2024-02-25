@@ -29,7 +29,7 @@ export const GET_ALL_FORMULAS = gql`
 
 //To make this query run, the body of the request must have req.body = {"name":"THE ACTUAL FORMULA NAME"}
 export const GET_FORMULA_BY_NAME = gql`
-  query geFormulaByName($name: String!) {
+  query getFormulaByName($name: String!) {
     formula(name: $name) {
       name
       type
@@ -57,6 +57,15 @@ export const GET_FORMULA_BY_NAME = gql`
 export const RANDOM_COCKTAIL_QUERY = gql`
   query RandomCocktail {
     randomCocktail {
+      name
+      ingredients
+      image
+    }
+  }
+`;
+export const DRINK_OF_DAY_QUERY = gql`
+  query GetDayCocktail {
+    drinkOfDay {
       name
       ingredients
       image
