@@ -54,21 +54,15 @@ function App() {
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
-          <Navbar />
-<<<<<<< Updated upstream
-        {/* </div> */}
-          <Container maxWidth='xl'>
-            <Search />
-=======
-          <Container maxWidth='lg'>
->>>>>>> Stashed changes
-            <Outlet />
-           </Container>
-          <Footer />
-         </ThemeProvider>
+        <Navbar />
+        <Search />
+        <Container maxWidth='lg'>
+          <Outlet />
+        </Container>
+        <Footer />
+      </ThemeProvider>
     </ApolloProvider>
   );
-
 }
 
 export default App

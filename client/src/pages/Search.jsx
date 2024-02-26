@@ -129,25 +129,6 @@ function Search() {
 
     },[searchTerm])
 
-    function handleSetChoice (choice) {
-        if (searchToggle) {
-            const formulaMatch= data.formulas.find((element) => {
-                return element.name == searchTerm
-            })
-            setChosenFormula(formulaMatch);
-        } else {
-            const formulaMatch= data.formulas.find((element) => {
-                return element.name == choice
-            })
-            setChosenFormula(formulaMatch);
-            }
-        }
-    
-    useEffect(() => {
-        console.log(chosenFormula);
-    },[chosenFormula])
-
-
     return (
         <div>
             <h2>Select your Drink or Ingrdients!</h2>
