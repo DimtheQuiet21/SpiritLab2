@@ -45,6 +45,9 @@ function Welcome() {
           color="primary"
           sx={{ width: "100%", marginBottom: "10px", height: "50px", fontSize: "1.3rem", borderRadius: "15px"}}
           component={Link} to="/search/"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         >
           Create That Drink Pal!🍹
