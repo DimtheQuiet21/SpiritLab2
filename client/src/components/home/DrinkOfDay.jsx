@@ -5,9 +5,11 @@ import { Box, Typography } from "@mui/material";
 import DrinkDetails from "../dayDrink/DrinkDetails";
 
 function DrinkOfDay() {
+
   const { loading, error, data } = useQuery(DRINK_OF_DAY_QUERY);
 
   const [cachedDrink, setCachedDrink] = useState(null);
+  const [drink, setDrink] = useState(null); 
 
   useEffect(() => {
     const cachedDrinkData = localStorage.getItem("drinkOfDay");
@@ -19,7 +21,9 @@ function DrinkOfDay() {
       if (today === lastFetchDate) {
         // If the last fetch date is today, use the cached drink data
         // If not, fetch new data (essentially changing drinkOfDay to drinkOfDay2 and so on...)
-        setCachedDrink(JSON.parse(cachedDrinkData));
+        const drinkToCache = JSON.parse(cachedDrinkData)
+        console.log("Drink cached:", drinkToCache);
+        setCachedDrink(drinkToCache);
       }
     }
   }, []);
@@ -33,15 +37,30 @@ function DrinkOfDay() {
       if (!lastFetchDate || lastFetchDate !== today) {
         localStorage.setItem("drinkOfDay", JSON.stringify(data.drinkOfDay));
         localStorage.setItem("lastFetchDate", today);
+        console.log(data.drinkOfDay)
         setCachedDrink(data.drinkOfDay);
       }
     }
   }, [data]);
 
+  useEffect(() => {
+    console.log("cachedDrink in second useEffect:", cachedDrink);
+    if (cachedDrink && Object.keys(cachedDrink).length > 0) {
+      const { name, ingredients, image } = cachedDrink;
+      const drinkShown =  {
+        name: name,
+        ingredients: ingredients,
+        image: image}
+        console.log(drinkShown)
+      setDrink(drinkShown);
+    }
+  },[cachedDrink])
+
+
   if(loading && !cachedDrink) return <p>Loading...</p>;
   if(error && !cachedDrink) return <p>Error Mane :(</p>;
 
-  const { name, ingredients, image } = cachedDrink || {};
+  
 
   return (
     <Box
@@ -63,7 +82,7 @@ function DrinkOfDay() {
       >
         Drink Of The Day 🍻🍾
       </Typography>
-      <DrinkDetails name={name} ingredients={ingredients} image={image}/>
+      {drink ? (<DrinkDetails name={drink.name} ingredients={drink.ingredients} image={drink.image}/>): ( <p>Loading</p>)}
     </Box>
   );
 }
