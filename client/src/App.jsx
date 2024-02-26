@@ -10,11 +10,11 @@ const darkTheme = createTheme({
   },
 });
 
-
 import { Outlet } from 'react-router-dom';
 import Navbar from './components/main/Navbar';
-import Search from './components/main/Search';
+import Search from './pages/Search';
 import Footer from './components/main/Footer';
+
 import {
   ApolloClient,
   InMemoryCache,
@@ -55,9 +55,13 @@ function App() {
       <CssBaseline />
       {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
           <Navbar />
+<<<<<<< Updated upstream
         {/* </div> */}
           <Container maxWidth='xl'>
             <Search />
+=======
+          <Container maxWidth='lg'>
+>>>>>>> Stashed changes
             <Outlet />
            </Container>
           <Footer />

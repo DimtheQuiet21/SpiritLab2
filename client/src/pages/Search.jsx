@@ -1,9 +1,9 @@
-import {GET_ALL_FORMULAS} from "../../utils/queries"
+import {GET_ALL_FORMULAS} from "../utils/queries"
 import { useQuery } from '@apollo/client';
 import {Autocomplete, TextField, ToggleButton, Button, ToggleButtonGroup, ButtonGroup} from '@mui/material';
 import { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
-
+import {Link} from 'react-router-dom'; 
+import SearchDrink from '../components/search/SearchDrink'
 
 function Search() {
 
@@ -120,6 +120,13 @@ function Search() {
             setFormulas([])
         }
         return () => setFormulas([]) //cleansup after unmounting the component
+
+
+
+
+
+
+
     },[searchTerm])
 
     function handleSetChoice (choice) {
@@ -143,7 +150,7 @@ function Search() {
 
     return (
         <div>
-            <h2>I am the search component. I will be toggleable.</h2>
+            <h2>Select your Drink or Ingrdients!</h2>
 
             {loading ? 
                 ( 
@@ -157,11 +164,15 @@ function Search() {
                         }}
                         label = "Search By:"
                     >
-                        <ToggleButton value="Formulas" aria-label="formulas">
+                        <ToggleButton 
+                            value="Formulas"
+                            aria-label="formulas"
+                        > {searchToggle ? 'Switch to Ingredients' : 'Switch to Formulas'}  
                         </ToggleButton>
 
                     </ToggleButtonGroup> 
-
+                    <br/>
+                    <br/>
                     {searchToggle? (
                         <div key = "formulaAutocomplete">
                             <Autocomplete
@@ -180,13 +191,19 @@ function Search() {
                                     
                                 />}
                             />
+                            <br/>
+                            
                             <Button 
                                 variant="contained"
                                 component={Link} to="/lab/"
                                 onClick = {(event) => {
                                     handleSetChoice()
                                 }}
-                                >Concoct</Button>          
+                                >Concoct
+                            </Button>    
+                            <div>
+                                <SearchDrink cocktail= {searchTerm} />
+                            </div>      
                         </div>
                     ):(
                         <div key = "ingredientsAutocomplete">
@@ -207,6 +224,7 @@ function Search() {
                                 
                             />}
                          />
+                         <br/>
                          <div>Pick a Formula with Your Ingredients</div>
                          {formulas? (
                          <ButtonGroup
@@ -219,6 +237,7 @@ function Search() {
                         </div>
                 )}
         </div>
+        
     )}
 </div>
 )}

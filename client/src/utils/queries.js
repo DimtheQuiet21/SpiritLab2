@@ -73,6 +73,15 @@ export const DRINK_OF_DAY_QUERY = gql`
   }
 `;
 
+export const GET_SEARCH_COCKTAIL = gql`
+query GetSearchCocktail($name: String!) {
+  searchCocktail(name: $name) {
+    name
+    image
+  }
+}
+`
+
 // To make this query run, the body of the quest must have req.body = {"name" : [ARRAY OF TERMS IN SEARCH BAR], "liquid": [ARRAY OF TERMS IN SEARCH BAR], "garnish": [ARRAY OF TERMS IN SEARCH BAR]}
 // export const GET_FORMULA_INGREDIENTS = gql`
 //   query getFormulasByIngredients($terms: [String]!) {
