@@ -13,7 +13,7 @@ function convertString(str) {
 
 
 
-function searchDrink ({cocktail}) {
+function SearchDrink ({cocktail}) {
     if (cocktail){
         const searchCocktail = convertString(cocktail)
 
@@ -43,4 +43,4 @@ function searchDrink ({cocktail}) {
     }
 }
 
-export default searchDrink
+export default SearchDrink

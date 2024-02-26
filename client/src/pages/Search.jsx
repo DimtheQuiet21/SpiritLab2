@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import {Autocomplete, TextField, ToggleButton, Button, ToggleButtonGroup, ButtonGroup} from '@mui/material';
 import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom'; 
-import SearchDrink from '../components/search/SearchDrink'
+import SearchDrink from '../components/search/SearchDrink.jsx'
 
 function Search() {
 
