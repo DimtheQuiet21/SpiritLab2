@@ -55,13 +55,7 @@ function App() {
       <CssBaseline />
       {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
           <Navbar />
-<<<<<<< Updated upstream
-        {/* </div> */}
-          <Container maxWidth='xl'>
-            <Search />
-=======
           <Container maxWidth='lg'>
->>>>>>> Stashed changes
             <Outlet />
            </Container>
           <Footer />
