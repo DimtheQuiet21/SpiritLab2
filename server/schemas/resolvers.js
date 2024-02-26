@@ -23,6 +23,35 @@ const fetchCocktail = async (url) => {
   };
 };
 
+fetchPreciseCocktail = async (url) => {
+  // For resusability, this makes a fetch request to the cocktail API and returns the data
+  const response = await fetch(url);
+  const data = await response.json();
+    // Check if drinks array exists and is not empty
+    if (!data.drinks || data.drinks.length === 0) {
+      throw new Error("No drink found");
+    }
+  
+    const drink = data.drinks[0]; // Get the first drink object
+    // const ingredients = [];
+    // for (let i = 1; i <= 15; i++) {
+    //   const ingredient = drink[`strIngredient${i}`];
+    //   if (ingredient) {
+    //     ingredients.push(ingredient);
+    //   } else {
+    //     break; // Stop looping if no more ingredients
+    //   }
+    // }
+    console.log(drink.strDrink);
+    return {
+      name: drink.strDrink,
+      ingredients:[],
+      image: drink.strDrinkThumb,
+    };
+  };
+
+
+
 const resolvers = {
   Query: {
     inventory: async () => {
@@ -76,9 +105,14 @@ const resolvers = {
       );
     },
     drinkOfDay: async () => {
-      return fetchCocktail(
+      return fetchPreciseCocktail(
         "https://www.thecocktaildb.com/api/json/v1/1/random.php"
       );
+    },
+    searchCocktail: async (parent, { name }) => {
+      const encodedName = encodeURIComponent(name)
+      const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodedName}`
+      return fetchPreciseCocktail (url)
     },
   },
 
