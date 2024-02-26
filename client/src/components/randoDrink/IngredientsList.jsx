@@ -6,10 +6,9 @@ function IngredientsList({ ingredients }) {
     <ul
       style={{
         listStyleType: "none",
-        display: "grid",
+        margin: 0,
+        padding: 0,
         fontSize: "1.2rem",
-        gridTemplateColumns: "1fr 1fr",
-        gap: "15px",
       }}
     >
       {ingredients.map((ingredient, index) => (

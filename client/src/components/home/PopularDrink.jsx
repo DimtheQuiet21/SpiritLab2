@@ -36,12 +36,12 @@ function PopularDrink() {
         padding: 5,
         textAlign: "left",
         borderRadius: "20px",
-        width: "95%",
-        marginTop: "40px",
+        width: "85%",
+        margin: "auto",
       }}
     >
       <Typography
-        variant="h3"
+        variant="h4"
         component="h3"
         color="white"
         sx={{ marginLeft: "20px" }}
@@ -60,7 +60,7 @@ function PopularDrink() {
         <ol style={{ fontSize: '1.5rem' }}>
           {drinkData.map((drink, index) => (
             <li key={index}>
-              <Typography variant="h5" component="h3">
+              <Typography variant="h6" component="h3">
                 {drink.name} --- {drink.favorites} favorites
               </Typography>
               <Typography variant="h6" component="p" color="gray">

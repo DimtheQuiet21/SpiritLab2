@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
+import './App.css';
 
 const darkTheme = createTheme({
   palette: {
@@ -52,8 +53,10 @@ function App() {
     <ApolloProvider client={client}>
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
+      {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
           <Navbar />
-          <Container maxWidth='lg'>
+        {/* </div> */}
+          <Container maxWidth='xl'>
             <Search />
             <Outlet />
            </Container>

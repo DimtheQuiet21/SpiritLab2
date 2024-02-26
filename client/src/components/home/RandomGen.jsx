@@ -17,16 +17,15 @@ function RandomGen() {
     <Box
       sx={{
         backgroundColor: "black",
-        padding: 7,
+        padding: 6,
         textAlign: "center",
         borderRadius: "20px",
-        width: "750px",
         flex: 1,
         margin: "auto",
       }}
     >
       <Typography
-        variant="h3"
+        variant="h4"
         component="h1"
         color="white"
         sx={{ textAlign: "left", marginBottom: "20px" }}
@@ -34,7 +33,7 @@ function RandomGen() {
         Feeling Lucky❓ 🎲 🎰
       </Typography>
       <Typography
-        variant="h4"
+        variant="h5"
         color="white"
         sx={{ textAlign: "left", marginBottom: "20px" }}
       >
@@ -42,20 +41,19 @@ function RandomGen() {
       </Typography>
       <Button
         variant="contained"
-        color="primary"
-        sx={{ width: "100%", marginBottom: "20px", fontSize: "1.2rem" }}
+        sx={{ width: "100%", marginBottom: "20px", fontSize: "1.2rem", backgroundColor: "#29b0ff"}}
         onClick={() => refetch()}
       >
         Quench your thirst
       </Button>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <DrinkImage image={image}/>
-        <Box>
+        <Box sx={{ display: "flex", flexDirection: "column", flex: "1", justifyContent: "space-between" }}>
           <Typography
-            variant="h4"
+            variant="h5"
             component="h2"
             color="white"
-            sx={{ textAlign: "start", marginLeft: "10px" }}
+            sx={{  marginRight: "5px", marginBottom: "20px"}}
           >
             {name}
           </Typography>
@@ -77,7 +75,7 @@ function RandomGen() {
             <Button
               variant="outlined"
               color="primary"
-              sx={{ fontSize: "1.2rem", height: "60px", borderRadius: "15px" }}
+              sx={{ fontSize: "1.2rem", height: "60px", borderRadius: "15px", marginTop: "20px"}}
             >
               Add To Favorites
             </Button>

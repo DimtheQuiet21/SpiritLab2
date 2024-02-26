@@ -47,19 +47,19 @@ function DrinkOfDay() {
     <Box
       sx={{
         backgroundColor: "black",
-        padding: 6,
+        padding: 5,
         textAlign: "left",
         borderRadius: "20px",
-        width: "750px",
-        marginTop: "2rem",
+        width: "100%",
+        marginTop: "3rem",
         flex: 1,
       }}
     >
       <Typography
-        variant="h3"
+        variant="h4"
         component="h4"
         color="white"
-        sx={{ marginBottom: "30px" }}
+        sx={{ marginBottom: "25px" }}
       >
         Drink Of The Day 🍻🍾
       </Typography>
