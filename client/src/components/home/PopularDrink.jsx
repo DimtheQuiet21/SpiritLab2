@@ -1,9 +1,11 @@
-import { Box, Typography, Divider } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import DrinkList from "../popularDrink/DrinkList";
 
 function PopularDrink() {
-  const drinkData = [
+  const [drinkData, setDrinkData] = useState([
     {
-      name: "Margarita",
+      name: "Deadly Nightshade",
       favorites: 69,
       ingredients: "Lime juice, tequila, cointreau & 2 more",
     },
@@ -24,10 +26,43 @@ function PopularDrink() {
     },
     {
       name: "Tequila Sunrise",
-      favorites: 29,
+      favorites: 25,
       ingredients: "Lime juice, tequila, cointreau & 2 more",
     },
-  ];
+    {
+      name: "Horse's Neck",
+      favorites: 19,
+      ingredients: "Lime juice, tequila, cointreau & 2 more",
+    },
+    {
+      name: "Gin Fizz",
+      favorites: 19,
+      ingredients: "Lime juice, tequila, cointreau & 2 more",
+    },
+    {
+      name: "Mai Tai",
+      favorites: 10,
+      ingredients: "Lime juice, tequila, cointreau & 2 more",
+    },
+    {
+      name: "Margarita",
+      favorites: 7,
+      ingredients: "Lime juice, tequila, cointreau & 2 more",
+    },
+    {
+      name: "Umbrella Drink",
+      favorites: 13,
+      ingredients: "Lime juice, tequila, cointreau & 2 more",
+    },
+  ]);
+
+  const [sortedDrinkData, setSortedDrinkData] = useState([...drinkData]);
+
+  useEffect(() => {
+    const sortedDrinks = [...drinkData].sort((a, b) => b.favorites - a.favorites);
+    setSortedDrinkData(sortedDrinks);
+  }, [drinkData]);
+
 
   return (
     <Box
@@ -47,32 +82,8 @@ function PopularDrink() {
         sx={{ marginLeft: "20px" }}
       >
         Top Drinks🥇🥂
-
       </Typography>
-      <Box
-        sx={{
-          color: "white",
-          marginTop: "20px",
-          textAlign: "left",
-          marginBottom: "30px",
-        }}
-      >
-        <ol style={{ fontSize: '1.5rem' }}>
-          {drinkData.map((drink, index) => (
-            <li key={index}>
-              <Typography variant="h6" component="h3">
-                {drink.name} --- {drink.favorites} favorites
-              </Typography>
-              <Typography variant="h6" component="p" color="gray">
-                {drink.ingredients}
-              </Typography>
-              <Divider
-                sx={{ backgroundColor: "lightBlue", margin: "10px 0" }}
-              />
-            </li>
-          ))}
-        </ol>
-      </Box>
+      <DrinkList drinkData={sortedDrinkData}  />
     </Box>
   );
 }
