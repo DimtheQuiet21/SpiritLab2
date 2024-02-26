@@ -107,7 +107,9 @@ function Search() {
             console.log(uniqueFormulaObjects)
             const buttons = uniqueFormulaObjects.map((element,index) => {
                 return <Button 
-                    sx = {{backgroundColor: element.backgroundcolor}}
+                    sx = {{
+                        backgroundColor: element.backgroundcolor,
+                        minWidth: 'fit-content'}}
                     key = {index}
                     onClick = {() => {
                         handleSetChoice(element.name)
@@ -228,7 +230,9 @@ function Search() {
                          <div>Pick a Formula with Your Ingredients</div>
                          {formulas? (
                          <ButtonGroup
-                         sx={{}}>
+                         sx={{
+                            maxWidth: '500px', // Set your desired maximum width here
+                            overflow: 'auto',}}>
                             {formulas}
                          </ ButtonGroup>
                          ):(
