@@ -38,17 +38,10 @@ function Welcome() {
       </Typography>
       <Box sx={{ marginTop: "20px" }}>
         <Button
-<<<<<<< Updated upstream
-          sx={{ width: "100%", marginBottom: "10px", height: "50px", fontSize: "1.1rem", borderRadius: "15px", color: "black", backgroundColor: "#29b0ff"}}
-=======
           variant="contained"
           color="primary"
           sx={{ width: "100%", marginBottom: "10px", height: "50px", fontSize: "1.3rem", borderRadius: "15px"}}
           component={Link} to="/search/"
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         >
           Create That Drink Pal!🍹
         </Button>
