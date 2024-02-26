@@ -46,42 +46,44 @@ function RandomGen() {
       >
         Quench your thirst
       </Button>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <DrinkImage image={image}/>
-        <Box sx={{ display: "flex", flexDirection: "column", flex: "1", justifyContent: "space-between" }}>
-          <Typography
-            variant="h5"
-            component="h2"
-            color="white"
-            sx={{  marginRight: "5px", marginBottom: "20px"}}
-          >
-            {name}
-          </Typography>
-          <IngredientsList ingredients={ingredients} />
-          <Box>
-            {/* <Button
-              variant="contained"
-              color="primary"
-              sx={{
-                marginRight: "25px",
-                marginLeft: "25px",
-                fontSize: "1.2rem",
-                height: "60px",
-                borderRadius: "15px",
-              }}
-            >
-              View Recipe
-            </Button> */}
-            <Button
-              variant="outlined"
-              color="primary"
-              sx={{ fontSize: "1.2rem", height: "60px", borderRadius: "15px", marginTop: "20px"}}
-            >
-              Add To Favorites
-            </Button>
+        {image && name && ingredients ? (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <DrinkImage image={image}/>
+            <Box sx={{ display: "flex", flexDirection: "column", flex: "1", justifyContent: "space-between" }}>
+              <Typography
+                variant="h5"
+                component="h2"
+                color="white"
+                sx={{  marginRight: "5px", marginBottom: "20px"}}
+              >
+                {name}
+              </Typography>
+              <IngredientsList ingredients={ingredients} />
+              <Box>
+                {/* <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    marginRight: "25px",
+                    marginLeft: "25px",
+                    fontSize: "1.2rem",
+                    height: "60px",
+                    borderRadius: "15px",
+                  }}
+                >
+                  View Recipe
+                </Button> */}
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  sx={{ fontSize: "1.2rem", height: "60px", borderRadius: "15px", marginTop: "20px"}}
+                >
+                  Add To Favorites
+                </Button>
+              </Box>
+            </Box>
           </Box>
-        </Box>
-      </Box>
+        ):(<p>Loading</p>)}
     </Box>
   );
 }

@@ -54,13 +54,13 @@ function App() {
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
-        <Navbar />
-        <Search />
-        <Container maxWidth='lg'>
-          <Outlet />
-        </Container>
-        <Footer />
-      </ThemeProvider>
+          <Navbar />
+          <Search />
+          <Container maxWidth='lg'>
+            <Outlet />
+           </Container>
+          <Footer />
+         </ThemeProvider>
     </ApolloProvider>
   );
 }

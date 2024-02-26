@@ -5,15 +5,17 @@ import DrinkImage from "../randoDrink/DrinkImage";
 
 function convertString(str) {
     // Convert the string to lowercase
-    const lowerCaseStr = str.toLowerCase();
-    // Replace all spaces with underscores
-    const replacedStr = lowerCaseStr.replace(/\s+/g, '_');
-    return replacedStr;
+    if (typeof str === "string") {
+        const lowerCaseStr = str.toLowerCase();
+        // Replace all spaces with underscores
+        const replacedStr = lowerCaseStr.replace(/\s+/g, '_');
+        return replacedStr;
+    }
   }
 
 
 
-function searchDrink ({cocktail}) {
+function SearchDrink ({cocktail}) {
     if (cocktail){
         const searchCocktail = convertString(cocktail)
 
@@ -28,8 +30,8 @@ function searchDrink ({cocktail}) {
         }
     
         if (loading) return <p>Loading...</p>;
-        if (error) return <p>Error: {error.message}</p>;
-        if (!data) return ; //Nobody needs to know we were even here
+        if (error) return; //<p>Error: {error.message}</p>; Nobody needs to know
+        if (!data) return; //Nobody needs to know we were even here
         
         return (
             <div>
@@ -43,4 +45,4 @@ function searchDrink ({cocktail}) {
     }
 }
 
-export default searchDrink
+export default SearchDrink
