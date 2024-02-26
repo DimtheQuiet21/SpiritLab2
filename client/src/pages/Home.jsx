@@ -6,7 +6,7 @@ import RandomGen from '../components/home/RandomGen';
 
 function Home() {
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
                 <Welcome />
             </Grid>

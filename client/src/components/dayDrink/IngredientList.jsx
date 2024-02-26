@@ -5,14 +5,12 @@ function IngredientList({ ingredients }) {
   if (!ingredients) return null;
 
   return (
-    <Typography color="white" fontSize={"1.2rem"}>
-      <div
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem" }}
-      >
+    <Typography color="blue" fontSize={"1.1rem"}>
+      <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
         {ingredients.map((ingredient, index) => (
-          <div key={index}>{ingredient}</div>
+          <li key={index}>{ingredient}</li>
         ))}
-      </div>
+      </ul>
     </Typography>
   );
 }
