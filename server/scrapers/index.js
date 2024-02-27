@@ -7,9 +7,10 @@ const fs = require ('fs');
 const basepage = "https://craftshack.com"
 const collectionpage = "https://craftshack.com/collections/buy-liquor-online"
 
-//const smallfilePath = "C:/Users/fishe/Desktop/boozeInventory.txt";
-const smallfilePath = "C:/Users/Alan/Desktop/boozeInventory.txt"
-const largefilePath =  "C:/Users/Alan/Desktop/totalInventory.txt"
+const smallfilePath = "C:/Users/fishe/Desktop/boozeInventory.txt";
+const largefilePath = "C:/Users/fishe/Desktop/totalInventory.txt";
+//const smallfilePath = "C:/Users/Alan/Desktop/boozeInventory.txt"
+//const largefilePath =  "C:/Users/Alan/Desktop/totalInventory.txt"
 
 function condenseInfo (urls, boozeInfo, basepage) {
 
@@ -30,6 +31,7 @@ function condenseInfo (urls, boozeInfo, basepage) {
             name: element.product.title,
             url: `${basepage}${urls[index]}`,
             type: element.product.product_type,
+            price:element.product.variants[0].price,
             handle: element.product.handle,
             tags: element.product.tags,
             proof: findABV(element.product.body_html),

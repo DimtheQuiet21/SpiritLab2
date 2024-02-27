@@ -71,6 +71,7 @@ query getInventoryData($terms: [String]!) {
     proof
     image
     handle
+    price
   }
 }
 `
