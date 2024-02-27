@@ -129,14 +129,18 @@ const resolvers = {
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
+      console.log(password);
 
       if (!user) {
+        console.log("User not found")
         throw AuthenticationError;
       }
 
       const correctPw = await user.isCorrectPassword(password);
+      console.log(correctPw);
 
       if (!correctPw) {
+        console.log("Incorrect password")
         throw AuthenticationError;
       }
 
