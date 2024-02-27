@@ -58,6 +58,7 @@ function Navbar() {
       <Grid item>
         <IconButton color="inherit">
           <SearchIcon />
+          <Link to="/Search" style={{marginLeft: "10px", color: "#29b0ff"}}>Search Drinks</Link>
         </IconButton>
       </Grid>
 

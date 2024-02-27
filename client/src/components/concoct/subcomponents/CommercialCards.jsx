@@ -8,7 +8,9 @@ function CommercialCards ({items}) {
         return (
         
             <Grid item xs={12} sm={6} md={4} lg={3}>
-                <CardActionArea sx = {{height: "100%"}}>
+                <CardActionArea 
+                sx = {{height: "100%"}}
+                href = {alcohol.url}>
                     <Card sx = {{margin: "1em"}}>
                         <CardHeader
                             // avatar={
@@ -34,10 +36,6 @@ function CommercialCards ({items}) {
                             sx = {{objectFit:"scale-down"}}
                         />
                         <Typography>Price: ${alcohol.price}</Typography>
-                        <Button 
-                        variant="contained"
-                        href = {alcohol.url}
-                        >Purchase!</Button>
                     </Card>
                 </CardActionArea>
             </Grid>
@@ -50,7 +48,7 @@ function CommercialCards ({items}) {
 
     return (
         <Grid 
-            container spacing={3} 
+            container spacing={1} 
             sx ={{overflow:"auto !important"}}>
             {inventoryAlcohols}
         </Grid>
