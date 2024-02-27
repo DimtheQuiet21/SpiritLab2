@@ -8,6 +8,7 @@ type Inventory {
     tags: [String]
     proof: String
     image: String
+    price: String
     icon: Int
     }
 

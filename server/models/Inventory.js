@@ -41,6 +41,11 @@ const inventorySchema = new Schema ({
         type:Number,
         required: false,
     },
+    price: {
+        type:String,
+        required:false,
+        trim: true,
+    }
 })
 
 const Inventory = model('Inventory', inventorySchema); 

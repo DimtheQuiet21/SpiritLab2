@@ -1,5 +1,5 @@
 import { Autocomplete, TextField, ToggleButton, Button, ToggleButtonGroup, ButtonGroup, CircularProgress } from '@mui/material';
-import {Card, CardHeader, CardMedia, CardActions, CardContent, Container, Typography, Box}  from '@mui/material';
+import {Card, CardHeader, CardMedia, CardActionArea, CardActions, CardContent, Grid, Container, Typography, Box}  from '@mui/material';
 
 function CommercialCards ({items}) {
     console.log(items)
@@ -7,34 +7,41 @@ function CommercialCards ({items}) {
         console.log(alcohol.name)
         return (
         
-            
-                <Card sx = {{margin: 10}}>
-                    <CardHeader
-                        // avatar={
-                        // <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        //     R
-                        // </Avatar>
-                        // }
-                        // action={
-                        // <IconButton aria-label="settings">
-                        //     <MoreVertIcon />
-                        // </IconButton>
-                        // }
-                        title={alcohol.name}
-                        subheader={alcohol.proof}
-                    />
-                    <CardMedia
-                        component="img"
-                        height="194"
-                        image={alcohol.image}
-                        alt={alcohol.name}
-                    />
-                    <Button 
-                     variant="contained"
-                     href = {alcohol.url}
-                    >Purchase!</Button>
-
-                </Card>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <CardActionArea sx = {{height: "100%"}}>
+                    <Card sx = {{margin: "1em"}}>
+                        <CardHeader
+                            // avatar={
+                            // <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                            //     R
+                            // </Avatar>
+                            // }
+                            // action={
+                            // <IconButton aria-label="settings">
+                            //     <MoreVertIcon />
+                            // </IconButton>
+                            // }
+                            title={alcohol.name}
+                            subheader={`${alcohol.proof}`}
+                            titleTypographyProps={{ variant: 'h6', style: { fontSize: '16px' } }}
+                            subheaderTypographyProps={{ variant: 'body2', style: { fontSize: '12px' } }}
+                        />
+                        <CardMedia
+                            component="img"
+                            height="194"
+                            image={alcohol.image}
+                            alt={alcohol.name}
+                            sx = {{objectFit:"scale-down"}}
+                        />
+                        <Typography>Price: ${alcohol.price}</Typography>
+                        <Button 
+                        variant="contained"
+                        href = {alcohol.url}
+                        >Purchase!</Button>
+                    </Card>
+                </CardActionArea>
+            </Grid>
+                
             
             
         
@@ -42,9 +49,11 @@ function CommercialCards ({items}) {
     })
 
     return (
-        <Container sx ={{overflow:"auto !important"}}>
+        <Grid 
+            container spacing={3} 
+            sx ={{overflow:"auto !important"}}>
             {inventoryAlcohols}
-        </Container>
+        </Grid>
     )
         
 }
