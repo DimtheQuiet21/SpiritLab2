@@ -8,7 +8,7 @@ db.once('open', async () => {
   try {
     await cleanDB('Inventory', 'inventories');
     await cleanDB('Formulas','formulas');
-    
+
     await Inventory.create(inventorySeeds);
     await Formulas.create(formulas);
 

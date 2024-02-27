@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom'; 
 import SearchDrink from '../components/search/SearchDrink.jsx'
 
+
 function Search() {
 
     const [searchToggle, setToggle] = useState(true);
@@ -109,7 +110,7 @@ function Search() {
                 return <Button 
                     sx = {{
                         backgroundColor: element.backgroundcolor,
-                        minWidth: 'fit-content'}}
+                        minWidth: '200px !important'}}
                     key = {index}
                     onClick = {() => {
                         handleSetChoice(element.name)
@@ -230,9 +231,11 @@ function Search() {
                          <div>Pick a Formula with Your Ingredients</div>
                          {formulas? (
                          <ButtonGroup
+                         fullWidth = {true}
                          sx={{
                             maxWidth: '500px', // Set your desired maximum width here
-                            overflow: 'auto',}}>
+                            overflow: 'auto',
+                            }}>
                             {formulas}
                          </ ButtonGroup>
                          ):(

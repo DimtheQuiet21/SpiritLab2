@@ -13,8 +13,6 @@ function convertString(str) {
     }
   }
 
-
-
 function SearchDrink ({cocktail}) {
     if (cocktail){
         const searchCocktail = convertString(cocktail)
@@ -37,7 +35,7 @@ function SearchDrink ({cocktail}) {
             <div>
                 <p>This is your Drink</p>
                 <br/>
-                <DrinkImage image = {data.searchCocktail.image} />
+                <DrinkImage image = {data.searchCocktail.image} sx = {{width: '100% !important'}} />
             </div>
         )
     } else {

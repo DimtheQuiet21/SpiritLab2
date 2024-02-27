@@ -14,6 +14,7 @@ export const GET_ALL_FORMULAS = gql`
   query getFormulaNames {
     formulas {
       name
+      icon
       alcohol {
         name
       }
@@ -33,6 +34,7 @@ export const GET_FORMULA_BY_NAME = gql`
     formula(name: $name) {
       name
       type
+      icon
       alcohol {
         name
         amount
