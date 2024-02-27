@@ -16,6 +16,10 @@ function Navbar() {
     setAuthModalOpen(false);
   };
 
+  const handleLogout = () => {
+    Auth.logout();
+  }
+
   return (
     <Grid
       container
@@ -61,10 +65,15 @@ function Navbar() {
 
       <Grid item>
         {Auth.loggedIn() ? (
+          <>
           <Typography variant="body1" color="inherit">
             Welcome {Auth.getProfile().userName}
             {/* Won't stay, will be used for testing display of username to page */}
           </Typography>
+          <Button onClick={handleLogout} color="inherit" sx={{marginLeft: "10px", backgroundColor: "#29b0ff"}}>
+          Log Out
+        </Button>
+        </>
         ) : (
           <>
             <Button onClick={handleAuthModalOpen} color="inherit" sx={{backgroundColor: "#29b0ff"}}>
