@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Grid, Button, IconButton } from "@mui/material";
+import { Grid, Button, IconButton, Typography } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import AuthModal from "../main/AuthModal";
 import Auth from "../../utils/auth";
