@@ -13,12 +13,8 @@ function Search() {
     const [searchOptions, setOptions] = useState([]);
     const [searchTerm, setTerm] = useState("");
     const [formulas, setFormulas] = useState([]);
-<<<<<<< Updated upstream
-    const [chosenFormula, ] = useState({});
-
-=======
     const [chosenFormula, setChosenFormula] = useState({});
->>>>>>> Stashed changes
+
     const { loading, data, error } = useQuery (GET_ALL_FORMULAS);
 
     const { globalState, setGlobalState } = useContext(GlobalContext);
@@ -137,8 +133,6 @@ function Search() {
 
     },[searchTerm])
 
-<<<<<<< Updated upstream
-=======
     function handleSetChoice (choice) {
         if (searchToggle) {
             const formulaMatch= data.formulas.find((element) => {
@@ -158,7 +152,6 @@ function Search() {
     },[chosenFormula])
 
 
->>>>>>> Stashed changes
     return (
         <div>
             <h2>Select your Drink or Ingrdients!</h2>
