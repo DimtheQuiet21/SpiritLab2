@@ -42,7 +42,7 @@ function Welcome() {
           color="primary"
           
           sx={{ width: "100%", marginBottom: "10px", height: "50px", fontSize: "1.3rem", borderRadius: "15px"}}
-          component={Link} to="/search/"
+          component={Link} to="/lab/"
         >
           Create That Drink Pal!🍹
         </Button>
