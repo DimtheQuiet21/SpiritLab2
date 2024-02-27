@@ -1,10 +1,10 @@
 import {GET_ALL_FORMULAS} from "../utils/queries"
 import { useQuery } from '@apollo/client';
 import {Autocomplete, TextField, ToggleButton, Button, ToggleButtonGroup, ButtonGroup} from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {Link} from 'react-router-dom'; 
 import SearchDrink from '../components/search/SearchDrink.jsx'
-
+import GlobalContext from '../utils/globalContext';
 
 function Search() {
 
@@ -13,10 +13,15 @@ function Search() {
     const [searchOptions, setOptions] = useState([]);
     const [searchTerm, setTerm] = useState("");
     const [formulas, setFormulas] = useState([]);
+<<<<<<< Updated upstream
     const [chosenFormula, ] = useState({});
 
+=======
+    const [chosenFormula, setChosenFormula] = useState({});
+>>>>>>> Stashed changes
     const { loading, data, error } = useQuery (GET_ALL_FORMULAS);
-    
+
+    const { globalState, setGlobalState } = useContext(GlobalContext);
 
     useEffect(() => {
             
@@ -132,6 +137,28 @@ function Search() {
 
     },[searchTerm])
 
+<<<<<<< Updated upstream
+=======
+    function handleSetChoice (choice) {
+        if (searchToggle) {
+            const formulaMatch= data.formulas.find((element) => {
+                return element.name == searchTerm
+            })
+            setGlobalState(formulaMatch);
+        } else {
+            const formulaMatch= data.formulas.find((element) => {
+                return element.name == choice
+            })
+            setGlobalState(formulaMatch);
+            }
+        }
+    
+    useEffect(() => {
+        console.log(chosenFormula);
+    },[chosenFormula])
+
+
+>>>>>>> Stashed changes
     return (
         <div>
             <h2>Select your Drink or Ingrdients!</h2>

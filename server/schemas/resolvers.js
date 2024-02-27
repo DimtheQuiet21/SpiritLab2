@@ -33,15 +33,7 @@ fetchPreciseCocktail = async (url) => {
     }
   
     const drink = data.drinks[0]; // Get the first drink object
-    // const ingredients = [];
-    // for (let i = 1; i <= 15; i++) {
-    //   const ingredient = drink[`strIngredient${i}`];
-    //   if (ingredient) {
-    //     ingredients.push(ingredient);
-    //   } else {
-    //     break; // Stop looping if no more ingredients
-    //   }
-    // }
+
     console.log(drink.strDrink);
     return {
       name: drink.strDrink,
