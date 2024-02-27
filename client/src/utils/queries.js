@@ -30,6 +30,7 @@ export const GET_ALL_FORMULAS = gql`
         amount
         technique
       }
+      assembly
     }
   }
 `;
