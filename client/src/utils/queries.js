@@ -62,6 +62,18 @@ export const GET_FORMULA_BY_NAME = gql`
   }
 `;
 
+export const GET_INVENTORY = gql`
+query getInventoryData($terms: [String]!) {
+  inventorybyterms(terms: $terms) {
+    name
+    url
+    type
+    proof
+    image
+    handle
+  }
+}
+`
 export const RANDOM_COCKTAIL_QUERY = gql`
   query RandomCocktail {
     randomCocktail {
