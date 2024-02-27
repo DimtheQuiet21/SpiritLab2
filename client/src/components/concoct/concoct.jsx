@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import CircleIcon from '@mui/icons-material/Circle';
 import { Box, Container } from '@mui/material';
+import CommercialBox from './subcomponents/CommercialBox';
 
 export default function Concoct() {
     //State Variables
@@ -216,6 +217,7 @@ export default function Concoct() {
             </Container>
 
         </CardContent>
+        <CommercialBox />
       </Card>
   );
 }

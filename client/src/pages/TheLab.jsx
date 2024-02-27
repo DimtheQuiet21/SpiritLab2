@@ -1,6 +1,7 @@
 import Concoct from '../components/concoct/concoct';
 import GlobalContext from '../utils/globalContext';
 import { useContext } from 'react'
+import {CircularProgress} from '@mui/material'
 
 function TheLab() {
 
@@ -9,8 +10,8 @@ function TheLab() {
 
     return (
       <div>
-        <Concoct/>
-        {globalState ? (<p>GlobalState is rendered</p>):(<p>GlobalState is Not rendered</p>)}
+        {/* We have to make sure that the Global Context is Not an Empty Object before trying to render the Lab*/}
+        {Object.entries(globalState).length !== 0 ? (<Concoct/>):(<CircularProgress/>)}
       </div>
         
     )
