@@ -69,13 +69,13 @@ export default function Concoct() {
     }
 
     // Calculate heights of ingredients based on their quantities
-    const ingredient1Height = ingredient1 * 10;
-    const ingredient2Height = ingredient2 * 10;
-    const ingredient3Height = ingredient3 * 10;
-    const ingredient4Height = ingredient4 * 10;
-    const ingredient5Height = ingredient5 * 10;
-    const ingredient6Height = ingredient6 * 10;
-    const ingredient7Height = ingredient7 * 10;
+    const ingredient1Height = ingredient1 * 15;
+    const ingredient2Height = ingredient2 * 15;
+    const ingredient3Height = ingredient3 * 15;
+    const ingredient4Height = ingredient4 * 15;
+    const ingredient5Height = ingredient5 * 15;
+    const ingredient6Height = ingredient6 * 15;
+    const ingredient7Height = ingredient7 * 15;
 
     // Calculate y-coordinates for each ingredient rectangle
     const ingredient1Y = 190 - ingredient1Height;
@@ -115,7 +115,7 @@ export default function Concoct() {
                         <Typography variant="h7">Vodka</Typography>
                     </Box>
                     
-                    <TextField id="ingredient1" label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient1', parseInt(e.target.value))}/>
+                    <TextField label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient1', parseInt(e.target.value))}/>
                 </Container>
 
                 {/* Ingredient 2 */}
@@ -124,7 +124,7 @@ export default function Concoct() {
                         <CircleIcon sx={{ mr: '4px', color: ingredientColors[1]}} />
                         <Typography variant="h7">Cointreau</Typography> 
                     </Box>
-                    <TextField id="ingredient2" label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient2', parseInt(e.target.value))}/>
+                    <TextField label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient2', parseInt(e.target.value))}/>
                 </Container>
 
                 {/* Ingredient 3 */}
@@ -133,7 +133,7 @@ export default function Concoct() {
                         <CircleIcon sx={{ mr: '4px', color: ingredientColors[2]}} />
                         <Typography variant="h7">Orange Bitters</Typography>
                     </Box>
-                    <TextField id="ingredient3" label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient3', parseInt(e.target.value))}/>
+                    <TextField label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient3', parseInt(e.target.value))}/>
                 </Container>
 
                 <CardActions>
@@ -149,7 +149,7 @@ export default function Concoct() {
                         <CircleIcon sx={{ mr: '4px', color: ingredientColors[3]}} />
                         <Typography variant="h7">Club Soda</Typography>
                     </Box>
-                    <TextField id="ingredient4" label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient4', parseInt(e.target.value))}/>
+                    <TextField label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient4', parseInt(e.target.value))}/>
                 </Container>
 
                 {/* Ingredient 5 */}
@@ -158,7 +158,7 @@ export default function Concoct() {
                         <CircleIcon sx={{ mr: '4px', color: ingredientColors[4]}} />
                         <Typography variant="h7">Lime Juice</Typography>
                     </Box>
-                    <TextField id="ingredient5" label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient5', parseInt(e.target.value))}/>
+                    <TextField label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient5', parseInt(e.target.value))}/>
                 </Container>
 
                 {/* Ingredient 6 */}
@@ -167,7 +167,7 @@ export default function Concoct() {
                         <CircleIcon sx={{ mr: '4px', color: ingredientColors[5]}} />
                         <Typography variant="h7">Lemon Juice</Typography>
                     </Box>
-                    <TextField id="ingredient6" label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient6', parseInt(e.target.value))}/>
+                    <TextField label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient6', parseInt(e.target.value))}/>
                 </Container>
 
                 {/* Ingredient 7 */}
@@ -176,7 +176,7 @@ export default function Concoct() {
                         <CircleIcon sx={{ mr: '4px', color: ingredientColors[6]}} />
                         <Typography variant="h7">Sweat of Manboob</Typography>
                     </Box>
-                    <TextField id="ingredient7" label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient7', parseInt(e.target.value))}/>
+                    <TextField label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient7', parseInt(e.target.value))}/>
                 </Container>
 
                 <CardActions>

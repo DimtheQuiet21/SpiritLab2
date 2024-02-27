@@ -12,23 +12,63 @@ export default function IngredientList() {
             <Container maxWidth="xl">
                 <Typography variant="h5" component="div" gutterBottom sx={{borderBottom: "solid 2px #2c2c2c", p: "8px"}}> <strong>Vodka Soda</strong> </Typography>
 
+                {/* SPIRITS */}
                 <Typography variant="h7" color="text.secondary">Spirits:</Typography>
 
-                <Container maxWidth="lg" sx={{display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "solid 2px #2c2c2c", p: "8px"}}>
-                    <Typography variant="h7">Vodka</Typography>
-                    <TextField id="alcohol1" label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient1', parseInt(e.target.value))}/>
+                {/* Render Alcohol */}
+                {ingredients.map((ingredient, index) => (
+                <Container
+                key={index}
+                maxWidth="lg"
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    borderBottom: 'solid 2px #2c2c2c',
+                    p: '8px',
+                }}
+                >
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <CircleIcon sx={{ mr: '4px', color: ingredientColors[index] }} />
+                        <Typography variant="h7">{ingredient}</Typography>
+                    </Box>
+                    <TextField
+                        label="Oz"
+                        type="number"
+                        sx={{ maxWidth: '75px' }}
+                        onChange={(e) => updateBeaker(`ingredient${index + 1}`, parseInt(e.target.value))}
+                    />
                 </Container>
+                ))}
 
-                <CardActions>
-                    <Button size="small">+ Add Spirit</Button>
-                </CardActions>
-
+                {/* MIXERS */}
                 <Typography variant="h7" color="text.secondary">Mixers:</Typography>
 
-                <Container maxWidth="lg" sx={{display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "solid 2px #2c2c2c", p: "8px"}}>
-                    <Typography variant="h7">Club Soda</Typography>
-                    <TextField id="mixer1" label="Oz" type="number" sx={{maxWidth: "75px"}} onChange={(e) => updateBeaker('ingredient2', parseInt(e.target.value))}/>
+                {/* Render Liquids */}
+                {liquids.map((ingredient, index) => (
+                <Container
+                key={index}
+                maxWidth="lg"
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    borderBottom: 'solid 2px #2c2c2c',
+                    p: '8px',
+                }}
+                >
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <CircleIcon sx={{ mr: '4px', color: ingredientColors[index] }} />
+                        <Typography variant="h7">{ingredient}</Typography>
+                    </Box>
+                    <TextField
+                        label="Oz"
+                        type="number"
+                        sx={{ maxWidth: '75px' }}
+                        onChange={(e) => updateBeaker(`ingredient${index + 1}`, parseInt(e.target.value))}
+                    />
                 </Container>
+                ))}
 
                 <CardActions>
                 <Button size="small">+ Add Mixer</Button>

@@ -12,7 +12,7 @@ function Search() {
     const [searchOptions, setOptions] = useState([]);
     const [searchTerm, setTerm] = useState("");
     const [formulas, setFormulas] = useState([]);
-    const [chosenFormula, setChosenFormula] = useState({});
+    const [chosenFormula, ] = useState({});
 
     const { loading, data, error } = useQuery (GET_ALL_FORMULAS);
     
@@ -226,5 +226,5 @@ function Search() {
     )}
 </div>
 )}
-  
-  export default Search
+
+export default Search
