@@ -15,6 +15,7 @@ type Formulas {
     _id: ID
     name: String
     type : String
+    icon: String
     alcohol: [Ingredient]
     liquid: [Ingredient]
     garnish: [Ingredient]

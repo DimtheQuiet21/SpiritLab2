@@ -15,6 +15,12 @@ const formulaSchema = new Schema ({
         trim: true,
     },
 
+    icon: {
+        type: String, // 
+        required: false,
+        trim: true,
+    },
+
     alcohol: [
         {
             name:{

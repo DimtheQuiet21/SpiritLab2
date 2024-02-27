@@ -156,12 +156,65 @@ const worcester = "worcestershire sauce";
 const margarita = "margarita";
 const unsweetendCocoaPowder = "unsweetened cocoa powder";
 
+const namesArray = [
+    "045-cocktails-3.png",
+    "001-cocktail-3.png",
+    "002-mai-thai.png",
+    "003-cocktail.png",
+    "004-cocktails.png",
+    "005-cocktail-1.png",
+    "006-cocktails-1.png",
+    "007-cocktail-2.png",
+    "008-cocktail-4.png",
+    "009-old-fashioned.png",
+    "010-martini.png",
+    "011-gin-tonic.png",
+    "012-mojito.png",
+    "013-cocktail-5.png",
+    "014-cocktail-6.png",
+    "015-cocktail-7.png",
+    "016-cocktail-8.png",
+    "017-cocktail-9.png",
+    "018-cocktail-10.png",
+    "019-cocktail-11.png",
+    "020-pink-lady.png",
+    "021-cocktail-12.png",
+    "022-cocktail-13.png",
+    "023-wine-glass.png",
+    "024-blue-lagoon.png",
+    "025-cocktails-2.png",
+    "026-cocktail-14.png",
+    "027-cocktail-15.png",
+    "028-cocktail-16.png",
+    "029-cocktail-17.png",
+    "030-gin-tonic-1.png",
+    "031-cocktail-18.png",
+    "032-manhattan.png",
+    "033-drink.png",
+    "034-cocktail-19.png",
+    "035-cocktail-20.png",
+    "036-cocktail-21.png",
+    "037-fruit-juice.png",
+    "038-cocktail-22.png",
+    "039-paloma.png",
+    "040-cocktail-23.png",
+    "041-cocktail-24.png",
+    "042-cocktail-25.png",
+    "043-cuba-libre.png",
+    "044-cocktail-26.png"
+];
+
+
+function randomIcon () {
+    return namesArray[Math.floor((Math.random()*44)+1)] //will return a random icon from the icon array
+}
 
 const formulas = [
   
     {
         "name":"Acapulco",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -199,6 +252,7 @@ const formulas = [
     {
         "name":"Bird of Paradise",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -230,6 +284,7 @@ const formulas = [
     {
         "name":"Bite of the Iguana",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":pepperTequila,
@@ -286,6 +341,7 @@ const formulas = [
     {
         "name":"Black Sombrero",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -312,6 +368,7 @@ const formulas = [
     {
         "name":"Bloody Maria",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -368,6 +425,7 @@ const formulas = [
     {
         "name":"Blue Moon",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -399,6 +457,7 @@ const formulas = [
     {
         "name":"Blue Shark",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -425,6 +484,7 @@ const formulas = [
     {
         "name":"Bonsai Margarita",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -476,6 +536,7 @@ const formulas = [
     {
         "name":"Brave Bull",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -502,6 +563,7 @@ const formulas = [
     {
         "name":"Southern Bull",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -533,6 +595,7 @@ const formulas = [
     {
         "name":"Chapala",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -574,6 +637,7 @@ const formulas = [
     {
         "name":"Cherry Picker",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name": goldTequila,
@@ -610,6 +674,7 @@ const formulas = [
     {
         "name":"Classic Tequila Shot",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -636,6 +701,7 @@ const formulas = [
     {
         "name":"Compadre",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -672,6 +738,7 @@ const formulas = [
     {
         "name":"El Diablo",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name": tequila,
@@ -703,6 +770,7 @@ const formulas = [
     {
         "name":"Freddy Fudpucker",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -729,6 +797,7 @@ const formulas = [
     {
         "name":"Frostbite",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -765,6 +834,7 @@ const formulas = [
     {
         "name":"Hot Pants",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -806,6 +876,7 @@ const formulas = [
     {
         "name":"La Bomba",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -842,6 +913,7 @@ const formulas = [
     {
         "name":"La Conga",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -878,6 +950,7 @@ const formulas = [
     {
         "name":"Loco Padre",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -914,6 +987,7 @@ const formulas = [
     {
         "name":"Madacascar Mood Shifter",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":vanillaTequila,
@@ -960,6 +1034,7 @@ const formulas = [
     {
         "name":"Matador",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -986,6 +1061,7 @@ const formulas = [
     {
         "name":"Frozen Matador",
         "type":tequila,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1017,6 +1093,7 @@ const formulas = [
     {
         "name":"Classic Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1053,6 +1130,7 @@ const formulas = [
     {
         "name":"Strawberry Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1099,6 +1177,7 @@ const formulas = [
     {
         "name":"Peach Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1140,6 +1219,7 @@ const formulas = [
     {
         "name":"Mango Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1176,6 +1256,7 @@ const formulas = [
     {
         "name":"Melon Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1217,6 +1298,7 @@ const formulas = [
     {
         "name":"Avacado Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1273,6 +1355,7 @@ const formulas = [
     {
         "name":"Cadillac Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -1304,6 +1387,7 @@ const formulas = [
     {
         "name":"Chocolate Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1345,6 +1429,7 @@ const formulas = [
     {
         "name":"Cucumber Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1381,6 +1466,7 @@ const formulas = [
     {
         "name":"Blue Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1422,6 +1508,7 @@ const formulas = [
     {
         "name":"Papaya Margarita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1463,6 +1550,7 @@ const formulas = [
     {
         "name":"Mexican Madras",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1499,6 +1587,7 @@ const formulas = [
     {
         "name":"Mexican Mule",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1530,6 +1619,7 @@ const formulas = [
     {
         "name":"Mexicola",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1561,6 +1651,7 @@ const formulas = [
     {
         "name":"Multiple Orgasm",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":amaretto,
@@ -1597,6 +1688,7 @@ const formulas = [
     {
         "name":"Nectarine Dream",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -1643,6 +1735,7 @@ const formulas = [
     {
         "name":"Prickly Agave",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1694,6 +1787,7 @@ const formulas = [
     {
         "name":"Rosaita",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1730,6 +1824,7 @@ const formulas = [
     {
         "name":"Rude Cosmopolitan",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1761,6 +1856,7 @@ const formulas = [
     {
         "name":"Salty Chihuahua",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1792,6 +1888,7 @@ const formulas = [
     {
         "name":"Shady Lady",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1818,6 +1915,7 @@ const formulas = [
     {
         "name":"Short Fuse",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1859,6 +1957,7 @@ const formulas = [
     {
         "name":"Silk Stocking",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1895,6 +1994,7 @@ const formulas = [
     {
         "name":"Sloe Tequila",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1926,6 +2026,7 @@ const formulas = [
     {
         "name":"South of the Border",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -1957,6 +2058,7 @@ const formulas = [
     {
         "name":"Tequila Cocktail",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1988,6 +2090,7 @@ const formulas = [
     {
         "name":"Tequila Colada",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -2024,6 +2127,7 @@ const formulas = [
     {
         "name":"Tequila Fizz",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2055,6 +2159,7 @@ const formulas = [
     {
         "name":"Tequila Ghost",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2081,6 +2186,7 @@ const formulas = [
     {
         "name":"Tequila Mockingbird",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2112,6 +2218,7 @@ const formulas = [
     {
         "name":"Tequila Sour",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":tequila,
@@ -2143,6 +2250,7 @@ const formulas = [
     {
         "name":"Tequila Sunrise",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2174,6 +2282,7 @@ const formulas = [
     {
         "name":"Tequilatini",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":joseCuervoEspecial,
@@ -2205,6 +2314,7 @@ const formulas = [
     {
         "name":"Tequini",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2236,6 +2346,7 @@ const formulas = [
     {
         "name":"Tijuana Speedball",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -2272,6 +2383,7 @@ const formulas = [
     {
         "name":"Tijuana Taxi",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -2323,6 +2435,7 @@ const formulas = [
     {
         "name":"Toreador",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2354,6 +2467,7 @@ const formulas = [
     {
         "name":"The Jake",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":cabernetSauvignon,
@@ -2380,6 +2494,7 @@ const formulas = [
     {
         "name":"Vampiro",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2441,6 +2556,7 @@ const formulas = [
     {
         "name":"Mezcal Buck",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":mezcal,
@@ -2472,6 +2588,7 @@ const formulas = [
     {
         "name":"Pan-Am",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":mezcal,
@@ -2503,6 +2620,7 @@ const formulas = [
     {
         "name":"Spanish Fly",
         "type":margarita,
+        "icon": randomIcon(),
         "alcohol":[
             {
                 "name":mezcal,

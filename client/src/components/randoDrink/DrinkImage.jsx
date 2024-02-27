@@ -6,7 +6,7 @@ export default function DrinkImage({ image }) {
       <img
         src={image}
         alt="Drink"
-        style={{ width: "200px", height: "300px" }}
+        style={{ width: "75%", minWidth: "200px" }}
       />
     </Box>
   );
