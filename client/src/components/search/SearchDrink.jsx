@@ -33,7 +33,7 @@ function SearchDrink ({cocktail}) {
         
         return (
             <div>
-                <p>This is your Drink</p>
+                <p>Prepare the Laboratory</p>
                 <br/>
                 <DrinkImage image = {data.searchCocktail.image} sx = {{width: '100% !important'}} />
             </div>
