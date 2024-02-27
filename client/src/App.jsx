@@ -12,8 +12,10 @@ const darkTheme = createTheme({
 
 import { Outlet } from 'react-router-dom';
 import Navbar from './components/main/Navbar';
-import Search from './pages/Search';
 import Footer from './components/main/Footer';
+
+import GlobalProvider from './globalProvider';
+
 
 import {
   ApolloClient,
@@ -51,17 +53,20 @@ function App() {
   return (
 
     <ApolloProvider client={client}>
-      <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
-          <Navbar />
-          <Container maxWidth='lg'>
-            <Outlet />
-           </Container>
-          <Footer />
-         </ThemeProvider>
+      <GlobalProvider>
+        <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
+            <Navbar />
+            <Container maxWidth='lg'>
+              <Outlet />
+            </Container>
+            <Footer />
+          </ThemeProvider>
+      </GlobalProvider>
     </ApolloProvider>
   );
 }
+
 
 export default App
