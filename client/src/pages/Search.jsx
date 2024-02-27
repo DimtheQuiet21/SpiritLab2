@@ -60,6 +60,7 @@ function Search() {
             //We go over all the search terms in the array, we go over all Formulas, We go over all ingredients
             const validFormulaArray = [];
             const counts = {};
+            const icons = {};
 
             function pickBackgroundColor (number) {
                 if(number ===1) {
@@ -93,11 +94,18 @@ function Search() {
                 counts[formula.name] = (counts[formula.name] || 0) + 1;
             });
 
+            validFormulaArray.forEach(formula => {
+                console.log(formula)
+                console.log(formula.icon)
+                icons[formula.name] = formula.icon;
+            });
+
             const uniqueFormulas = [...new Set(validFormulaArray)];
             const uniqueFormulaNames = uniqueFormulas.map((element) => element.name)
             const uniqueFormulaObjects = uniqueFormulaNames.map((formula) => ({   
                     name:formula,
                     count:counts[formula],
+                    icon:icons[formula],
                     backgroundcolor:pickBackgroundColor(counts[formula])
                 
             }))
@@ -108,16 +116,24 @@ function Search() {
             console.log(counts);
             console.log(uniqueFormulaObjects)
             const buttons = uniqueFormulaObjects.map((element,index) => {
-                return <Button 
-                    sx = {{
-                        backgroundColor: element.backgroundcolor,
-                        minWidth: '200px !important'}}
-                    key = {index}
-                    onClick = {() => {
-                        handleSetChoice(element.name)
-                    }}
-                    component={Link} to="/lab/"
-                    >{element.name}</Button>
+                return (
+                     <div key = {index}>
+                            <Button 
+                        sx = {{
+                            backgroundColor: element.backgroundcolor,
+                            minWidth: '200px !important'}}
+
+                        onClick = {() => {
+                            handleSetChoice(element.name)
+                        }}
+                        component={Link} to="/lab/"
+                        >{element.name}</Button>
+                        <img
+                        src = {`/assets/icons/${element.icon}`}
+                        style = {{maxWidth: "75px"}}
+                        ></img>
+                    </div>
+                )
             })
             setFormulas(buttons)
         } else {
@@ -154,7 +170,7 @@ function Search() {
 
     return (
         <div>
-            <h2>Select your Drink or Ingrdients!</h2>
+            <h2>Select your Drink or Ingredients!</h2>
 
             {loading ? 
                 ( 

@@ -17,12 +17,18 @@ export const GET_ALL_FORMULAS = gql`
       icon
       alcohol {
         name
+        amount
+        technique
       }
       liquid {
         name
+        amount
+        technique
       }
       garnish {
         name
+        amount
+        technique
       }
     }
   }
