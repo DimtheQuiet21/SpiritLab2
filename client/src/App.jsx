@@ -55,6 +55,7 @@ function App() {
       <CssBaseline />
       {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
           <Navbar />
+          <Search />
           <Container maxWidth='lg'>
             <Outlet />
            </Container>
@@ -62,7 +63,6 @@ function App() {
          </ThemeProvider>
     </ApolloProvider>
   );
-
 }
 
 export default App

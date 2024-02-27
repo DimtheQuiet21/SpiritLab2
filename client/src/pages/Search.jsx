@@ -13,7 +13,7 @@ function Search() {
     const [searchOptions, setOptions] = useState([]);
     const [searchTerm, setTerm] = useState("");
     const [formulas, setFormulas] = useState([]);
-    const [chosenFormula, setChosenFormula] = useState({});
+    const [chosenFormula, ] = useState({});
 
     const { loading, data, error } = useQuery (GET_ALL_FORMULAS);
     
@@ -132,25 +132,6 @@ function Search() {
 
     },[searchTerm])
 
-    function handleSetChoice (choice) {
-        if (searchToggle) {
-            const formulaMatch= data.formulas.find((element) => {
-                return element.name == searchTerm
-            })
-            setChosenFormula(formulaMatch);
-        } else {
-            const formulaMatch= data.formulas.find((element) => {
-                return element.name == choice
-            })
-            setChosenFormula(formulaMatch);
-            }
-        }
-    
-    useEffect(() => {
-        console.log(chosenFormula);
-    },[chosenFormula])
-
-
     return (
         <div>
             <h2>Select your Drink or Ingrdients!</h2>
@@ -248,5 +229,5 @@ function Search() {
     )}
 </div>
 )}
-  
-  export default Search
+
+export default Search
