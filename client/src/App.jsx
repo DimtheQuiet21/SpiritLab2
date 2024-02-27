@@ -2,11 +2,11 @@ import * as React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import './App.css';
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    accent: '#2196f3',
   },
 });
 
@@ -57,12 +57,12 @@ function App() {
         <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
-            <Navbar />
-            <Container maxWidth='lg'>
-              <Outlet />
-            </Container>
-            <Footer />
-          </ThemeProvider>
+          <Navbar />
+          <Container maxWidth='xl' sx={{pt: "24px"}}>
+            <Outlet />
+          </Container>
+          <Footer />
+        </ThemeProvider>
       </GlobalProvider>
     </ApolloProvider>
   );
