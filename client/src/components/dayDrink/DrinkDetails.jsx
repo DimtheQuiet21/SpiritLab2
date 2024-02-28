@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import Auth from "../../utils/auth";
 import AddToFavoritesButton from "../addFavorites/AddToFavoritesButton";
+import IngredientList from "./IngredientList";
 
 function DrinkDetails({ name, ingredients, image }) {
   const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
@@ -23,7 +24,7 @@ function DrinkDetails({ name, ingredients, image }) {
         >
           {name}
         </Typography>
-        <Typography color="white" fontSize={"1.2rem"}>
+        {/* <Typography color="white" fontSize={"1.2rem"}>
           <ul
             style={{
               listStyleType: "none",
@@ -36,7 +37,9 @@ function DrinkDetails({ name, ingredients, image }) {
               <li key={index}>{ingredient}</li>
             ))}
           </ul>
-        </Typography>
+        </Typography> */}
+        <IngredientList ingredients={ingredients} />
+        
         <Box>
           {userId && <AddToFavoritesButton drinkName={name} userId={userId} />}
         </Box>

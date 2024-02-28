@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "@mui/material";
 
 function IngredientList({ ingredients }) {
-  if (!ingredients) return null;
+  if (!ingredients) return `No ingredients found`;
 
   return (
     <Typography color="blue" fontSize={"1.1rem"}>

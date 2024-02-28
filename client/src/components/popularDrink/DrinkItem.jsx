@@ -8,9 +8,20 @@ function DrinkItem({ drink, isHovered, onMouseEnter, onMouseLeave }) {
         {drink.name} --- {drink.favorites} favorites
       </Typography>
       {isHovered && (
-        <Typography variant="h6" component="p" color="gray">
-          {drink.ingredients}
-        </Typography>
+        <div>
+          <Typography variant="h6" component="p" color="gray">
+            Ingredients:
+          </Typography>
+          <ul>
+            {drink.ingredients.map((ingredient, index) => (
+              <li key={index}>
+                <Typography variant="body1" color="gray">
+                  {ingredient}
+                </Typography>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
       <Divider sx={{ backgroundColor: "lightBlue", margin: "10px 0" }} />
     </li>

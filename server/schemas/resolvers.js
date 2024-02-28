@@ -91,7 +91,7 @@ const resolvers = {
 
     randomCocktail: async () => {
       return fetchCocktail(
-        "https://www.thecocktaildb.com/api/json/v1/1/random.php"
+        "https://www.thecocktaildb.com/api/json/v1/1/random.php" 
       );
     },
     drinkOfDay: async () => {
@@ -115,6 +115,26 @@ const resolvers = {
         console.error(err);
         throw new Error("Failed to get user favorites" + err.message);
       }
+    },
+      allFavoriteDrinks: async () => {
+        try {
+          // Fetch all formulas from the database
+          const formulas = await Formulas.find({});
+  
+          // Map the fetched formulas to return only the required fields
+          return formulas.map(formula => ({
+            name: formula.name,
+            favorites: formula.totalFavorites, // Assuming totalFavorites is calculated correctly
+            ingredients: [
+              ...formula.alcohol.map(ingredient => ingredient.name),
+              ...formula.liquid.map(ingredient => ingredient.name),
+              ...formula.garnish.map(ingredient => ingredient.name)
+            ]
+          }));
+        } catch (error) {
+          console.error("Error fetching all drinks:", error);
+          throw new Error("Failed to fetch all drinks");
+        }
     },
   },
 

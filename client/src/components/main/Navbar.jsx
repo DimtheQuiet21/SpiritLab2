@@ -80,7 +80,7 @@ function Navbar() {
         {Auth.loggedIn() ? (
           <>
             <Typography variant="body1" color="inherit">
-              Welcome {Auth.getProfile().userName}
+              Welcome {Auth.getProfile().data.userName}
               {/* Won't stay, will be used for testing display of username to page */}
             </Typography>
             <Button
