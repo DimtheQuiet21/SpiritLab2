@@ -27,22 +27,20 @@ fetchPreciseCocktail = async (url) => {
   // For resusability, this makes a fetch request to the cocktail API and returns the data
   const response = await fetch(url);
   const data = await response.json();
-    // Check if drinks array exists and is not empty
-    if (!data.drinks || data.drinks.length === 0) {
-      throw new Error("No drink found");
-    }
-  
-    const drink = data.drinks[0]; // Get the first drink object
+  // Check if drinks array exists and is not empty
+  if (!data.drinks || data.drinks.length === 0) {
+    throw new Error("No drink found");
+  }
 
-    console.log(drink.strDrink);
-    return {
-      name: drink.strDrink,
-      ingredients:[],
-      image: drink.strDrinkThumb,
-    };
+  const drink = data.drinks[0]; // Get the first drink object
+
+  console.log(drink.strDrink);
+  return {
+    name: drink.strDrink,
+    ingredients: [],
+    image: drink.strDrinkThumb,
   };
-
-
+};
 
 const resolvers = {
   Query: {
@@ -102,9 +100,21 @@ const resolvers = {
       );
     },
     searchCocktail: async (parent, { name }) => {
-      const encodedName = encodeURIComponent(name)
-      const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodedName}`
-      return fetchPreciseCocktail (url)
+      const encodedName = encodeURIComponent(name);
+      const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodedName}`;
+      return fetchPreciseCocktail(url);
+    },
+    userFavorites: async (parent, { userId }) => {
+      try {
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User does not exist");
+        }
+        return user.favoriteDrinks;
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to get user favorites" + err.message);
+      }
     },
   },
 
@@ -132,7 +142,7 @@ const resolvers = {
       console.log(password);
 
       if (!user) {
-        console.log("User not found")
+        console.log("User not found");
         throw AuthenticationError;
       }
 
@@ -140,13 +150,63 @@ const resolvers = {
       console.log(correctPw);
 
       if (!correctPw) {
-        console.log("Incorrect password")
+        console.log("Incorrect password");
         throw AuthenticationError;
       }
 
       const token = signToken(user);
 
       return { token, user };
+    },
+    addToFavorites: async (parent, { userId, drink }) => {
+      try {
+        // add the drink to the user's favorites list in the database
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User does not exist");
+        }
+        if (!user.favoriteDrinks) {
+          user.favoriteDrinks = [];
+        }
+        // Check if the drink is already in the user's favorites list
+        if (!user.favoriteDrinks.includes(drink)) {
+          // Add the drink to the favorites list
+          user.favoriteDrinks.push({ name: drink });
+
+          // Save the updated user
+          await user.save();
+        }
+
+        return { name: drink };
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to add drink to favorites" + err.message);
+      }
+    },
+    removeFavoriteDrink: async (parent, { userId, drink }) => {
+      try {
+        // remove the drink from the user's favorites list in the database
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User does not exist");
+        }
+        if (!user.favoriteDrinks) {
+          user.favoriteDrinks = [];
+        }
+
+        // Remove the drink from the favorites list
+        user.favoriteDrinks = user.favoriteDrinks.filter(
+          (favDrink) => favDrink.name !== drink
+        );
+
+        // Save the updated user
+        await user.save();
+
+        return { name: drink };
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to remove drink from favorites" + err.message);
+      }
     },
   },
 };

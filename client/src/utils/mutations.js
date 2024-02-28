@@ -23,3 +23,19 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+export const ADD_TO_FAVORITES = gql`
+  mutation AddToFavorites($userId: ID!, $drink: String!) {
+    addToFavorites(userId: $userId, drink: $drink) {
+      name
+    }
+  }
+`;
+
+export const REMOVE_FAVORITE_DRINK = gql`
+  mutation RemoveFavoriteDrink($userId: ID!, $drink: String!) {
+    removeFavoriteDrink(userId: $userId, drink: $drink) {
+      name
+    }
+  }
+`;

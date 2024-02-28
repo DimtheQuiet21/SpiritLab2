@@ -20,7 +20,13 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   },
+  favoriteDrinks: {
+    type: [{
+      name: String,
+    }],
+  }
 });
+
 
 userSchema.pre("save", async function (next) {
   if (this.isNew || this.isModified("password")) {
