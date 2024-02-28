@@ -1,5 +1,6 @@
 import { Typography, Box, Divider, Button } from "@mui/material";
 import {Link} from 'react-router-dom';
+import Auth from '../../utils/auth'; 
 
 function Welcome() {
   return (
@@ -46,9 +47,11 @@ function Welcome() {
         >
           Create That Drink Pal!🍹
         </Button>
-        <Button variant="outlined" sx={{ width: "100%", height: "50px", fontSize: "1.1rem", borderRadius: "15px" }}>
-          Sign up/Login
-        </Button>
+        {!Auth.loggedIn() && (
+          <Button variant="outlined" sx={{ width: "100%", height: "50px", fontSize: "1.3rem", borderRadius: "15px" }}>
+            Sign up/Login
+          </Button>
+        )}
       </Box>
     </Box>
   );

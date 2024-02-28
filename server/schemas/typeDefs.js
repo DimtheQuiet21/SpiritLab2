@@ -45,6 +45,12 @@ type DrinkFavorite {
     name: String!
 }
 
+type PopularDrink {
+    name: String!
+    favorites: Int!
+    ingredients: [String]!
+}
+
 type User {
     _id: ID
     userName: String
@@ -70,6 +76,8 @@ type Query {
     users: [User]
     user(userName: String!): User
     userFavorites(userId: ID!): [DrinkFavorite]
+    allFavoriteDrinks: [PopularDrink]!
+
 }
 
 type Mutation {
