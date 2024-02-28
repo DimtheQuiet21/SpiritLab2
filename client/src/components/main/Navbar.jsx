@@ -18,7 +18,7 @@ function Navbar() {
 
   const handleLogout = () => {
     Auth.logout();
-  }
+  };
 
   return (
     <Grid
@@ -27,7 +27,7 @@ function Navbar() {
       alignItems="center"
       sx={{
         padding: "10px",
-        backgroundColor: "black", 
+        backgroundColor: "black",
         width: "100%",
         height: "9vh",
         margin: "auto",
@@ -47,10 +47,20 @@ function Navbar() {
             Home
           </Link>{" "}
           |
-          <Link to="/lab" style={{ marginRight: "10px", marginLeft: "10px", color: "#29b0ff" }}>
+          <Link
+            to="/lab"
+            style={{
+              marginRight: "10px",
+              marginLeft: "10px",
+              color: "#29b0ff",
+            }}
+          >
             The Lab
           </Link>{" "}
-          |<Link to="/me" style={{marginLeft: "10px", color: "#29b0ff"}}>Profile</Link>
+          |
+          <Link to="/me" style={{ marginLeft: "10px", color: "#29b0ff" }}>
+            Profile
+          </Link>
         </nav>
       </Grid>
 
@@ -58,7 +68,9 @@ function Navbar() {
       <Grid item>
         <IconButton color="inherit">
           <SearchIcon />
-          <Link to="/Search" style={{marginLeft: "10px", color: "#29b0ff"}}>Search Drinks</Link>
+          <Link to="/Search" style={{ marginLeft: "10px", color: "#29b0ff" }}>
+            Search Drinks
+          </Link>
         </IconButton>
       </Grid>
 
@@ -67,17 +79,25 @@ function Navbar() {
       <Grid item>
         {Auth.loggedIn() ? (
           <>
-          <Typography variant="body1" color="inherit">
-            Welcome {Auth.getProfile().userName}
-            {/* Won't stay, will be used for testing display of username to page */}
-          </Typography>
-          <Button onClick={handleLogout} color="inherit" sx={{marginLeft: "10px", backgroundColor: "#29b0ff"}}>
-          Log Out
-        </Button>
-        </>
+            <Typography variant="body1" color="inherit">
+              Welcome {Auth.getProfile().userName}
+              {/* Won't stay, will be used for testing display of username to page */}
+            </Typography>
+            <Button
+              onClick={handleLogout}
+              color="inherit"
+              sx={{ marginLeft: "10px", backgroundColor: "#29b0ff" }}
+            >
+              Log Out
+            </Button>
+          </>
         ) : (
           <>
-            <Button onClick={handleAuthModalOpen} color="inherit" sx={{backgroundColor: "#29b0ff"}}>
+            <Button
+              onClick={handleAuthModalOpen}
+              color="inherit"
+              sx={{ backgroundColor: "#29b0ff" }}
+            >
               Log In
             </Button>
           </>

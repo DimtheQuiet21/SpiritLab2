@@ -41,6 +41,10 @@ type Cocktail {
     image: String
 }
 
+type DrinkFavorite {
+    name: String!
+}
+
 type User {
     _id: ID
     userName: String
@@ -65,11 +69,14 @@ type Query {
     drinkOfDay: DayDrink
     users: [User]
     user(userName: String!): User
+    userFavorites(userId: ID!): [DrinkFavorite]
 }
 
 type Mutation {
     addUser(userName: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
+    addToFavorites(userId: ID!, drink: String!): DrinkFavorite
+    removeFavoriteDrink(userId: ID!, drink: String!): DrinkFavorite
 }
 `
 module.exports = typeDefs;

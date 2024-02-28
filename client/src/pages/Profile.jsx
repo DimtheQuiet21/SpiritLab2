@@ -1,90 +1,87 @@
-import React, { useState } from "react";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-
-// for the sake of display(and until I can get a users favorite drinks from the database), Im using this fake data
-const fakeUserData = {
-  username: "JohnDoe",
-  favoriteDrinks: [
-    "Mojito",
-    "Espresso Martini",
-    "Old Fashioned",
-    "Mojito",
-    "Espresso Martini",
-    "Old Fashioned",
-    "Mojito",
-    "Espresso Martini",
-    "Old Fashioned",
-    "Mojito",
-    "Espresso Martini",
-    "Old Fashioned",
-  ],
-};
+import React from "react";
+import { useQuery, gql } from "@apollo/client";
+import { GET_USER_FAVORITE_DRINKS } from "../utils/queries";
+import { useMutation } from "@apollo/client";
+import { REMOVE_FAVORITE_DRINK } from "../utils/mutations";
+import Auth from "../utils/auth";
 
 const Profile = () => {
-  const [favoriteDrinks, setFavoriteDrinks] = useState(
-    fakeUserData.favoriteDrinks
-  );
+  const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
 
-  function handleRemoveDrink(indexToRemove) {
-    setFavoriteDrinks((prevDrinks) =>
-      prevDrinks.filter((_, index) => index !== indexToRemove)
+  // Fetch user's favorite drinks
+  const { data, loading, error, refetch } = useQuery(GET_USER_FAVORITE_DRINKS, {
+    variables: { userId: userId || "" },
+    skip: !userId,
+  });
+
+  const [removeFavoriteDrink] = useMutation(REMOVE_FAVORITE_DRINK);
+
+  if (!userId) {
+    return (
+      <div
+        style={{
+          backgroundColor: "lightgrey",
+          padding: "20px",
+          borderRadius: "10px",
+        }}
+      >
+        <p>Either log in or sign up dude..... you got liquor to drink</p>
+      </div>
     );
   }
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const favoriteDrinks = data.userFavorites || [];
+
+  const handleRemoveFavorite = async (drinkName) => {
+    try {
+      await removeFavoriteDrink({
+        variables: { userId: userId, drink: drinkName },
+      });
+      // After removing, refetch the user's favorite drinks to update the list
+      refetch();
+    } catch (error) {
+      console.error("Failed to remove drink from favorites", error);
+    }
+  };
 
   return (
     <div
       style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        marginTop: "40px",
+        backgroundColor: "lightgrey",
+        padding: "20px",
+        borderRadius: "10px",
       }}
     >
-      <Typography
-        variant="h1"
-        style={{
-          fontSize: "2rem",
-          marginBottom: "20px",
-          color: "#1976d2",
-          fontFamily: "Roboto, sans-serif",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        {fakeUserData.username}'s Stuff
-      </Typography>
-      <Paper elevation={3} style={{ marginTop: "20px", padding: "20px" }}>
-        <Typography variant="h3" align="center">
-          Favorite Drinks
-        </Typography>
-        {favoriteDrinks.map((drink, index) => (
-          <div
-            key={index}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: "10px",
-            }}
-          >
-            <Typography variant="body1" align="center">
-              {drink}
-            </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleRemoveDrink(index)}
-            >
-              Remove{" "}
-            </Button>
-          </div>
-        ))}
-      </Paper>
+      {userId ? (
+        <>
+          {favoriteDrinks.length > 0 ? (
+            <div>
+              <h2>Favorite Drinks</h2>
+              <ul>
+                {favoriteDrinks.map((drink, index) => (
+                  <li key={index}>
+                    <h3>{drink.name}</h3>
+                    <button onClick={() => handleRemoveFavorite(drink.name)}>
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div>
+              <p>No favorite drinks yet.</p>
+            </div>
+          )}
+        </>
+      ) : (
+        <p>Either log in or sign up dude..... you got liquor to drink</p>
+      )}
     </div>
   );
 };
+
 export default Profile;

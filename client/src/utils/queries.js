@@ -103,6 +103,14 @@ query GetSearchCocktail($name: String!) {
   }
 }
 `
+export const GET_USER_FAVORITE_DRINKS = gql`
+query GetUserFavoriteDrinks($userId: ID!) {
+  userFavorites(userId: $userId) {
+    name
+  }
+}
+`;
+
 
 // To make this query run, the body of the quest must have req.body = {"name" : [ARRAY OF TERMS IN SEARCH BAR], "liquid": [ARRAY OF TERMS IN SEARCH BAR], "garnish": [ARRAY OF TERMS IN SEARCH BAR]}
 // export const GET_FORMULA_INGREDIENTS = gql`
