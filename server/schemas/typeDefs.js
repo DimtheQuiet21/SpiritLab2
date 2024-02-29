@@ -43,6 +43,7 @@ type Cocktail {
 
 type DrinkFavorite {
     name: String!
+    ingredients: [String]!
 }
 
 type PopularDrink {

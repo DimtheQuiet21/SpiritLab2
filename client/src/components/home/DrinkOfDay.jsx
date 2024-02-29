@@ -60,7 +60,7 @@ function DrinkOfDay() {
   if(loading && !cachedDrink) return <p>Loading...</p>;
   if(error && !cachedDrink) return <p>Error Mane :(</p>;
 
-  
+  const { name, ingredients, image } = cachedDrink || {};
 
   return (
     <Box
