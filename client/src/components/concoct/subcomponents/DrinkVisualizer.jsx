@@ -9,14 +9,15 @@ import CircleIcon from '@mui/icons-material/Circle';
 import { Box, Container } from '@mui/material';
 
 
-const DrinkVisualizer = ({ props, colors }) => {
+const DrinkVisualizer = ({ props, colors, cookState }) => {
 
     const [ingredients, setIngredients] = useState([]);
     const [ingredientHeights, setIngredientHeights] = useState([]);
+    const [cooking, setCooking] = useState([cookState])
 
     //Populate ingredients/heights arrays
     useEffect(() => {
-
+        console.log(props)
         props.alcohol.map((el) => {
             const ingredient = parseInt(el.amount.match(/\d+/g));
             const height = ingredient * 15
@@ -30,11 +31,12 @@ const DrinkVisualizer = ({ props, colors }) => {
             setIngredients(ingredients => [...ingredients, ingredient]);
             setIngredientHeights(ingredientHeights => [...ingredientHeights, height]);
         })
-    }, []);
+    }, [cooking]);
 
     console.log(ingredients);
     console.log(ingredientHeights);
     console.log(colors);
+    console.log(cookState)
 
     // Calculate y-coordinates for each ingredient rectangle
     const ingredientY = ingredientHeights.map((height, index) => {

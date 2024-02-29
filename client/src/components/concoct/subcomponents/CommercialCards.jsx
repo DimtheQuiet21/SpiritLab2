@@ -2,9 +2,9 @@ import { Autocomplete, TextField, ToggleButton, Button, ToggleButtonGroup, Butto
 import {Card, CardHeader, CardMedia, CardActionArea, CardActions, CardContent, Grid, Container, Typography, Box}  from '@mui/material';
 
 function CommercialCards ({items}) {
-    console.log(items)
+    //console.log(items)
     const inventoryAlcohols = items.map((alcohol) => {
-        console.log(alcohol.name)
+       // console.log(alcohol.name)
         return (
         
             <Grid item xs={12} sm={6} md={4} lg={3}>
