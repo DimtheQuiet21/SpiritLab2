@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import GlobalContext from '../../utils/globalContext';
+import NeighborContext from '../../utils/neighborContext';
 import IngredientList from './subcomponents/IngredientList';
 import DrinkVisualizer from './subcomponents/DrinkVisualizer';
 import Card from '@mui/material/Card';
@@ -17,6 +18,8 @@ import Cook from './Cook'
 const Concoct = ({ props }) => {
 
     const { globalState, setGlobalState } = useContext(GlobalContext);
+    const { neighborState, setNeighborState} = useContext(NeighborContext);
+
     const [ingredientColors, setIngredientColors] = useState([]);
     const [cooking,setCooking] = useState(false)
     const [localState, setlocalState] = useState(globalState);
@@ -41,6 +44,13 @@ const Concoct = ({ props }) => {
 
     function handleChangeCooking () {
       //Renders the cooking page
+      setNeighborState(globalState);
+      setCooking(!cooking)
+    }
+
+    function handleSaveCooking () {
+      //Renders the cooking page
+      setGlobalState(neighborState);
       setCooking(!cooking)
     }
     
@@ -53,21 +63,26 @@ const Concoct = ({ props }) => {
             <Typography variant="h5" component="div" gutterBottom sx={{borderBottom: "solid 2px #2c2c2c", p: "8px"}}> <strong>{props.name}</strong> </Typography>
         </CardContent>
         
-        {cooking ? (
+        {cooking && ingredientColors.length>0 ? (
             <Cook formula = {props} colors = {ingredientColors} cook = {cooking}/>
+
             ) : (
-              <CardContent sx={{display: "flex", minHeight: "max-content"}}>
-              
+
+              ingredientColors.length>0 ? (
+
+                <CardContent sx={{display: "flex", minHeight: "max-content"}}>
                 {/* INGREDIENT LIST */}
                 <Container maxWidth="xl">
-                    <IngredientList props={props} colors={ingredientColors}/>
+                    <IngredientList props={props} colors={ingredientColors} cookState = {cooking}/>
                 </Container>
 
                 {/* BEAKER UI */}
                 <Container sx={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-around"}}>
                     <DrinkVisualizer key = "cookingDrinks" props={props} colors={ingredientColors} cookState = {cooking}/>
                 </Container>
-              </CardContent>
+                </CardContent> 
+
+              ) : (null) 
             )}
           <CardContent>
             {/* ACTIONS UI */}
@@ -82,12 +97,21 @@ const Concoct = ({ props }) => {
 
                 <Stack spacing={2} direction="column">
                     <Button variant="outlined">Favorite</Button>
+                    {!cooking ? (                    
                     <Button 
                       variant="outlined"
                       onClick = {handleChangeCooking}
                       >Modify
                     </Button>
-                    <Button variant="outlined">Find Similar</Button>
+                    ) : (
+                      <Button 
+                      variant="outlined"
+                      onClick = {handleSaveCooking}
+                      >Save
+                      </Button>
+                    )}
+
+                    {/* <Button variant="outlined">Find Similar</Button> */}
                 </Stack>
             </Container>
         </CardContent>
