@@ -3,12 +3,21 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 
-const darkTheme = createTheme({
+const labTheme = createTheme({
   palette: {
     mode: 'dark',
-    accent: '#2196f3',
+    primary: {
+      main: '#00aef3',
+      light: '#52c7f5',
+      dark: '#007cbd',
+    },
+    secondary: {
+      main: '#f34500',
+      light: '#ff8359',
+      dark: '#c02600',
+    },
   },
-});
+})
 
 import { Outlet } from 'react-router-dom';
 import Navbar from './components/main/Navbar';
@@ -54,7 +63,7 @@ function App() {
 
     <ApolloProvider client={client}>
       <GlobalProvider>
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={labTheme}>
         <CssBaseline />
         {/* <div className="fixed-navbar">  */} {/* fixed nav bar if we want it*/}
           <Navbar />
@@ -67,6 +76,5 @@ function App() {
     </ApolloProvider>
   );
 }
-
 
 export default App

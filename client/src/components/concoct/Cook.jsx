@@ -26,7 +26,6 @@ const cookState = props.cook
 // const [ingredient7, setIngredient7] = useState(0);
 
 
-
 // const updateBeaker = async (ingredient, value) => {
     //     switch (ingredient) {
     //         case 'ingredient1':
