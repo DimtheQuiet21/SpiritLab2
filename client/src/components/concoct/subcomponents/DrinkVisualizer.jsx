@@ -33,10 +33,10 @@ const DrinkVisualizer = ({ props, colors, cookState }) => {
         })
     }, [cooking]);
 
-    console.log(ingredients);
-    console.log(ingredientHeights);
-    console.log(colors);
-    console.log(cookState)
+    // console.log(ingredients);
+    // console.log(ingredientHeights);
+    // console.log(colors);
+    // console.log(cookState)
 
     // Calculate y-coordinates for each ingredient rectangle
     const ingredientY = ingredientHeights.map((height, index) => {

@@ -9,16 +9,16 @@ import CommercialCards from './CommercialCards.jsx';
 function CommercialBox () {
 
 const { globalState, setGlobalState } = useContext(GlobalContext);
-console.log(globalState);
+//console.log(globalState);
 const alcoholNames = globalState.alcohol.map((element) => element.name) 
 const { loading, data, error } = useQuery(GET_INVENTORY, {variables: {terms: alcoholNames}})
 
 const alcoholCards = () => {
     if (!loading && data) {
-        console.log("Data on Line 16", data)
-        console.log("Data is an",typeof(data))
+        //console.log("Data on Line 16", data)
+        //console.log("Data is an",typeof(data))
         const alcoholTypes = alcoholNames.map((name) => {
-            console.log(name)
+            //console.log(name)
             const regex = new RegExp(name, 'i');
             const inventoryAlcohols = data.inventorybyterms.filter((alcohol) => {
                 return(regex.test(alcohol.name))
@@ -29,7 +29,7 @@ const alcoholCards = () => {
                 alcohols:inventoryAlcohols
             }
 
-            console.log("This Box contains", alcoholContainer) 
+            //console.log("This Box contains", alcoholContainer) 
             //not all ingredients will be contained in the inventory at all times. Gotta pick and choose our fights.
             if (alcoholContainer.alcohols.length > 0) {
                 return (
