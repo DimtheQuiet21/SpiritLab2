@@ -23,7 +23,7 @@ function Navbar() {
   return (
     <Grid
       container
-      justifyContent="space-between"
+      justifyContent="space-around"
       alignItems="center"
       sx={{
         padding: "10px",
@@ -39,29 +39,6 @@ function Navbar() {
           <h2>SPIRIT LABS</h2>
           {/* This will be changed to the logo */}
         </Link>
-      </Grid>
-
-      <Grid item sx={{ flexGrow: 1, textAlign: "center", color: "#29b0ff" }}>
-        <nav>
-          <Link to="/" style={{ marginRight: "10px", color: "#29b0ff" }}>
-            Home
-          </Link>{" "}
-          |
-          <Link
-            to="/lab"
-            style={{
-              marginRight: "10px",
-              marginLeft: "10px",
-              color: "#29b0ff",
-            }}
-          >
-            The Lab
-          </Link>{" "}
-          |
-          <Link to="/me" style={{ marginLeft: "10px", color: "#29b0ff" }}>
-            Profile
-          </Link>
-        </nav>
       </Grid>
 
       {/* use this for the search button */}
