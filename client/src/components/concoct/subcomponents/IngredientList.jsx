@@ -23,9 +23,9 @@ const IngredientList = ({ props, colors, cookState }) => {
     const [renderState,setRenderState] = useState({});
     const [readytoRender, setReadytoRender] = useState({})
 
-    console.log ('NEIGHBORSTATE Loaded with', neighborState)
-    console.log('LOCALSTATE loaded with', localState)
-    console.log("RENDERSTATE Loaded with", renderState)
+    // console.log ('NEIGHBORSTATE Loaded with', neighborState)
+    // console.log('LOCALSTATE loaded with', localState)
+    // console.log("RENDERSTATE Loaded with", renderState)
 
     function handleDelete ( element, index, index2, matrix) {
 
@@ -35,7 +35,7 @@ const IngredientList = ({ props, colors, cookState }) => {
         console.log("Delete this", element, index, index2, matrix);
         const newStateObject = {...neighborState};
         const newArray = [...newStateObject[matrix]];
-        console.log(newArray)
+        
         //We have to tell the splice function where to start and how many things to delete
         newArray.splice(index2, 1);
         newStateObject[matrix] = newArray;
@@ -60,17 +60,11 @@ const IngredientList = ({ props, colors, cookState }) => {
         setNeighborState(newStateObject)
     }
 
-    //This is to slow us down. I want to make sure that the Neighborhood has enough time to 
-    //Fully update before firing off a change on the local state and re-rendering everything.
-    //I need to unload the ReadytoRender Items to make sure they don't AUTO reload on themselves
+    //This is what makes the ingredient boxes, This useEffect updates everytime you change local state and rerenders.
+    //This is to slow us down. //I need to unload the ReadytoRender Items to make sure they don't AUTO reload on themselves
 
     useEffect (() => {
         setReadytoRender({})
-        setlocalState(neighborState)
-    }, [neighborState])
-
-    //This is what makes the ingredient boxes, This useEffect updates everytime you change local state and rerenders.
-    useEffect (() => {
         //Set up a simple object to guide over and update all the values.
         const receipeVar= {
             matrix:[neighborState.alcohol, neighborState.liquid, neighborState.garnish],
@@ -108,90 +102,6 @@ const IngredientList = ({ props, colors, cookState }) => {
     useEffect (()=> {
         setReadytoRender(renderState)
     },[renderState])
-// const alcoholMap = props.alcohol.map((el, index) => {
-//     console.log(el.amount)
-
-//         return (
-//             <Container
-//             key={`alcohol-${index}`}
-//             maxWidth="lg"
-//             sx={{
-//                 display: 'flex',
-//                 justifyContent: 'space-between',
-//                 alignItems: 'center',
-//                 borderBottom: 'solid 2px #2c2c2c',
-//                 p: '8px',
-//             }}
-//             >
-//                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-//                     <CircleIcon sx={{ mr: '4px', color: colors[index] }} />
-                    
-//                 {cookState ? 
-//                  (
-//                     <Container>
-//                         <Container>
-//                             <TextField color = 'accent' variant="outlined" placeholder='Name' value = {el.name}></TextField>
-//                             <TextField color = 'accent' variant="outlined" placeholder='Amount' value = {handleAmount(el.amount)} type="number"></TextField>
-//                             <TextField color = 'accent' variant="outlined" placeholder='Units' value = {handleUnit(el.amount)}></TextField>
-//                         </Container>
-//                         <IconButton onClick={handleDelete} aria-label="delete">
-//                             <DeleteIcon />
-//                         </IconButton>
-//                     </Container>
-                    
-//                 ) : (
-
-//                     <Box>
-//                         <Typography variant="h7">{el.name}</Typography>
-//                         <Typography color='accent'>{el.amount}</Typography>
-//                     </Box>
-//                     )}
-//                 </Box>
-//             </Container>
-// )})
-
-// const liquidMap = props.liquid.map((el, index) => {
-//             return (
-//             <Container
-//             key={`liquid-${index}`}
-//             maxWidth="lg"
-//             sx={{
-//                 display: 'flex',
-//                 justifyContent: 'space-between',
-//                 alignItems: 'center',
-//                 borderBottom: 'solid 2px #2c2c2c',
-//                 p: '8px',
-//             }}
-//             >
-//                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-//                     <CircleIcon sx={{ mr: '4px', color: colors[index + props.alcohol.length] }} />
-//                     <Typography variant="h7">{el.name}</Typography>
-//                 </Box>
-//                 <Typography color='accent'>{el.amount}</Typography>
-               
-//             </Container>
-// )})
-
-// const garnishMap = props.garnish.map((el, index) => {
-//             return (
-//             <Container
-//             key={`liquid-${index}`}
-//             maxWidth="lg"
-//             sx={{
-//                 display: 'flex',
-//                 justifyContent: 'space-between',
-//                 alignItems: 'center',
-//                 borderBottom: 'solid 2px #2c2c2c',
-//                 p: '8px',
-//             }}
-//             >
-//                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-//                     <Typography variant="h7">{el.name}</Typography>
-//                 </Box>
-//                 <Typography color='accent'>{el.amount}</Typography>
-//             </Container>
-// )})
-
 
   return (
         <>
@@ -223,6 +133,7 @@ const IngredientList = ({ props, colors, cookState }) => {
                         </CardActions>
                     </Container>
                 ) : (null)}
+
                 {/* MIXERS */}
                 <Typography variant="h7" color="text.secondary">Mixers:</Typography>
 

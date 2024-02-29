@@ -72,7 +72,7 @@ const Concoct = ({ props }) => {
         </CardContent>
         
         {cooking && ingredientColors.length>0 ? (
-            <Cook props = {props} formula = {neighborState} colors = {ingredientColors} cook = {cooking}/>
+            <Cook props = {props} formula = {neighborState} colors = {ingredientColors} cook = {cooking} onSaveCooking = {handleSaveCooking}/>
 
             ) : (
 
