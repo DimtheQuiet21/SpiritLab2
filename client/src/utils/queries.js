@@ -107,6 +107,7 @@ export const GET_USER_FAVORITE_DRINKS = gql`
 query GetUserFavoriteDrinks($userId: ID!) {
   userFavorites(userId: $userId) {
     name
+    ingredients
   }
 }
 `;

@@ -1,9 +1,10 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GET_USER_FAVORITE_DRINKS } from "../utils/queries";
 import { useMutation } from "@apollo/client";
 import { REMOVE_FAVORITE_DRINK } from "../utils/mutations";
 import Auth from "../utils/auth";
+import { Typography, Button, Box, Tooltip } from "@mui/material";
 
 const Profile = () => {
   const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
@@ -18,20 +19,20 @@ const Profile = () => {
 
   if (!userId) {
     return (
-      <div
-        style={{
+      <Box
+        sx={{
           backgroundColor: "lightgrey",
           padding: "20px",
           borderRadius: "10px",
         }}
       >
-        <p>Either log in or sign up dude..... you got liquor to drink</p>
-      </div>
+        <Typography>Either log in or sign up dude..... you got liquor to drink</Typography>
+      </Box>
     );
   }
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (loading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography>Error: {error.message}</Typography>;
 
   const favoriteDrinks = data.userFavorites || [];
 
@@ -48,8 +49,8 @@ const Profile = () => {
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         backgroundColor: "lightgrey",
         padding: "20px",
         borderRadius: "10px",
@@ -58,29 +59,31 @@ const Profile = () => {
       {userId ? (
         <>
           {favoriteDrinks.length > 0 ? (
-            <div>
-              <h2>Favorite Drinks</h2>
+            <Box>
+              <Typography variant="h2">Favorite Drinks</Typography>
               <ul>
                 {favoriteDrinks.map((drink, index) => (
                   <li key={index}>
-                    <h3>{drink.name}</h3>
-                    <button onClick={() => handleRemoveFavorite(drink.name)}>
+                    <Tooltip title={`Ingredients: ${drink.ingredients.join(", ")}`} arrow>
+                      <Typography variant="h3">{drink.name}</Typography>
+                    </Tooltip>
+                    <Button onClick={() => handleRemoveFavorite(drink.name)}>
                       Remove
-                    </button>
+                    </Button>
                   </li>
                 ))}
               </ul>
-            </div>
+            </Box>
           ) : (
-            <div>
-              <p>No favorite drinks yet.</p>
-            </div>
+            <Box>
+              <Typography>No favorite drinks yet.</Typography>
+            </Box>
           )}
         </>
       ) : (
-        <p>Either log in or sign up dude..... you got liquor to drink</p>
+        <Typography>Either log in or sign up dude..... you got liquor to drink</Typography>
       )}
-    </div>
+    </Box>
   );
 };
 

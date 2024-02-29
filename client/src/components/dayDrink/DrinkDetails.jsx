@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Auth from "../../utils/auth";
 import AddToFavoritesButton from "../addFavorites/AddToFavoritesButton";
 import IngredientList from "./IngredientList";
@@ -24,22 +24,7 @@ function DrinkDetails({ name, ingredients, image }) {
         >
           {name}
         </Typography>
-        {/* <Typography color="white" fontSize={"1.2rem"}>
-          <ul
-            style={{
-              listStyleType: "none",
-              paddingLeft: 0,
-              textAlign: "center",
-              lineHeight: "auto",
-            }}
-          >
-            {ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))}
-          </ul>
-        </Typography> */}
         <IngredientList ingredients={ingredients} />
-        
         <Box>
           {userId && <AddToFavoritesButton drinkName={name} userId={userId} />}
         </Box>

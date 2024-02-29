@@ -22,24 +22,60 @@ const fetchCocktail = async (url) => {
     image: drink.strDrinkThumb,
   };
 };
+const fetchRandomCocktail = async () => {
+  try {
+    const response = await fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php");
+    const data = await response.json();
+    if (!data.drinks || data.drinks.length === 0) {
+      throw new Error("No random cocktail found");
+    }
+    const randomCocktail = data.drinks[0];
+    const ingredients = [];
+    // Collect up to 15 ingredients
+    for (let i = 1; i <= 15; i++) {
+      const ingredient = randomCocktail[`strIngredient${i}`];
+      if (!ingredient) break; // Stop if there are no more ingredients
+      ingredients.push(ingredient);
+    }
+    return {
+      name: randomCocktail.strDrink,
+      ingredients: ingredients.filter(Boolean) // Filter out any empty strings
+    };
+  } catch (error) {
+    console.error("Error fetching random cocktail:", error);
+    throw new Error("Failed to fetch random cocktail");
+  }
+};
 
 fetchPreciseCocktail = async (url) => {
-  // For resusability, this makes a fetch request to the cocktail API and returns the data
-  const response = await fetch(url);
-  const data = await response.json();
-  // Check if drinks array exists and is not empty
-  if (!data.drinks || data.drinks.length === 0) {
-    throw new Error("No drink found");
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const drink = data.drinks[0];
+    if (!data.drinks || data.drinks.length === 0) {
+      throw new Error("No drink found");
+    }
+
+    
+    const ingredients = [
+      drink.strIngredient1,
+      drink.strIngredient2,
+      drink.strIngredient3,
+      drink.strIngredient4,
+      drink.strIngredient5,
+      drink.strIngredient6,
+      drink.strIngredient7,
+    ].filter(Boolean);
+
+    return {
+      name: drink.strDrink,
+      ingredients: ingredients,
+      image: drink.strDrinkThumb,
+    };
+  } catch (error) {
+    console.error("Error fetching precise cocktail:", error);
+    throw new Error("Failed to fetch precise cocktail");
   }
-
-  const drink = data.drinks[0]; // Get the first drink object
-
-  console.log(drink.strDrink);
-  return {
-    name: drink.strDrink,
-    ingredients: [],
-    image: drink.strDrinkThumb,
-  };
 };
 
 const resolvers = {
@@ -110,10 +146,24 @@ const resolvers = {
         if (!user) {
           throw new Error("User does not exist");
         }
-        return user.favoriteDrinks;
+        
+        // Populate the ingredients for each favorite drink
+        const favoriteDrinksWithIngredients = await Promise.all(
+          user.favoriteDrinks.map(async (favoriteDrink) => {
+            // Fetch a random cocktail to get names and ingredients
+            const randomCocktail = await fetchRandomCocktail();
+            // Return the random cocktail data with the favorite drink's name
+            return {
+              name: favoriteDrink.name,
+              ingredients: randomCocktail.ingredients
+            };
+          })
+        );
+
+        return favoriteDrinksWithIngredients;
       } catch (err) {
         console.error(err);
-        throw new Error("Failed to get user favorites" + err.message);
+        throw new Error("Failed to get user favorites with ingredients: " + err.message);
       }
     },
       allFavoriteDrinks: async () => {
