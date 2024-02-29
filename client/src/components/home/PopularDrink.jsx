@@ -32,7 +32,7 @@ function PopularDrink() {
         padding: 5,
         textAlign: "left",
         borderRadius: "20px",
-        width: "85%",
+        width: "90%",
         margin: "auto",
       }}
     >
