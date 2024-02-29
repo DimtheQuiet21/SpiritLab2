@@ -40,38 +40,47 @@ function IngredientBox (props) {
 
     const handleNameFieldChange = (event) => {
        
+        //We have to set the nieghborhood on it's own sweet time to prevent lagging.
+        function updateNeighborhoodName (newName) {
+            const arraytoChange = props.receipeVar.keys[props.index];
+            const indextoChange = props.index2;
+            const newStateObject = {...neighborState};
+            const newArray = [...newStateObject[arraytoChange]];
+            
+            //This is to avoid the read only error. We completely overwrite the entire object rather than overwrite a single property of it.
+            newArray[indextoChange] = { ...newArray[indextoChange], name: newName };
+            newStateObject[arraytoChange] = newArray
+    
+            setNeighborState(newStateObject)
+        }
         const newName = event.target.value;
-        const arraytoChange = props.receipeVar.keys[props.index];
-        const indextoChange = props.index2;
-        const newStateObject = {...neighborState};
-        const newArray = [...newStateObject[arraytoChange]];
-        
-        //This is to avoid the read only error. We completely overwrite the entire object rather than overwrite a single property of it.
-        newArray[indextoChange] = { ...newArray[indextoChange], name: newName };
-        newStateObject[arraytoChange] = newArray
-
-        setNeighborState(newStateObject)
+        updateNeighborhoodName(newName)
         setElementName(event.target.value);
     }
 
     function handleAmountFieldChange (event) {
-        const newAmount = event.target.value;
-        const arraytoChange = props.receipeVar.keys[props.index];
-        const indextoChange = props.index2;
-        const newStateObject = {...neighborState};
-        const newArray = [...newStateObject[arraytoChange]];
-        //This is to avoid the read only error. We completely overwrite the entire object rather than overwrite a single property of it.
-        newArray[indextoChange] = { ...newArray[indextoChange], amount: newAmount };
-        newStateObject[arraytoChange] = newArray
 
-        setNeighborState(newStateObject)
+        //We have to set the nieghborhood on it's own sweet time to prevent lagging.
+        function updateNeighborhoodAmount (newAmount) {
+            const arraytoChange = props.receipeVar.keys[props.index];
+            const indextoChange = props.index2;
+            const newStateObject = {...neighborState};
+            const newArray = [...newStateObject[arraytoChange]];
+            //This is to avoid the read only error. We completely overwrite the entire object rather than overwrite a single property of it.
+            newArray[indextoChange] = { ...newArray[indextoChange], amount: newAmount };
+            newStateObject[arraytoChange] = newArray
+    
+            setNeighborState(newStateObject)
+        }
+
+        const newAmount = event.target.value;
+        updateNeighborhoodAmount (newAmount)
         setElementAmount(event.target.value);
     }
 
     // function handleUnitFieldChange (event) {
     //     setElementUnit(event.target.value);
     // }
-
 
     useEffect (() => {
         setlocalState(neighborState)
