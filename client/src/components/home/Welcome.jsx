@@ -1,9 +1,21 @@
 import { Typography, Box, Divider, Button, Container } from "@mui/material";
 import Card from '@mui/material/Card';
+import { useState } from "react";
 import {Link} from 'react-router-dom';
 import Auth from '../../utils/auth'; 
+import AuthModal from '../main/AuthModal'
 
 function Welcome() {
+  const [modalOpen, setModalOpen] = useState(false); // State to manage modal open/close
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+  
   return (
     <Card
       sx={{
@@ -42,10 +54,12 @@ function Welcome() {
           Find That Drink Pal!🍹
         </Button>
         {!Auth.loggedIn() && (
-          <Button variant="outlined" sx={{  width: "100%", marginBottom: "16px", fontSize: "14pt" }}>
+          <Button onClick={handleModalOpen}
+          variant="outlined" sx={{ width: "100%", fontSize: "14pt" }}>
             Sign up/Login
           </Button>
         )}
+        <AuthModal open={modalOpen} onClose={handleModalClose} />
       </Box>
     </Card>
   );

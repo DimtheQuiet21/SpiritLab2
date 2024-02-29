@@ -1,4 +1,4 @@
-import Concoct from '../components/concoct/concoct';
+import Concoct from '../components/concoct/Concoct';
 import GlobalContext from '../utils/globalContext';
 import LocalContext from '../utils/neighborContext';
 import { useContext } from 'react'

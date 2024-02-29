@@ -2,19 +2,25 @@ import { useState, useEffect, useContext} from 'react';
 import NeighborContext from '../../../utils/neighborContext';
 
 
-import TextField from '@mui/material/TextField';
-import { Container, Box, ButtonGroup, IconButton, Typography } from '@mui/material';
+import { Container, Box, Typography, TextField } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
-import DeleteIcon from '@mui/icons-material/Delete'
+
 
 
 function IngredientBox (props) {
 
-    const { neighborState, setNeighborState} = useContext(NeighborContext);
-    const [localState,setlocalState] = useState({}); 
+    const {neighborState, setNeighborState} = useContext(NeighborContext);
+    const [localState,setlocalState] = useState(props); 
+    const [readytoCook, setReadytoCook] = useState(props.cookState)
 
-    console.log("These are your", props)
-    console.log("This is your neighborhood", neighborState)
+    const [elementName, setElementName] = useState(props.element.name)
+    const [elementAmount, setElementAmount] = useState(props.element.amount)
+    // const [elementAmount, setElementAmount] = useState(handleAmount(props.element.amount))
+    // const [elementUnit, setElementUnit] = useState(handleUnit(props.element.amount))
+    const [ingredientElement, setIngredientElement] = useState({})
+
+    //console.log("These are your", props)
+    //console.log("This is your neighborhood", neighborState)
 
     function handleAmount (string) {
         const numericPart = parseFloat(string.match(/\d+(\.\d+)?/));
@@ -32,24 +38,49 @@ function IngredientBox (props) {
       }
     }
 
-    function handleNameFieldChange (event) {
+    const handleNameFieldChange = (event) => {
+       
+        //We have to set the nieghborhood on it's own sweet time to prevent lagging.
+        function updateNeighborhoodName (newName) {
+            const arraytoChange = props.receipeVar.keys[props.index];
+            const indextoChange = props.index2;
+            const newStateObject = {...neighborState};
+            const newArray = [...newStateObject[arraytoChange]];
+            
+            //This is to avoid the read only error. We completely overwrite the entire object rather than overwrite a single property of it.
+            newArray[indextoChange] = { ...newArray[indextoChange], name: newName };
+            newStateObject[arraytoChange] = newArray
+    
+            setNeighborState(newStateObject)
+        }
+        const newName = event.target.value;
+        updateNeighborhoodName(newName)
         setElementName(event.target.value);
     }
 
-    function handleNumberFieldChange (event) {
+    function handleAmountFieldChange (event) {
+
+        //We have to set the nieghborhood on it's own sweet time to prevent lagging.
+        function updateNeighborhoodAmount (newAmount) {
+            const arraytoChange = props.receipeVar.keys[props.index];
+            const indextoChange = props.index2;
+            const newStateObject = {...neighborState};
+            const newArray = [...newStateObject[arraytoChange]];
+            //This is to avoid the read only error. We completely overwrite the entire object rather than overwrite a single property of it.
+            newArray[indextoChange] = { ...newArray[indextoChange], amount: newAmount };
+            newStateObject[arraytoChange] = newArray
+    
+            setNeighborState(newStateObject)
+        }
+
+        const newAmount = event.target.value;
+        updateNeighborhoodAmount (newAmount)
         setElementAmount(event.target.value);
     }
 
-    function handleUnitFieldChange (event) {
-        setElementUnit(event.target.value);
-    }
-
-    const [stateElement, setStateElement] = useState(props)
-    const [readytoCook, setReadytoCook] = useState(props.cookState)
-    const [elementName, setElementName] = useState(props.element.name)
-    const [elementAmount, setElementAmount] = useState(handleAmount(props.element.amount))
-    const [elementUnit, setElementUnit] = useState(handleUnit(props.element.amount))
-    const [ingredientElement, setIngredientElement] = useState({})
+    // function handleUnitFieldChange (event) {
+    //     setElementUnit(event.target.value);
+    // }
 
     useEffect (() => {
         setlocalState(neighborState)
@@ -57,10 +88,11 @@ function IngredientBox (props) {
 
     useEffect (() => {
         console.log("This is your Ingredient", elementName)
+
         const ingredient = () => {
             return (
                 //Literally wait for all the variables to load in.
-                Object.keys(stateElement).length > 0 ? (
+                Object.keys(localState).length > 0 ? (
                     <Container
                     //Sets the key to be something like alcohol-1
                     key={`${props.receipeVar.keys[props.index]}-${props.index2}`}
@@ -82,9 +114,9 @@ function IngredientBox (props) {
                         {readytoCook ? 
                         (
                             <>
-                                <TextField color = 'accent' variant="outlined" placeholder='Name' value = {elementName} onChange={handleNameFieldChange} ></TextField>
-                                <TextField color = 'accent' variant="outlined" placeholder='Amount' value = {elementAmount} type="number" onChange={handleNumberFieldChange}></TextField>
-                                <TextField color = 'accent' variant="outlined" placeholder='Units' value = {elementUnit} onChange={handleUnitFieldChange}></TextField>
+                                <TextField variant="outlined" placeholder='Name' value = {elementName} onChange={handleNameFieldChange} ></TextField>
+                                <TextField variant="outlined" placeholder='Amount' value = {elementAmount} onChange={handleAmountFieldChange}></TextField>
+
                             </>             
                         ) : (
                             <Box>
@@ -101,7 +133,7 @@ function IngredientBox (props) {
         }
         setIngredientElement(ingredient)
 
-    },[localState])
+    },[ elementName, elementAmount])
 
 
     return (

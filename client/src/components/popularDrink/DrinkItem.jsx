@@ -4,14 +4,11 @@ import { Typography, Divider } from "@mui/material";
 function DrinkItem({ drink, isHovered, onMouseEnter, onMouseLeave }) {
   return (
     <li onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <Typography variant="h6" component="h3">
-        {drink.name} --- {drink.favorites} favorites
+      <Typography variant="h5" component="h3">
+        {drink.name} 
       </Typography>
       {isHovered && (
         <div>
-          <Typography variant="h6" component="p" color="gray">
-            Ingredients:
-          </Typography>
           <ul>
             {drink.ingredients.map((ingredient, index) => (
               <li key={index}>
