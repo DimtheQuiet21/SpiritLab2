@@ -21,7 +21,7 @@ const Profile = () => {
     return (
       <Box
         sx={{
-          backgroundColor: "lightgrey",
+          backgroundColor: "#808080",
           padding: "20px",
           borderRadius: "10px",
         }}
@@ -51,7 +51,7 @@ const Profile = () => {
   return (
     <Box
       sx={{
-        backgroundColor: "lightgrey",
+        backgroundColor: "#5e5e5e",
         padding: "20px",
         borderRadius: "10px",
       }}
@@ -60,12 +60,12 @@ const Profile = () => {
         <>
           {favoriteDrinks.length > 0 ? (
             <Box>
-              <Typography variant="h2">Favorite Drinks</Typography>
+              <Typography variant="h3">Favorite Drinks</Typography>
               <ul>
                 {favoriteDrinks.map((drink, index) => (
                   <li key={index}>
-                    <Tooltip title={`Ingredients: ${drink.ingredients.join(", ")}`} arrow>
-                      <Typography variant="h3">{drink.name}</Typography>
+                    <Tooltip variant="h3" title={`Ingredients: ${drink.ingredients.join(", ")}`} arrow>
+                      <Typography variant="h5">{drink.name}</Typography>
                     </Tooltip>
                     <Button onClick={() => handleRemoveFavorite(drink.name)}>
                       Remove
@@ -76,7 +76,7 @@ const Profile = () => {
             </Box>
           ) : (
             <Box>
-              <Typography>No favorite drinks yet.</Typography>
+              <Typography>No favorite drinks yet fam...</Typography>
             </Box>
           )}
         </>

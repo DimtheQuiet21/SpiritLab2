@@ -1,8 +1,20 @@
 import { Typography, Box, Divider, Button } from "@mui/material";
+import { useState } from "react";
 import {Link} from 'react-router-dom';
 import Auth from '../../utils/auth'; 
+import AuthModal from '../main/AuthModal'
 
 function Welcome() {
+  const [modalOpen, setModalOpen] = useState(false); // State to manage modal open/close
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+  
   return (
     <Box
       sx={{
@@ -10,7 +22,7 @@ function Welcome() {
         padding: 4,
         textAlign: "center",
         borderRadius: "20px",
-        width: "85%",
+        width: "90%",
         margin: "auto",
         marginTop: "3rem",
       }}
@@ -42,16 +54,18 @@ function Welcome() {
           variant="contained"
           color="primary"
           
-          sx={{ width: "100%", marginBottom: "10px", height: "50px", fontSize: "1.3rem", borderRadius: "15px"}}
+          sx={{ width: "100%", marginBottom: "10px", height: "50px", fontSize: "1.2rem", borderRadius: "15px"}}
           component={Link} to="/lab/"
         >
           Create That Drink Pal!🍹
         </Button>
         {!Auth.loggedIn() && (
-          <Button variant="outlined" sx={{ width: "100%", height: "50px", fontSize: "1.3rem", borderRadius: "15px" }}>
+          <Button onClick={handleModalOpen}
+          variant="outlined" sx={{ width: "100%", height: "50px", fontSize: "1.2rem", borderRadius: "15px" }}>
             Sign up/Login
           </Button>
         )}
+        <AuthModal open={modalOpen} onClose={handleModalClose} />
       </Box>
     </Box>
   );
