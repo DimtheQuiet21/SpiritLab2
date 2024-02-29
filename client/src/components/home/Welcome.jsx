@@ -1,4 +1,5 @@
-import { Typography, Box, Divider, Button } from "@mui/material";
+import { Typography, Box, Divider, Button, Container } from "@mui/material";
+import Card from '@mui/material/Card';
 import { useState } from "react";
 import {Link} from 'react-router-dom';
 import Auth from '../../utils/auth'; 
@@ -16,58 +17,51 @@ function Welcome() {
   };
   
   return (
-    <Box
+    <Card
       sx={{
-        backgroundColor: "black",
         padding: 4,
-        textAlign: "center",
-        borderRadius: "20px",
-        width: "90%",
+        width: "100%",
         margin: "auto",
         marginTop: "3rem",
       }}
+      variant="outlined"
     >
-      <Typography variant="h4" component="h2" color="white" sx={{textAlign: "center"}}>
-        Welcome to Spirit Labs 2.0🧪:
+      <Typography variant="h3" color="primary.light" align="left" gutterBottom={true}>
+        Welcome to Spirit Labs 🧪
       </Typography>
-      <Typography variant="subtitle" color="white" sx={{textAlign: "left"}}>
-        You gotta be 21 to be here, bruh..🎭
+      <Typography variant="h6" color="white" align="left">
+        You gotta be 21 to be here, bruh.. 🎭
       </Typography>
-      <Divider sx={{ backgroundColor: "white", margin: "20px auto" }} />
-      <Typography
-        variant="h6"
-        color="white"
-        sx={{ textAlign: "left"}}
-      >
-        Spirit Labs is the place to be if you're looking for the best way to
-        discover new drinks! <br />
-        <span style={{ marginTop: "20px", display: "block" }}>
-          Not sure what you're looking for? Take a gander at our Drink Of The Day! Or test your luck with the amazing Random Cocktail Generator! <br />
-          </span>
-          <span style={{ marginTop: "20px", display: "block", textAlign:"center" }}>
-          Have at it: <br />
-          </span>
+
+      <Container maxWidth="lg" sx={{ borderBottom: 'solid 2px #2c2c2c', p: '8px', mb: '8px' }}/>
+
+      <Typography variant="h7" color="white" align="left">
+        Spirit Labs is the place to be if you're looking for the best way to discover new drinks!    
+      </Typography>
+      <br/><br/>
+      <Typography variant="h7" color="white" align="left" gutterBottom={true}>
+        Not sure what you're looking for? Take a gander at our Drink Of The Day! Or test your luck with the amazing Random Cocktail Generator!
+        <br/><br/>
+        Have at it:
        
       </Typography>
       <Box sx={{ marginTop: "20px" }}>
         <Button
           variant="contained"
-          color="primary"
-          
-          sx={{ width: "100%", marginBottom: "10px", height: "50px", fontSize: "1.2rem", borderRadius: "15px"}}
-          component={Link} to="/lab/"
+          sx={{ width: "100%", marginBottom: "16px", fontSize: "14pt" }}
+          component={Link} to="/search"
         >
-          Create That Drink Pal!🍹
+          Find That Drink Pal!🍹
         </Button>
         {!Auth.loggedIn() && (
           <Button onClick={handleModalOpen}
-          variant="outlined" sx={{ width: "100%", height: "50px", fontSize: "1.2rem", borderRadius: "15px" }}>
+          variant="outlined" sx={{ width: "100%", fontSize: "14pt" }}>
             Sign up/Login
           </Button>
         )}
         <AuthModal open={modalOpen} onClose={handleModalClose} />
       </Box>
-    </Box>
+    </Card>
   );
 }
 
