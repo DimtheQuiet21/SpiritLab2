@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { Typography, Box, Button, Container } from "@mui/material";
+import Card from '@mui/material/Card';
 import { useState, useEffect } from "react";
 import DrinkList from "../popularDrink/DrinkList";
 import { useQuery } from "@apollo/client";
@@ -26,26 +27,27 @@ function PopularDrink() {
 
 
   return (
-    <Box
-      sx={{
-        backgroundColor: "black",
-        padding: 5,
-        textAlign: "left",
-        borderRadius: "20px",
-        width: "90%",
-        margin: "auto",
-      }}
-    >
-      <Typography
-        variant="h4"
-        component="h3"
-        color="white"
+    <Card
+    sx={{
+      padding: 4,
+      width: "100%",
+      margin: "auto",
+      marginTop: "2rem",
+    }}
+    variant="outlined"
+  >
+    <Typography
+        variant="h3"
+        color="primary.light"
         sx={{ marginLeft: "20px" }}
       >
         Top Drinks🥇🥂
       </Typography>
+
+      <Container maxWidth="lg" sx={{ borderBottom: 'solid 2px #2c2c2c', p: '8px', mb: '8px' }}/>
+      
       <DrinkList drinkData={sortedDrinkData} setHoveredIndex={setHoveredIndex}  />
-    </Box>
+  </Card>
   );
 }
 

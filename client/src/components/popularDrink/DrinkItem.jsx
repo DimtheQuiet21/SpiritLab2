@@ -4,7 +4,7 @@ import { Typography, Divider } from "@mui/material";
 function DrinkItem({ drink, isHovered, onMouseEnter, onMouseLeave }) {
   return (
     <li onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <Typography variant="h5" component="h3">
+      <Typography variant="h6" component="h3">
         {drink.name} 
       </Typography>
       {isHovered && (
@@ -20,7 +20,7 @@ function DrinkItem({ drink, isHovered, onMouseEnter, onMouseLeave }) {
           </ul>
         </div>
       )}
-      <Divider sx={{ backgroundColor: "lightBlue", margin: "10px 0" }} />
+      <Divider sx={{ backgroundColor: "#2c2c2c", margin: "10px 0" }} />
     </li>
   );
 }

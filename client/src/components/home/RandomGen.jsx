@@ -1,5 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, Card, Container } from "@mui/material";
 import IngredientsList from "../randoDrink/IngredientsList";
 import DrinkImage from "../randoDrink/DrinkImage";
 import { RANDOM_COCKTAIL_QUERY } from "../../utils/queries";
@@ -17,63 +17,59 @@ function RandomGen() {
   // console.log(data.randomCocktail);
 
   return (
-    <Box
-      sx={{
-        backgroundColor: "black",
-        padding: 6,
-        textAlign: "center",
-        borderRadius: "20px",
-        flex: 1,
-        margin: "auto",
-      }}
+    <Card
+    sx={{
+      padding: 4,
+      marginTop: "2rem",
+    }}
+    variant="outlined"
     >
       <Typography
-        variant="h4"
-        component="h1"
-        color="white"
-        sx={{ textAlign: "left", marginBottom: "20px" }}
+        variant="h3"
+        color="primary.light"
+        sx={{ textAlign: "left" }}
       >
         Feeling Lucky❓ 🎲 🎰
       </Typography>
       <Typography
-        variant="h5"
+        variant="h6"
         color="white"
         sx={{ textAlign: "left", marginBottom: "20px" }}
       >
         Random Cocktail Generator
       </Typography>
+
       <Button
         variant="contained"
-        sx={{
-          width: "100%",
-          marginBottom: "20px",
-          fontSize: "1.2rem",
-          backgroundColor: "#29b0ff",
-        }}
+        sx={{ width: "100%", marginBottom: "16px", fontSize: "14pt" }}
         onClick={() => refetch()}
       >
         Quench your thirst
       </Button>
+
+      <Container maxWidth="lg" sx={{ borderBottom: 'solid 2px #2c2c2c', p: '4px', mb: '24px' }} gutterBottom={true}/>
+
       {image && name && ingredients ? (
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", justifyContent: 'space-evenly', alignItems: "center" }}>
           <DrinkImage image={image} />
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              flex: "1",
-              justifyContent: "space-between",
             }}
           >
             <Typography
               variant="h5"
-              component="h2"
               color="white"
-              sx={{ marginRight: "5px", marginBottom: "20px" }}
+              sx={{ marginRight: "5px"}}
             >
               {name}
             </Typography>
+
+            <Container maxWidth="lg" sx={{ borderBottom: 'solid 2px #2c2c2c', p: '8px', mb: '20px'}}/>
+
             <IngredientsList ingredients={ingredients} />
+
             <Box>
               {userId && (
                 <AddToFavoritesButton drinkName={name} userId={userId} />
@@ -84,7 +80,7 @@ function RandomGen() {
       ) : (
         <p>Loading</p>
       )}
-    </Box>
+    </Card>
   );
 }
 

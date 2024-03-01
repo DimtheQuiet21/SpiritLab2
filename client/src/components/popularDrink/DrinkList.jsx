@@ -26,7 +26,7 @@ function DrinkList({ drinkData, setHoveredIndex }) {
         marginBottom: "30px",
       }}
     >
-      <ol style={{ fontSize: "1.5rem" }}>
+      <ol style={{ fontSize: "14pt" }}>
         {drinkData.map((drink, index) => (
           <DrinkItem
             key={index}

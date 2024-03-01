@@ -1,4 +1,4 @@
-import { Typography, Box, Divider, Button, Container } from "@mui/material";
+import { Typography, Box, Button, Container } from "@mui/material";
 import Card from '@mui/material/Card';
 import { useState } from "react";
 import {Link} from 'react-router-dom';
@@ -20,13 +20,11 @@ function Welcome() {
     <Card
       sx={{
         padding: 4,
-        width: "100%",
-        margin: "auto",
-        marginTop: "3rem",
+        marginTop: "2rem",
       }}
       variant="outlined"
     >
-      <Typography variant="h3" color="primary.light" align="left" gutterBottom={true}>
+      <Typography variant="h3" color="primary.light" align="left">
         Welcome to Spirit Labs 🧪
       </Typography>
       <Typography variant="h6" color="white" align="left">
