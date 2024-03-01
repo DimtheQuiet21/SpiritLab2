@@ -8,7 +8,7 @@ function IngredientsList({ ingredients }) {
         listStyleType: "none",
         margin: 0,
         padding: 0,
-        fontSize: "1.2rem",
+        fontSize: "12pt",
       }}
     >
       {ingredients.map((ingredient, index) => (

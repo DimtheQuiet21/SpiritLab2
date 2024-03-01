@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Container } from "@mui/material";
 import Auth from "../../utils/auth";
 import AddToFavoritesButton from "../addFavorites/AddToFavoritesButton";
 import IngredientList from "./IngredientList";
@@ -10,27 +10,27 @@ function DrinkDetails({ name, ingredients, image }) {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        margin: "auto",
+        justifyContent: "space-evenly",
       }}
     >
-      <Box sx={{ flex: 1 }}>
+      <Box sx={{  }}>
         <Typography
           variant="h5"
-          component="h3"
           color="white"
-          sx={{ marginBottom: "10%", textAlign: "left" }}
+          sx={{ textAlign: "left" }}
         >
           {name}
         </Typography>
+        
+        <Container maxWidth="lg" sx={{ borderBottom: 'solid 2px #2c2c2c', p: '8px', mb: '8px' }}/>
+
         <IngredientList ingredients={ingredients} />
         <Box>
           {userId && <AddToFavoritesButton drinkName={name} userId={userId} />}
         </Box>
       </Box>
-      <Box sx={{ flex: 1 }}>
-        <img src={image} alt={name} style={{ width: "100%" }} />
+      <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+        <img src={image} alt={name} height='200px' width='200px' />
       </Box>
     </Box>
   );

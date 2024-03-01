@@ -3,6 +3,7 @@ import { useQuery, gql } from "@apollo/client";
 import { DRINK_OF_DAY_QUERY } from "../../utils/queries";
 import { Box, Typography } from "@mui/material";
 import DrinkDetails from "../dayDrink/DrinkDetails";
+import Card from '@mui/material/Card';
 
 function DrinkOfDay() {
 
@@ -63,27 +64,23 @@ function DrinkOfDay() {
   const { name, ingredients, image } = cachedDrink || {};
 
   return (
-    <Box
-      sx={{
-        backgroundColor: "black",
-        padding: 5,
-        textAlign: "left",
-        borderRadius: "20px",
-        width: "100%",
-        marginTop: "3rem",
-        flex: 1,
-      }}
-    >
+     <Card
+     sx={{
+       padding: 4,
+       margin: "auto",
+       marginTop: "2rem",
+     }}
+     variant="outlined"
+   >
       <Typography
-        variant="h4"
-        component="h4"
-        color="white"
+        variant="h3"
+        color="primary.light"
         sx={{ marginBottom: "25px" }}
       >
-        Drink Of The Day 🍻🍾
+        DJ's Drink Of The Day 🍻🍾
       </Typography>
       {drink ? (<DrinkDetails name={drink.name} ingredients={drink.ingredients} image={drink.image}/>): ( <p>Loading</p>)}
-    </Box>
+   </Card>
   );
 }
 
