@@ -13,16 +13,6 @@ function CommercialCards ({items}) {
                 href = {alcohol.url}>
                     <Card sx = {{margin: "1em"}}>
                         <CardHeader
-                            // avatar={
-                            // <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            //     R
-                            // </Avatar>
-                            // }
-                            // action={
-                            // <IconButton aria-label="settings">
-                            //     <MoreVertIcon />
-                            // </IconButton>
-                            // }
                             title={alcohol.name}
                             subheader={`${alcohol.proof}`}
                             titleTypographyProps={{ variant: 'h6', style: { fontSize: '16px' } }}

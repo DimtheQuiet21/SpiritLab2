@@ -5,6 +5,7 @@ import NeighborContext from '../../utils/neighborContext';
 import IngredientList from './subcomponents/IngredientList';
 import DrinkVisualizer from './subcomponents/DrinkVisualizer';
 import CommercialBox from './subcomponents/CommercialBox';
+
 import Cook from './Cook'
 
 import Card from '@mui/material/Card';
@@ -18,7 +19,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import { Box, Container } from '@mui/material';
 
 
-
+//props is the GLOBAL STATE and it's object
 const Concoct = ({ props }) => {
 
     const { globalState, setGlobalState } = useContext(GlobalContext);
@@ -26,8 +27,8 @@ const Concoct = ({ props }) => {
 
     const [ingredientColors, setIngredientColors] = useState([]);
     const [cooking,setCooking] = useState(false)
-    const [localState, setlocalState] = useState(globalState);
 
+// When you load up, set the Neighborhood Context to the Global Context
     useEffect(() => {
       setNeighborState(globalState)
     },[])
@@ -50,15 +51,22 @@ const Concoct = ({ props }) => {
         return color;
     }
 
+   
     function handleChangeCooking () {
-      //Renders the cooking page
-      setNeighborState(globalState);
+    //Renders the cooking page
+    // When you hit the modify button to cook, then you set the
+    //neighborhood context to the global context. This should not 
+    //cause a rerender inherently (the change in cooking does)
+      // setNeighborState(globalState);
       setCooking(!cooking)
     }
 
     function handleSaveCooking () {
-      //Renders the cooking page
-      setGlobalState(neighborState);
+      //Renders the concoct page immobile again. This time you change the 
+      //Global Context. This rerenders the entire concoct page because the 
+      //neighborhood context and provider gets FED the global context IN the provider.
+
+      // setGlobalState(neighborState);
       setCooking(!cooking)
     }
     
@@ -71,8 +79,21 @@ const Concoct = ({ props }) => {
             <Typography variant="h5" component="div" gutterBottom sx={{borderBottom: "solid 2px #2c2c2c", p: "8px"}}> <strong>{props.name}</strong> </Typography>
         </CardContent>
         
+        {/* Cooking is a Toggle ON OFF Boolean. Ingredient colors is an array that is a STATE variable. It's local
+        WHENEVER we change the neighborState, we have to rerender COOK we are feeding that component all the goodies
+        From the NeighborHood State. We also have a conditional render. IF we are cooking AND the ingredientColors are ready then proceeed 
+        with the COOK Component OR (as long as the ingredients are ready) Render the Card with it's Ingredient List AND Drink Visualizer.
+        If the ingredients colors are not ready, hold up and render nothing.
+        
+        HERE is where we may consider swapping the Neighborhood Context for a USE REF. That way when we change it we don't
+        automatically rerender. But we MAY want to rerender IF we have a dynamic component. Maybe this can be done on the interior!
+        
+        FOR NOW I'm taking that formula prop out. Now we should NOT rerender the COOK component on changing the neighborhoodState :D
+        
+        Currently EVERY time we see props below, you are calling in the GLOBAL STATE*/}
+
         {cooking && ingredientColors.length>0 ? (
-            <Cook props = {props} formula = {neighborState} colors = {ingredientColors} cook = {cooking} onSaveCooking = {handleSaveCooking}/>
+            <Cook props = {props} formula = {globalState} colors = {ingredientColors} cook = {cooking} onSaveCooking = {handleSaveCooking}/>
 
             ) : (
 
@@ -81,10 +102,12 @@ const Concoct = ({ props }) => {
                 <CardContent sx={{display: "flex", minHeight: "max-content"}}>
                   {/* INGREDIENT LIST */}
                   <Container maxWidth="xl">
+
+                    {/* Here is another component. It renders the ingredient LIST IF we are not cooking. */}
                       <IngredientList props={props} colors={ingredientColors} cookState = {cooking}/>
                   </Container>
 
-                  {/* BEAKER UI */}
+                  {/* BEAKER UI This renders the DRINK visualizer*/}
                   <Container sx={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-around"}}>
                       <DrinkVisualizer key = "cookingDrinks" props={props} colors={ingredientColors} cookState = {cooking}/>
                   </Container>
@@ -92,6 +115,10 @@ const Concoct = ({ props }) => {
 
               ) : (null) 
             )}
+
+            {/*This is just a card that contains the ubiquitous buttons that persist between renders. You click this button
+            to alternate between modifying (cook) and a static but SAVED new Global State. */}
+
           <CardContent>
             {/* ACTIONS UI */}
             <Container sx={{display: "flex", flexDirection: "column", alignItems: "space-between", justifyContent: "space-around"}}>

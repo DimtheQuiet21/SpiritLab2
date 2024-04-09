@@ -4,17 +4,20 @@ import NeighborContext from '../../../utils/neighborContext';
 
 import { Container, Box, Typography, TextField } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
+import GlobalContext from '../../../utils/globalContext';
 
 
+function IngredientBox ({props, element, index ,index2, colors, cookState, ingredientType }) {
 
-function IngredientBox (props) {
+    //console.log(props, "This is ingredienttype", ingredientType, "This is Element", element, "This is index", index, "This is index2", index2)
 
     const {neighborState, setNeighborState} = useContext(NeighborContext);
+    const {globalState, setGlobalState } = useContext(GlobalContext);
     const [localState,setlocalState] = useState(props); 
-    const [readytoCook, setReadytoCook] = useState(props.cookState)
+    const [readytoCook, setReadytoCook] = useState(cookState)
 
-    const [elementName, setElementName] = useState(props.element.name)
-    const [elementAmount, setElementAmount] = useState(props.element.amount)
+    const [elementName, setElementName] = useState(element.name)
+    const [elementAmount, setElementAmount] = useState(element.amount)
     // const [elementAmount, setElementAmount] = useState(handleAmount(props.element.amount))
     // const [elementUnit, setElementUnit] = useState(handleUnit(props.element.amount))
     const [ingredientElement, setIngredientElement] = useState({})
@@ -42,19 +45,21 @@ function IngredientBox (props) {
        
         //We have to set the nieghborhood on it's own sweet time to prevent lagging.
         function updateNeighborhoodName (newName) {
-            const arraytoChange = props.receipeVar.keys[props.index];
-            const indextoChange = props.index2;
-            const newStateObject = {...neighborState};
+            const arraytoChange = ingredientType;
+            const indextoChange = index2;
+            const newStateObject = {...globalState};
+            //console.log("This is Array Changing", arraytoChange, "This is Index Changing", indextoChange, "This is the NEW Object", newStateObject);
             const newArray = [...newStateObject[arraytoChange]];
             
             //This is to avoid the read only error. We completely overwrite the entire object rather than overwrite a single property of it.
             newArray[indextoChange] = { ...newArray[indextoChange], name: newName };
             newStateObject[arraytoChange] = newArray
-    
-            setNeighborState(newStateObject)
+            return newStateObject
         }
         const newName = event.target.value;
-        updateNeighborhoodName(newName)
+        const updatedObject = updateNeighborhoodName(newName)
+        setGlobalState(updatedObject)
+        console.log(globalState)
         setElementName(event.target.value);
     }
 
@@ -62,15 +67,15 @@ function IngredientBox (props) {
 
         //We have to set the nieghborhood on it's own sweet time to prevent lagging.
         function updateNeighborhoodAmount (newAmount) {
-            const arraytoChange = props.receipeVar.keys[props.index];
-            const indextoChange = props.index2;
-            const newStateObject = {...neighborState};
+            const arraytoChange = ingredientType;
+            const indextoChange = index2;
+            const newStateObject = {...globalState};
             const newArray = [...newStateObject[arraytoChange]];
             //This is to avoid the read only error. We completely overwrite the entire object rather than overwrite a single property of it.
             newArray[indextoChange] = { ...newArray[indextoChange], amount: newAmount };
             newStateObject[arraytoChange] = newArray
     
-            setNeighborState(newStateObject)
+            setGlobalState(newStateObject)
         }
 
         const newAmount = event.target.value;
@@ -78,16 +83,12 @@ function IngredientBox (props) {
         setElementAmount(event.target.value);
     }
 
-    // function handleUnitFieldChange (event) {
-    //     setElementUnit(event.target.value);
-    // }
+    useEffect (() => {
+        setlocalState(globalState)
+    }, [globalState])
 
     useEffect (() => {
-        setlocalState(neighborState)
-    }, [neighborState])
-
-    useEffect (() => {
-        console.log("This is your Ingredient", elementName)
+        //console.log("This is your Ingredient", elementName)
 
         const ingredient = () => {
             return (
@@ -95,7 +96,7 @@ function IngredientBox (props) {
                 Object.keys(localState).length > 0 ? (
                     <Container
                     //Sets the key to be something like alcohol-1
-                    key={`${props.receipeVar.keys[props.index]}-${props.index2}`}
+                    key={`${ingredientType[index]}-${index2}`}
                     
                     maxWidth="lg"
                     sx={{
@@ -109,7 +110,7 @@ function IngredientBox (props) {
                     }}
                     >
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <CircleIcon sx={{ mr: '4px', color: props.colors[props.index2] }} />
+                            <CircleIcon sx={{ mr: '4px', color: colors[index2] }} />
                             
                         {readytoCook ? 
                         (
@@ -120,8 +121,8 @@ function IngredientBox (props) {
                             </>             
                         ) : (
                             <Box>
-                                <Typography variant="h7">{props.element.name}</Typography>
-                                <Typography color='accent'>{props.element.amount}</Typography>
+                                <Typography variant="h7">{element.name}</Typography>
+                                <Typography color='accent'>{element.amount}</Typography>
                             </Box>
                             )}
                         </Box>
