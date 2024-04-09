@@ -14,9 +14,7 @@ function Search() {
     const [searchTerm, setTerm] = useState("");
     const [formulas, setFormulas] = useState([]);
     const [chosenFormula, setChosenFormula] = useState({});
-
     const { loading, data, error } = useQuery (GET_ALL_FORMULAS);
-
     const { globalState, setGlobalState } = useContext(GlobalContext);
 
     useEffect(() => {
@@ -141,13 +139,11 @@ function Search() {
         }
         return () => setFormulas([]) //cleansup after unmounting the component
 
-
-
-
-
-
-
     },[searchTerm])
+
+    useEffect(() => {
+        console.log(chosenFormula);
+    },[chosenFormula])
 
     function handleSetChoice (choice) {
         if (searchToggle) {
@@ -163,10 +159,7 @@ function Search() {
             }
         }
     
-    useEffect(() => {
-        console.log(chosenFormula);
-    },[chosenFormula])
-
+    
 
     return (
         <div>
