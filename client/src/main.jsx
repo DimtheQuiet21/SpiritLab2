@@ -11,6 +11,9 @@ import TheLab from './pages/TheLab';
 import Profile from './pages/Profile.jsx';
 import Search from './pages/Search.jsx';
 
+//Temporary for Development
+import DrinkRenderer from './components/drinkRenderer/DrinkRenderer.jsx';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -32,7 +35,12 @@ const router = createBrowserRouter([
       {
         path: '/lab',
         element: <TheLab />
-      },  
+      },
+      //Temporary for Development
+      {
+        path: '/drinkrenderer',
+        element: <DrinkRenderer />
+      },
     ],
   },
 ]);
