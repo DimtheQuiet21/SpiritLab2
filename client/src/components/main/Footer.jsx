@@ -8,6 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import ScienceIcon from '@mui/icons-material/Science';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import Paper from '@mui/material/Paper';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { Link as RouterLink, MemoryRouter } from 'react-router-dom';
 
 function Footer() {
@@ -31,6 +32,8 @@ function Footer() {
             case '/me':
                 setActive(3)
                 break;
+            case '/explore':
+                setActive(4)
             default:
                 break;
         }
@@ -52,6 +55,7 @@ function Footer() {
                     <BottomNavigationAction component={RouterLink} to="/lab" label="The Lab" icon={<BiotechIcon />} />
                     <BottomNavigationAction component={RouterLink} to="/search" label="Search" icon={<SearchIcon />} />
                     <BottomNavigationAction component={RouterLink} to="/me" label="Profile" icon={<PersonIcon />} />
+                    <BottomNavigationAction component={RouterLink} to="/explore" label="Explore" icon={<TravelExploreIcon />} />
 
                 </BottomNavigation>
             </Paper>

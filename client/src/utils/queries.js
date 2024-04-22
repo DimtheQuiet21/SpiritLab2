@@ -85,6 +85,15 @@ export const RANDOM_COCKTAIL_QUERY = gql`
     }
   }
 `;
+export const GET_ALL_DRINKS = gql`
+  query GetAllDrinks {
+    allDrinks {
+      name
+      ingredients
+      image
+    }
+  }
+`;
 export const DRINK_OF_DAY_QUERY = gql`
   query GetDayCocktail {
     drinkOfDay {

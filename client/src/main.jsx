@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import TheLab from './pages/TheLab';
 import Profile from './pages/Profile.jsx';
 import Search from './pages/Search.jsx';
+import Explore from './pages/Explore.jsx';
 
 //Temporary for Development
 import DrinkRenderer from './components/drinkRenderer/DrinkRenderer.jsx';
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
         path: '/drinkrenderer',
         element: <DrinkRenderer />
       },
+      {
+        path: '/explore',
+        element: <Explore />
+      },  
     ],
   },
 ]);

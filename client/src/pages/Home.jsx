@@ -1,8 +1,8 @@
 import Grid from '@mui/material/Grid';
-import Welcome from "../components/home/Welcome";
-import PopularDrink from "../components/home/PopularDrink";
-import DrinkOfDay from "../components/home/DrinkOfDay";
-import RandomGen from '../components/home/RandomGen';
+import Welcome from "../components/Home/Welcome";
+import PopularDrink from "../components/Home/PopularDrink";
+import DrinkOfDay from "../components/Home/DrinkOfDay";
+// import RandomGen from '../components/home/RandomGen';
 import { Container } from '@mui/material';
 
 function Home() {
@@ -18,9 +18,9 @@ function Home() {
                 <Grid item xs={12} md={6}>
                     <PopularDrink />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                {/* <Grid item xs={12} md={6}>
                     <RandomGen />
-                </Grid>
+                </Grid> */}
             </Grid>
         </Container>
 

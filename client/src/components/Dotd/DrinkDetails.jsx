@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Container } from "@mui/material";
 import Auth from "../../utils/auth";
-import AddToFavoritesButton from "../addFavorites/AddToFavoritesButton";
+import AddToFavoritesButton from "../AddFavorites/AddToFavoritesButton";
 import IngredientList from "./IngredientList";
 
 function DrinkDetails({ name, ingredients, image }) {

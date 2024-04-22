@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { DRINK_OF_DAY_QUERY } from "../../utils/queries";
 import { Box, Typography } from "@mui/material";
-import DrinkDetails from "../dayDrink/DrinkDetails";
+import DrinkDetails from "../Dotd/DrinkDetails";
 import Card from '@mui/material/Card';
 
 function DrinkOfDay() {
