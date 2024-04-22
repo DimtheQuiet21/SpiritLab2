@@ -52,6 +52,12 @@ type PopularDrink {
     ingredients: [String]!
 }
 
+type Drink {
+    name: String
+    ingredients: [String]
+    image: String
+  }
+
 type User {
     _id: ID
     userName: String
@@ -78,6 +84,7 @@ type Query {
     user(userName: String!): User
     userFavorites(userId: ID!): [DrinkFavorite]
     allFavoriteDrinks: [PopularDrink]!
+    allDrinks: [Drink]
 
 }
 

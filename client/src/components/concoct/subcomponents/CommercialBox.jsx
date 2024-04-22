@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { Autocomplete, TextField, ToggleButton, Button, ToggleButtonGroup, ButtonGroup, CircularProgress, Card, CardActions, Container, CardContent, Typography, Box } from '@mui/material';
 import { useState, useEffect, useContext } from 'react';
 
-import GlobalContext from '../../../utils/globalContext';
+import GlobalContext from '../../../utils/globalContext.js';
 import { GET_INVENTORY } from '../../../utils/queries.js';
 import CommercialCards from './CommercialCards.jsx';
 

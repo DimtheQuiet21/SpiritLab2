@@ -83,6 +83,19 @@ const resolvers = {
     inventory: async () => {
       return Inventory.find({});
     },
+    allDrinks: async () => {
+      try {
+        const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+        const data = await response.json();
+        return data.drinks.map(drink => ({
+          name: drink.strDrink,
+          ingredients: [drink.strIngredient1, drink.strIngredient2, drink.strIngredient3, drink.strIngredient4, drink.strIngredient5, drink.strIngredient6 ].filter(Boolean),
+          image: drink.strDrinkThumb
+        }));
+      } catch (error) {
+        throw new Error('Failed to fetch all drinks');
+      }
+    },
 
     formulas: async () => {
       return Formulas.find({});
