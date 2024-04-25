@@ -11,7 +11,7 @@ function IngredientBox ({props, element, index ,index2, colors, cookState, ingre
 
     //console.log(props, "This is ingredienttype", ingredientType, "This is Element", element, "This is index", index, "This is index2", index2)
 
-    const {neighborState, setNeighborState} = useContext(NeighborContext);
+    // const {neighborState, setNeighborState} = useContext(NeighborContext);
     const {globalState, setGlobalState } = useContext(GlobalContext);
     const [localState,setlocalState] = useState(props); 
     const [readytoCook, setReadytoCook] = useState(cookState)
@@ -134,7 +134,7 @@ function IngredientBox ({props, element, index ,index2, colors, cookState, ingre
         }
         setIngredientElement(ingredient)
 
-    },[ elementName, elementAmount])
+    },[ elementName, elementAmount, globalState])
 
 
     return (
