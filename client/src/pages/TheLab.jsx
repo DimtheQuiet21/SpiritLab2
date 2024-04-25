@@ -1,4 +1,6 @@
 import Concoct from '../components/concoct/concoct';
+import ConcoctV3 from '../components/concoctv3/ConcoctV3';
+
 import GlobalContext from '../utils/globalContext';
 import LocalContext from '../utils/neighborContext';
 import { useContext } from 'react'
@@ -28,7 +30,7 @@ function TheLab() {
       <NeighborProvider>
         {/* We have to make sure that the Global Context is Not an Empty Object before trying to render the Lab
         We pass in the GLOBAL STATE as the prop to Concoct. Change Global, you rerender*/}
-        {Object.entries(globalState).length !== 0 ? (<Concoct props={globalState}/>):(<CircularProgress/>)}
+        {Object.entries(globalState).length !== 0 ? (<ConcoctV3 props={globalState}/>):(<CircularProgress/>)}
       </NeighborProvider>
     )
   }
