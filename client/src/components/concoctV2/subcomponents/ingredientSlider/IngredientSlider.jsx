@@ -9,49 +9,53 @@ import {
 import ReactSlider from "react-slider";
 import './ingredientSlider.css';
 
-const IngredientSlider = ( { ingredient, amount, handleSliderValues } ) => {
+const IngredientSlider = ( { sliderIndex, drinkData, setDrinkData } ) => {
 
     const [sliderValue, setSliderValue] = useState(0);
     const [quantity, setQuantity] = useState('');
     const [unitOfMeasure, setUnitOfMeasure] = useState('');
-    const [alternateMeasure, setAlternateMeasure] = useState('');
+    const [altUnit, setAltUnit] = useState('');
 
-    //Gets initial values from amount prop and sets state
+    // Sets initial states
     useEffect(() => {
-
-        const newUnit = amount.match(/[a-zA-Z]+/);
-        const newQty = Number(amount.match(/[0-9_.-]+/));
-
-        // Set unitOfMeasure + sliderValue
-        if (newUnit == 'oz') {
-            setUnitOfMeasure('oz');
-            setSliderValue(newQty*2)
-        } else if (newUnit == 'ml') {
-            setUnitOfMeasure('ml');
-            setSliderValue((newQty/30)*2)
-        } else if (newUnit == null) {
-            setUnitOfMeasure('');
-            setSliderValue(newQty);
+        if (!drinkData) {
+            return;
         } else {
-            setUnitOfMeasure('');
-            setAlternateMeasure(newUnit);
+            const newValue = drinkData[sliderIndex].sliderValue;
+            const newUnit = drinkData[sliderIndex].unit;
+            const newAltUnit = drinkData[sliderIndex].altUnit;
+    
+            setSliderValue(newValue);
+            setUnitOfMeasure(newUnit);
+            setAltUnit(newAltUnit);
+    
+            handleQuantity(sliderValue);
         }
+    }, [])
 
-        if (newQty == 0) {
-            setSliderValue(1)
-        }
-
-      }, [amount]);
-
-    //Updates quantity displays on slider/unit updates
+    //Updates quanitity displays and parent state on slider change
     useEffect(() => {
         handleQuantity(sliderValue);
+        updateParent(sliderValue);
     }, [sliderValue, unitOfMeasure])
 
+    //Updates parent state with current slider values & unit
+    const updateParent = () => {
+        const updatedArr = [...drinkData];
+        updatedArr[sliderIndex].sliderValue = sliderValue;
+        updatedArr[sliderIndex].unit = unitOfMeasure;
+        if (quantity != 0) {
+            updatedArr[sliderIndex].value = quantity;
+        }
+        setDrinkData(updatedArr);
+    };
+
+    //Updates selected measurement unit
     const handleUnitChange = (event) => {
         setUnitOfMeasure(event.target.value);
     };
 
+    //Updates quantity display based on unit
     const handleQuantity = (value) => {
         if (unitOfMeasure == 'oz') {
             setQuantity(value*0.5);
@@ -62,7 +66,7 @@ const IngredientSlider = ( { ingredient, amount, handleSliderValues } ) => {
         } else {
             setQuantity(value);
         }
-    }
+    };
 
     return (
     <>
@@ -83,7 +87,6 @@ const IngredientSlider = ( { ingredient, amount, handleSliderValues } ) => {
             onChange={(value) => {
                 setSliderValue(value);
                 handleQuantity(value);
-                handleSliderValues(value);
             }}
             />
         </Box>
@@ -105,7 +108,7 @@ const IngredientSlider = ( { ingredient, amount, handleSliderValues } ) => {
             </Box>
         ):(
             <Box className='unitBox'>
-                <Typography>{alternateMeasure}</Typography>
+                <Typography>{altUnit}</Typography>
             </Box> 
         )}
     </Box>

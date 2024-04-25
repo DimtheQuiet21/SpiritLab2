@@ -14,6 +14,7 @@ import Explore from './pages/Explore.jsx';
 
 //Temporary for Development
 import DrinkRenderer from './components/drinkRenderer/DrinkRenderer.jsx';
+import ConcoctV2 from './components/concoctV2/ConcoctV2.jsx';
 
 const router = createBrowserRouter([
   {
@@ -37,15 +38,19 @@ const router = createBrowserRouter([
         path: '/lab',
         element: <TheLab />
       },
-      //Temporary for Development
-      {
-        path: '/drinkrenderer',
-        element: <DrinkRenderer />
-      },
       {
         path: '/explore',
         element: <Explore />
       },  
+      //Temporary for Development
+      {
+        path: '/concoctV2',
+        element: <ConcoctV2 />
+      },
+      {
+        path: '/concoctV2',
+        element: <ConcoctV2 />
+      },
     ],
   },
 ]);

@@ -7,14 +7,22 @@ import {
 
 import './drinkSVG.css';
 
-const DrinkSVG = ({ ingredients }) => {
+const DrinkSVG = ({ formula, sliders }) => {
 
     console.log();
 
     return (
         <>
             <Box className="svgCard">
-                <Typography>This is a picture of a drink :)</Typography>
+                {formula.alcohol.map((ingredient, index) => (
+                    <Typography key={index}>{ingredient.name}: {ingredient.amount}</Typography>
+                ))}
+                {formula.liquid.map((ingredient, index) => (
+                    <Typography key={index}>{ingredient.name}: {ingredient.amount}</Typography>
+                ))}
+                {formula.garnish.map((ingredient, index) => (
+                    <Typography key={index}>{ingredient.name}: {ingredient.amount}</Typography>
+                ))}
             </Box>
         </>
     )
