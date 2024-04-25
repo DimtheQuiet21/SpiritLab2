@@ -10,8 +10,6 @@ import {
     Typography
 } from "@mui/material";
 
-import GlobalContext from "../../utils/globalContext";
-
 import IngredientSlider from "./subcomponents/ingredientSlider/IngredientSlider";
 import DrinkSVG from "./subcomponents/drinkSvg/DrinkSVG";
 
@@ -21,8 +19,12 @@ const DrinkRenderer = () => {
 
     const [assembledFormula, setAssembledFormula] = useState([])
 
-    //Access global state and store it in a state
-    const { globalState, setGlobalState } = useContext(GlobalContext);
+    const [sliderValues, setSliderValues] = useState([])
+
+    const handleSliderValues = (data) => {
+        setSliderValues([data]);
+        console.log(sliderValues);
+    }
 
     //Build assembled ingredient list on load
     useEffect(() => {
@@ -85,12 +87,12 @@ const DrinkRenderer = () => {
             {/* Rendered Drink */}
             {assembledFormula.map((ingredient, index) => {
                 return (
-                    <Box key={`${index}-${ingredient.name}`}>
+                    <Box key={index}>
                         <Box className="ingredientTitle">
                             <Typography>{`${ingredient.name[0].toUpperCase() + ingredient.name.slice(1)}`}</Typography>
                         </Box>
                         <Box className="ingredientContainer">
-                            <IngredientSlider ingredient={ingredient.name} amount={ingredient.amount}/>
+                            <IngredientSlider sliderChange={handleSliderValues} ingredient={ingredient.name} amount={ingredient.amount}/>
                         </Box>
                     </Box>
                     
@@ -101,7 +103,7 @@ const DrinkRenderer = () => {
 
             {/* Drink SVG */}
             <Box>
-                <DrinkSVG ingredients={assembledFormula} />
+                <DrinkSVG formula={formulaData} sliderValues={sliderValues} />
             </Box>
         </>
     );
