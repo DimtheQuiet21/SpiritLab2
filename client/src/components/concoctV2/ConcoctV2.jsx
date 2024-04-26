@@ -1,28 +1,23 @@
 import {
     useState,
-    useContext,
     useEffect
 } from "react";
 
 import {
     Box,
-    ButtonGroup,
-    Button,
     Divider,
+    IconButton,
     Typography
 } from "@mui/material";
+
+import AddIcon from '@mui/icons-material/Add';
 
 import IngredientSlider from "./subcomponents/ingredientSlider/IngredientSlider";
 import DrinkSVG from "./subcomponents/drinkSvg/DrinkSVG";
 
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import './drinkRenderer.css';
+import './concoct.css';
 
 const ConcoctV2 = () => {
-
-    const [ingredients, setIngredients] = useState([]);
 
     //Gets updated by Ingredient Slider children
     const [drinkData, setDrinkData] = useState([]);
@@ -88,7 +83,7 @@ const ConcoctV2 = () => {
         formulaData.garnish.forEach(e => {
             assembled.push(e);
         });
-        setIngredients(assembled);
+
         buildDrinkData(assembled);
     };
 
@@ -144,30 +139,26 @@ const ConcoctV2 = () => {
     return (
         <>
             {/* Rendered Drink */}
-            {ingredients.map((ingredient, index) => {
+            {drinkData.map((ingredient, index) => {
                 return (
-                    <Box key={index}>
-                        <Box className="ingredientHeader">
-                            <Box className="ingredientTitle">
-                                <Typography>{`${ingredient.name[0].toUpperCase() + ingredient.name.slice(1)}`}</Typography>
-                            </Box>
-                            <ButtonGroup variant="contained" className="titleButtons">
-                                <Button><EditIcon fontSize="small" /></Button>
-                                <Button><DeleteIcon fontSize="small" /></Button>
-                            </ButtonGroup>
-                        </Box>
-                        
-                        
-                        <Box className="ingredientContainer">
-                            <IngredientSlider
-                            sliderIndex={index}
-                            drinkData={drinkData}
-                            setDrinkData={setDrinkData}
-                             />
-                        </Box>
+                    <Box key={index} className="ingredientContainer">
+                        <IngredientSlider
+                        sliderIndex={index}
+                        drinkData={drinkData}
+                        setDrinkData={setDrinkData}
+                            />
                     </Box>
                 )
             })}
+
+            <IconButton
+                onClick={null}
+                sx={{
+                    backgroundColor: 'var(--main-color-darker)'
+                }}
+            >
+                <AddIcon />
+            </IconButton>
 
             <Divider color='text.secondary' sx={{mt: '12pt'}}>RESULTS</Divider>
 

@@ -61,13 +61,12 @@
 
 .sliderCard {
     padding: 2pt 4pt 2pt 4pt;
-    margin: 0px 2px 0px 2px;
     display: flex;
     justify-content: left;
     align-items: center;
-    width: fit-content;
-    background: var(--main-grey);
-    border-radius: 0px 5px 5px 5px;
+    width: 100%;
+    background: var(--main-grey-light);
+    border-radius: 0px 0px 5px 5px;
 }
 
 .sliderContainer {

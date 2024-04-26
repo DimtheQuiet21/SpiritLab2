@@ -6,7 +6,10 @@ import {
     FormControl,
     Select
 } from "@mui/material";
+
 import ReactSlider from "react-slider";
+import IngredientHeader from "./subcomponents/IngredientHeader";
+
 import './ingredientSlider.css';
 
 const IngredientSlider = ( { sliderIndex, drinkData, setDrinkData } ) => {
@@ -70,48 +73,47 @@ const IngredientSlider = ( { sliderIndex, drinkData, setDrinkData } ) => {
 
     return (
     <>
-    <Box className="sliderCard">
-        <Box>
-        </Box>
-        <Box className="sliderContainer">
-            <ReactSlider
-            className="customSlider"
-            thumbClassName="customSliderThumb"
-            trackClassName="customSliderTrack"
-            // markClassName="customSliderMark"
-            marks={1}
-            min={0}
-            max={24}
-            defaultValue={0}
-            value={sliderValue}
-            onChange={(value) => {
-                setSliderValue(value);
-                handleQuantity(value);
-            }}
-            />
-        </Box>
-
-        <Box className="valueContainer">
-            <Typography className="sliderValue">{quantity}</Typography>
-        </Box>
-        {!unitOfMeasure == '' ? (
-            <Box className='unitBox'>
-                <FormControl size="small">
-                <Select
-                    value={unitOfMeasure}
-                    onChange={handleUnitChange}
-                >
-                    <MenuItem value={'oz'}>oz</MenuItem>
-                    <MenuItem value={'ml'}>ml</MenuItem>
-                </Select>
-                </FormControl>
+        <IngredientHeader drinkData={drinkData} setDrinkData={setDrinkData} sliderIndex={sliderIndex} />
+        <Box className="sliderCard">
+            <Box className="sliderContainer">
+                <ReactSlider
+                className="customSlider"
+                thumbClassName="customSliderThumb"
+                trackClassName="customSliderTrack"
+                // markClassName="customSliderMark"
+                marks={1}
+                min={0}
+                max={24}
+                defaultValue={0}
+                value={sliderValue}
+                onChange={(value) => {
+                    setSliderValue(value);
+                    handleQuantity(value);
+                }}
+                />
             </Box>
-        ):(
-            <Box className='unitBox'>
-                <Typography>{altUnit}</Typography>
-            </Box> 
-        )}
-    </Box>
+
+            <Box className="valueContainer">
+                <Typography className="sliderValue">{quantity}</Typography>
+            </Box>
+            {!unitOfMeasure == '' ? (
+                <Box className='unitBox'>
+                    <FormControl size="small">
+                    <Select
+                        value={unitOfMeasure}
+                        onChange={handleUnitChange}
+                    >
+                        <MenuItem value={'oz'}>oz</MenuItem>
+                        <MenuItem value={'ml'}>ml</MenuItem>
+                    </Select>
+                    </FormControl>
+                </Box>
+            ):(
+                <Box className='unitBox'>
+                    <Typography>{altUnit}</Typography>
+                </Box> 
+            )}
+        </Box>
     </>
 
     );
