@@ -32,8 +32,8 @@ function Footer() {
             case '/me':
                 setActive(3)
                 break;
-            case '/explore':
-                setActive(4)
+            // case '/explore':
+            //     setActive(4)
             default:
                 break;
         }
@@ -55,7 +55,7 @@ function Footer() {
                     <BottomNavigationAction component={RouterLink} to="/lab" label="The Lab" icon={<BiotechIcon />} />
                     <BottomNavigationAction component={RouterLink} to="/search" label="Search" icon={<SearchIcon />} />
                     <BottomNavigationAction component={RouterLink} to="/me" label="Profile" icon={<PersonIcon />} />
-                    <BottomNavigationAction component={RouterLink} to="/explore" label="Explore" icon={<TravelExploreIcon />} />
+                    {/* <BottomNavigationAction component={RouterLink} to="/explore" label="Explore" icon={<TravelExploreIcon />} /> */}
 
                 </BottomNavigation>
             </Paper>

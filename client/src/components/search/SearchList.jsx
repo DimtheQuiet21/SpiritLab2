@@ -1,48 +1,90 @@
 import React, { useState } from "react";
-import { Box, Typography, Paper, CircularProgress, Modal } from "@mui/material";
-import { useQuery } from "@apollo/client";
-import { GET_ALL_FORMULAS } from '../../utils/queries';
+import { Box, Typography, Paper } from "@mui/material";
 import SearchListModal from "./SearchListModal";
-
-// This page displays the list of all the formulas in the box
 
 const liquorEmojis = ["🍸", "🍹", "🥃", "🍺", "🍶", "🍾", "🍷", "🥂"];
 const getRandomEmoji = () => {
   return liquorEmojis[Math.floor(Math.random() * liquorEmojis.length)];
 };
 
-const SearchList = () => {
-  const { loading, error, data } = useQuery(GET_ALL_FORMULAS);
-  const [selectedDrink, setSelectedDrink] = useState(null);
+function SearchList({ data, searchTerm, setGlobalState }) {
+  const [selectedFormula, setSelectedFormula] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const formulas = data ? data.formulas : [];
 
-  const handleOpenModal = (drink) => {
-    setSelectedDrink(drink);
+  const filteredFormulas = formulas.filter((formula) => {
+    const name = formula.name.toLowerCase();
+
+    // This ensures that if the search term is an array to join it into a string to avoid the error of .includes() and .toLowerCase() not being a function.
+    const term = Array.isArray(searchTerm)
+      ? searchTerm.join(" ").toLowerCase()
+      : searchTerm.toLowerCase();
+    return name.includes(term);
+  });
+
+  // This function will open the modal and set the selected formula
+  const handleOpenModal = (formula) => {
+    setSelectedFormula(formula);
     setOpenModal(true);
-  }
-
-  if (loading) return <CircularProgress />;
-  if (error) return <Typography variant="body1" style={{ color: 'red' }}>Error: {error.message}</Typography>;
+  };
 
   return (
-    <Paper style={{ maxHeight: 'calc(100vh - 300px)', overflow: 'auto', padding: '16px', border: '1px solid #ccc', marginTop:'10px', marginBottom: '20px' }}>
-      <Box style={{ height: '100%', overflowY: 'auto', textAlign: 'center', marginBottom: '0px' }}>
-        {data?.formulas.map((drink, index) => (
-          <Typography key={index} variant="body1" style={{ cursor: 'pointer', fontSize:'22px' }} onClick={() => handleOpenModal(drink)}>
-            {`${drink.name} ${getRandomEmoji()}`}
+    <Paper
+      style={{
+        maxHeight: "calc(100vh - 250px)",
+        overflow: "auto",
+        padding: "16px",
+        border: "1px solid #ccc",
+        marginTop: "15px",
+        marginBottom: "20px",
+      }}
+    >
+      <Box
+        style={{
+          height: "100%",
+          overflowY: "auto",
+          textAlign: "center",
+          marginBottom: "0px",
+        }}
+      >
+        {/* This will dynamically update the list for the formulas as the user inputs keys */}
+        {filteredFormulas.length === 0 && !searchTerm ? (
+          <Typography variant="body1" onClick={() => handleOpenModal(data)}>
+            Start typing to search.
           </Typography>
-        ))}
+        ) : filteredFormulas.length === 0 ? (
+          <Typography variant="body1">No results found.</Typography>
+        ) : (
+          <div>
+            {filteredFormulas.map((formula, index) => (
+              <Typography
+                key={index}
+                variant="body1"
+                style={{ cursor: "pointer", fontSize: "22px" }}
+                onClick={() => handleOpenModal(formula)}
+              >
+                {formula.name} {getRandomEmoji()}
+              </Typography>
+            ))}
+          </div>
+        )}
       </Box>
-      {selectedDrink && (
+
+      {/* Once a formula is clicked the modal will be triggered to open */}
+      {selectedFormula && (
         <SearchListModal
-          open={openModal} 
-          onClose={() => setOpenModal(false)}
-          drink={selectedDrink}
-          onConcoct={() => handleSetChoice(selectedDrink.name)} // This was supposed to be how we can access a forumla if in the modal---- need to fix
-        />
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        data={selectedFormula}
+        onConcoct={(formula) => {
+          setSelectedFormula(null);
+          setOpenModal(false);
+          setGlobalState(formula);
+        }}
+      />
       )}
     </Paper>
   );
-};
+}
 
 export default SearchList;

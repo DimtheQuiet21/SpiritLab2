@@ -1,6 +1,6 @@
 import React from 'react';
+
 import { Modal, Typography, Box, List, ListItem, ListItemText, Button } from '@mui/material';
-import { Link } from "react-router-dom";
 
 
 const style = {
@@ -16,36 +16,40 @@ const style = {
   textAlign: 'center'
 };
 
-const SearchListModal = ({ open, onClose, drink, onConcoct }) => {
+function SearchListModal({ open, onClose, data, onConcoct }) {
+  const handleViewMore = () => {
+    onConcoct(data); // This will update the global state with the selected formula
+    onClose(); 
+    const url = `/lab/?search=${data.name}`; // the URL will redirect to the lab page with the selected formula
+    window.location.href = url;
+  };
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-        <Typography variant="h6">{drink.name}</Typography>
-        <img src={`/assets/icons/${drink.icon}`} alt={drink.name} style={{ width: 100, height: 100 }} />
+        <Typography variant="h6">{data.name}</Typography>
+        <img src={`/assets/icons/${data.icon}`} alt={data.name} style={{ width: 100, height: 100 }} />
         <List>
           Ingredients
-          {drink.alcohol.slice(0,1).map((alc, index) => (
+          {data.alcohol.slice(0,1).map((alc, index) => (
             <ListItem key={index} style={{textAlign: 'center'}}>
               <ListItemText primary={`${alc.name} - ${alc.amount}`} />
             </ListItem>
           ))}
-          {drink.liquid.slice(0,2).map((liq, index) => (
+          {data.liquid.slice(0,2).map((liq, index) => (
             <ListItem key={index} style={{textAlign: 'center'}}>
               <ListItemText primary={`${liq.name} - ${liq.amount}`} />
             </ListItem>
           ))}
-          {drink.garnish.slice(0,2).map((garn, index) => (
+          {data.garnish.slice(0,2).map((garn, index) => (
             <ListItem key={index} style={{textAlign: 'center'}}>
               <ListItemText primary={`${garn.name} - ${garn.amount}`} />
             </ListItem>
           ))}
         </List>
-        {/* this button needs to be fix -- intended goal was to have button take user over to lab with matching drink. Currently it does not do that exactly */}
-        <Button
+       <Button
           variant="contained"
-          component={Link}
-          to="/lab/"
-          onClick={() => onConcoct()} 
+          onClick={handleViewMore}
         >
           View More
         </Button>

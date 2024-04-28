@@ -38,10 +38,10 @@ const router = createBrowserRouter([
         path: '/lab',
         element: <TheLab />
       },
-      {
-        path: '/explore',
-        element: <Explore />
-      },  
+      // {
+      //   path: '/explore',
+      //   element: <Explore />
+      // },  
       //Temporary for Development
       {
         path: '/concoctV2',

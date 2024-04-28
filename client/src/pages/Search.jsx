@@ -3,10 +3,7 @@ import { useQuery } from "@apollo/client";
 import {
   Autocomplete,
   TextField,
-  ToggleButton,
   Button,
-  ToggleButtonGroup,
-  ButtonGroup,
   CircularProgress,
   FormControlLabel,
   Switch,
@@ -15,10 +12,9 @@ import {
 } from "@mui/material";
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import SearchDrink from "../components/search/SearchDrink.jsx";
+// import SearchDrink from "../components/Search/SearchDrink.jsx";
 import GlobalContext from "../utils/globalContext";
-// import SearchBar from "../components/search/SearchBar.jsx";
-import SearchList from "../components/search/SearchList.jsx";
+import SearchList from "../components/Search/SearchList.jsx";
 
 function Search() {
   const [searchToggle, setToggle] = useState(true);
@@ -26,13 +22,9 @@ function Search() {
   const [searchOptions, setOptions] = useState([]);
   const [searchTerm, setTerm] = useState("");
   const [formulas, setFormulas] = useState([]);
-  const [chosenFormula, setChosenFormula] = useState({});
+  // const [chosenFormula, setChosenFormula] = useState({});
   const { loading, data, error } = useQuery(GET_ALL_FORMULAS);
   const { globalState, setGlobalState } = useContext(GlobalContext);
-
-  const handleSelectDrink = (drink) => {
-    setGlobalState(drink); // setting the global state to the selected drink
-  };
 
   useEffect(() => {
     if (!loading && data) {
@@ -69,9 +61,9 @@ function Search() {
   //But there will need to be additional options show based on what the
   useEffect(() => {
     if (searchLabel === "Formulas") {
-      setLabel("Ingredients");
+      setLabel("Search Formulas");
     } else {
-      setLabel("Formulas");
+      setLabel("Search Ingredients");
     }
   }, [searchOptions]);
 
@@ -117,8 +109,8 @@ function Search() {
       });
 
       validFormulaArray.forEach((formula) => {
-        console.log(formula);
-        console.log(formula.icon);
+        // console.log(formula);
+        // console.log(formula.icon);
         icons[formula.name] = formula.icon;
       });
 
@@ -132,10 +124,10 @@ function Search() {
       }));
 
       uniqueFormulaObjects.sort(compareCount);
-      console.log(validFormulaArray);
-      console.log(uniqueFormulaNames);
-      console.log(counts);
-      console.log(uniqueFormulaObjects);
+      // console.log(validFormulaArray);
+      // console.log(uniqueFormulaNames);
+      // console.log(counts);
+      // console.log(uniqueFormulaObjects);
       const buttons = uniqueFormulaObjects.map((element, index) => {
         return (
           <div key={index}>
@@ -166,9 +158,9 @@ function Search() {
     return () => setFormulas([]); //cleansup after unmounting the component
   }, [searchTerm]);
 
-  useEffect(() => {
-    console.log(chosenFormula);
-  }, [chosenFormula]);
+  // useEffect(() => {
+  //   console.log(chosenFormula);
+  // }, [chosenFormula]);
 
   function handleSetChoice(choice) {
     if (searchToggle) {
@@ -197,12 +189,7 @@ function Search() {
           }
         />
 
-        {/* In original idea I was going to use this search bar instead of the autocomplete bar.... */}
-        {/* <SearchBar label={searchLabel}/> */}
       </Box>
-
-      {/* <SearchList onSelectDrink={handleSelectDrink}/> */}
-
       <Box display="flex" justifyContent="center">
         {loading ? (
           <CircularProgress />
@@ -210,26 +197,27 @@ function Search() {
           <div>
             {searchToggle ? (
               <div key="formulaAutocomplete">
-                <Autocomplete
-                  disablePortal
-                  id="combo-box"
-                  options={searchOptions}
-                  sx={{ width: "100%" }}
-                  onChange={(event, value) => setTerm(value)}
-                  renderInput={(params) => (
-                    <TextField {...params} label={searchLabel} />
-                  )}
+                <TextField
+                  sx={{ width: "330px" }}
+                  id="search"
+                  label={
+                    searchToggle ? "Search Formulas" : "Search Ingredients"
+                  }
+                  variant="outlined"
+                  onChange={(event) => setTerm(event.target.value)}
                 />
-                <SearchList onSelectDrink={handleSelectDrink} />
-                <Button
-                  variant="contained"
-                  component={Link}
-                  to="/lab/"
-                  onClick={() => handleSetChoice()}
-                >
+                <>
+                  <SearchList
+                    data={data}
+                    searchTerm={searchTerm}
+                    searchToggle={searchToggle}
+                    setGlobalState={setGlobalState} 
+                  />
+                </>
+                {/* We don't need this button anymore */}
+                {/* <Button variant="contained" component={Link} to="/lab/">
                   Concoct
-                </Button>
-                <SearchDrink cocktail={searchTerm} />
+                </Button> */}
               </div>
             ) : (
               <div key="ingredientsAutocomplete">

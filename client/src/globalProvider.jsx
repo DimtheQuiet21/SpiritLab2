@@ -15,10 +15,13 @@ const GlobalProvider = ({ children }) => {
     // Retrieve state from local storage on component mount
     const storedState = localStorage.getItem('globalState');
     if (storedState) {
-      // Parse stored state and update global state
-      setGlobalState(JSON.parse(storedState));
+      try {
+        // Parse stored state and update global state
+        setGlobalState(JSON.parse(storedState));
+      } catch (error) {
+        console.error('Error parsing stored state:', error);
+      }
     }
-    console.log(storedState)
   }, []);
 
   useEffect(() => {
