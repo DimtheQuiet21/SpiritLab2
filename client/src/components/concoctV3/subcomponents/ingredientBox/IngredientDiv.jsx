@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext} from 'react';
-import GlobalContext from '../../../../utils/globalContext';
+import { useState, useEffect, useContext, useMemo} from 'react';
 
+import { useGlobalContext } from "../../../../globalProvider.jsx";
 
 // import IngredientBox from './IngredientBox'
 // import IngredientList from './IngredientList';
@@ -25,9 +25,10 @@ const IngredientDiv = ({ingredients, type, index}) => {
 
     //console.log(props, ingredientMatrix, ingredientType)
     
-    const { globalState, setGlobalState} = useContext(GlobalContext);
     const [open, setOpen] = useState(false);
     const [drinkData, setDrinkData] = useState([]);
+    const [ingredientState, setIngredientState] = useState([])
+    const {updateIngredientCategory} = useGlobalContext()
 
     // function handleDelete ( element, index, index2, matrix) {
 
@@ -47,10 +48,13 @@ const IngredientDiv = ({ingredients, type, index}) => {
     
     //     // CHECK THE SLICE FUNCTION. DOES IT KILL EVERYTHING BEYOND THE POINT?
     // }
+
+    // console.log(ingredients, type, index, localState, localState[type])
+
     const buildDrinkData = (data) => {
 
+        console.log("Building Drink Data", data)
         const initSliderValues = [];
-
         data.forEach(ingredient => {
             const newUnit = ingredient.amount.match(/[a-zA-Z]+/);
             const newQty = Number(ingredient.amount.match(/[0-9_.-]+/));
@@ -95,62 +99,72 @@ const IngredientDiv = ({ingredients, type, index}) => {
         setDrinkData(initSliderValues);
     };
 
+    useEffect (() => {
+        if (ingredients.length !== 0) {
+            setIngredientState(ingredients)
+        }
+    }, [])
+
     useEffect(() => {
-        buildDrinkData(ingredients);
-    }, [globalState]);
+        if (ingredients.length !== 0) {
+            buildDrinkData(ingredients);
+        }
+    }, []);
 
     function handleAddition(matrix) {
-        setDrinkData([])
-        console.log(matrix)
-        const newStateObject = {...globalState};
-        console.log(newStateObject)
-        const newArray = [...newStateObject[matrix]];
+        
+        // const selectIngredients = ingredients[matrix]
+        // const newStateObject = {...localState};
+        const newArray = [...ingredientState];
         newArray.push(
             {
+                _typename: "Ingredient",
                 name:"ingredient",
                 amount:"0 oz",
-                technique:"",
-                _typename: "Ingredient"
+                technique:""
             });
-        newStateObject[matrix] = newArray;
-        console.log("Adding a New Row", newArray)
-        console.log("Adding a New Row", newStateObject)
-        setGlobalState(newStateObject)
-        // setlocalState(newStateObject)
+        // newStateObject[matrix] = newArray;
+        console.log("This is the New Array", newArray)
+        setIngredientState(newArray)
+        buildDrinkData(newArray)
+        updateIngredientCategory (newArray, matrix)
     }
 
-    console.log(drinkData)
-
-    const list = (
-        ingredients.map((ingredient, index) => {
-            return (
-                <Box key={index}>
-                    <Box className="ingredientHeader">
-                        <Box className="ingredientTitle">
-                            <Typography>{`${ingredient.name[0].toUpperCase() + ingredient.name.slice(1)}`}</Typography>
+    const listRender = useMemo(() => {
+        //console.log(drinkData)
+        console.log(drinkData.length, ingredientState.length);
+        if (drinkData.length === ingredientState.length){
+            return ingredientState.map((ingredient, index) => {
+                return (
+                    <Box key={index}>
+                        <Box className="ingredientHeader">
+                            <Box className="ingredientTitle">
+                                <Typography>{`${ingredient.name[0].toUpperCase() + ingredient.name.slice(1)}`}</Typography>
+                            </Box>
+                            <ButtonGroup variant="contained" className="titleButtons">
+                                <Button><EditIcon fontSize="small" /></Button>
+                                <Button><DeleteIcon fontSize="small" /></Button>
+                            </ButtonGroup>
                         </Box>
-                        <ButtonGroup variant="contained" className="titleButtons">
-                            <Button><EditIcon fontSize="small" /></Button>
-                            <Button><DeleteIcon fontSize="small" /></Button>
-                        </ButtonGroup>
+                        
+                        <Box className="ingredientContainer">
+                            <IngredientSlider
+                                sliderIndex={index}
+                                drinkData={drinkData}
+                                setDrinkData={setDrinkData}
+                            />
+                        </Box>
                     </Box>
-                    
-                    
-                    <Box className="ingredientContainer">
-                        <IngredientSlider
-                        sliderIndex={index}
-                        drinkData={drinkData}
-                        setDrinkData={setDrinkData}
-                         />
-                    </Box>
-                </Box>
-            )
-        })
-    )
+                );
+            });
+        } else {
+            return null
+        }
+    }, [ingredientState , drinkData]);
 
     const toggleCollapse = (newOpen) => {
         setOpen(newOpen);
-        console.log(newOpen)
+        //console.log(newOpen)
       };
 
     function icon () {
@@ -165,7 +179,7 @@ const IngredientDiv = ({ingredients, type, index}) => {
         <>
             <Button  onClick={() => toggleCollapse(!open)} endIcon={icon()} >{type}</Button>
             <Collapse in = {open} key = {type} index = {index}>
-                {Object.keys(drinkData).length > 0? (list) : (<></>)}
+                {drinkData.length === ingredientState.length ? listRender : (<></>)}
                 <Button size="small" onClick={() => handleAddition(type)} endIcon = {<AddIcon />}></Button>
             </Collapse>
         </> 

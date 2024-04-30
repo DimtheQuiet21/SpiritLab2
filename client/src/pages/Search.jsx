@@ -12,9 +12,10 @@ import {
 } from "@mui/material";
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-// import SearchDrink from "../components/Search/SearchDrink.jsx";
-import GlobalContext from "../utils/globalContext";
-import SearchList from "../components/Search/SearchList.jsx";
+// import SearchDrink from "../components/search/SearchDrink.jsx";
+import { useGlobalContext } from "../globalProvider.jsx";
+// import SearchBar from "../components/search/SearchBar.jsx";
+import SearchList from "../components/search/SearchList.jsx";
 
 function Search() {
   const [searchToggle, setToggle] = useState(true);
@@ -24,7 +25,7 @@ function Search() {
   const [formulas, setFormulas] = useState([]);
   // const [chosenFormula, setChosenFormula] = useState({});
   const { loading, data, error } = useQuery(GET_ALL_FORMULAS);
-  const { globalState, setGlobalState } = useContext(GlobalContext);
+  const { globalState, setGlobalState } = useGlobalContext();
 
   useEffect(() => {
     if (!loading && data) {
