@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import { useLocation, Outlet } from "react-router-dom";
 import Navbar from "./components/main/Navbar";
 import Footer from "./components/main/Footer";
-import GlobalProvider from "./globalProvider";
+import GlobalProvider from "./globalProvider.jsx";
 import { setContext } from "@apollo/client/link/context";
 
 import {

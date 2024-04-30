@@ -1,16 +1,24 @@
 import Concoct from '../components/concoct/concoct';
 import ConcoctV3 from '../components/concoctv3/ConcoctV3';
 
-import GlobalContext from '../utils/globalContext';
+import { useGlobalContext } from "../globalProvider.jsx";
 import LocalContext from '../utils/neighborContext';
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {CircularProgress} from '@mui/material'
 import NeighborProvider from './neighborProvider';
+import { gql } from '@apollo/client';
 
 function TheLab() {
 
-  const { globalState, setGlobalState } = useContext(GlobalContext);
-  console.log(globalState);
+  const { globalState, setGlobalState } = useGlobalContext();
+  // const [labState, setLabState] = useState({})
+
+  // useEffect (() => {
+  //   setLabState(globalState)
+  //   console.log(Object.entries(labState).length);
+  // },[])
+
+  // console.log(Object.entries(labState));
 
   //We wrap the lab in a Neighborhood Provider. This Neighborhood Provider 
   //Acts like a secondary State. We can render and show the user stuff based 
@@ -30,7 +38,8 @@ function TheLab() {
       <NeighborProvider>
         {/* We have to make sure that the Global Context is Not an Empty Object before trying to render the Lab
         We pass in the GLOBAL STATE as the prop to Concoct. Change Global, you rerender*/}
-        {Object.entries(globalState).length !== 0 ? (<ConcoctV3 props={globalState}/>):(<CircularProgress/>)}
+        {Object.entries(globalState).length !== 0 ? (<ConcoctV3/>):(<CircularProgress/>)}
+        {/* <ConcoctV3/> */}
       </NeighborProvider>
     )
   }
