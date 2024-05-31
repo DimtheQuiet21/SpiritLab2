@@ -9,18 +9,37 @@ import './drinkSVG.css';
 
 const DrinkSVG = ({ drinkData }) => {
 
-    const [ingredientHeights, setIngredientHeights] = useState([]);
+    // const [ingredientHeights, setIngredientHeights] = useState([]);
+
+    const receipeVar = {
+        matrix:[drinkData.alcohol, drinkData.liquid, drinkData.garnish],
+        keys:["alcohol","liquid","garnish"]
+    }
 
     //Calculates height values for each ingredient
-    useEffect(() => {
-        let heights = []
-        drinkData.map((e) => {
-            const value = e.sliderValue;
-            const height = value * 10;
-            heights.push(height);
+    // useEffect(() => {
+    //     let heights = []
+    //     receipeVar.matrix.forEach((mat) => {
+    //         mat.map ((e) => {
+    //             const value = e.sliderValue;
+    //             const height = value * 10;
+    //             heights.push(height);
+    //         })
+    //     })
+    //     console.log("Setting Drink Heights", heights)
+    //     setIngredientHeights(heights);
+    // }, [drinkData]);
+
+
+    let ingredientHeights = []
+        receipeVar.matrix.forEach((mat) => {
+            mat.map ((e) => {
+                const value = e.sliderValue;
+                const height = value * 10;
+                ingredientHeights.push(height);
+            })
         })
-        setIngredientHeights(heights);
-    }, [drinkData]);
+    console.log("Setting Drink Heights", ingredientHeights)
 
     //Color Array
     const colors = [
@@ -44,7 +63,9 @@ const DrinkSVG = ({ drinkData }) => {
 
 
     // Maps SVG rectangles to get rendered inside beaker 
-    const rectangleMap = drinkData.map((ingredient, index) => {
+    
+
+    const rectangleMap = receipeVar.matrix.map((ingredient, index) => {
         return (
             <rect key={`rectangle-${index}`} x="10" y={ingredientY[index]} width="130" height={ingredientHeights[index]} fill={colors[index]} />
     )})
@@ -65,11 +86,17 @@ const DrinkSVG = ({ drinkData }) => {
 
                 }}>
                     <Box className="resultsBox">
-                        {drinkData.map((ingredient, index) => (
-                            <Typography key={index}>
-                                {ingredient.name}: {ingredient.value}{ingredient.unit}
-                            </Typography>
-                        ))}
+                        {receipeVar.matrix.map((mat, matIndex) => 
+                            <div key = {matIndex}>
+                                {mat.map((ingredient, index) => (
+                                    <Typography key={index}>
+                                        {ingredient.name}: {ingredient.value}{ingredient.unit}
+                                    </Typography>)
+                                    )
+                                }
+                            </div>
+                            )
+                        }
                     </Box>
 
                     <Box className="resultsBox">

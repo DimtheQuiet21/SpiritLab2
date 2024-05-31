@@ -34,19 +34,27 @@ const GlobalProvider = ({ children }) => {
   }, [globalState]);
 
   const updateIngredientCategory = (ingredients, type) => {
-    console.log(type)
-    console.log(`${type} Array Updated`, ingredients)
+    //console.log(type)
+    //console.log(`${type} Array Updated`, ingredients)
     const newObject = {...globalState}
+    //console.log(newObject)
     newObject[type] = ingredients
     setGlobalState(newObject)
   }
 
-  const updateIngredient = (ingredient,type,index) => {
-    const matrixList = {...globalState};
-    const ingredientList = {...matrixList[type]}
-    ingredientList[index] = ingredient;
-    matrixList[type] = ingredientList;
-    setGlobalState(matrixList)
+  const updateIngredient = (type,index, update) => {
+    //console.log(`${type}-${index} Updated to be ${update}`);
+
+    const newObject = {...globalState};
+    const ingredientList = [...newObject[type]]
+    ingredientList[index] = update;
+    newObject[type] = ingredientList;
+
+    // console.log("This is the new ingredient", updateIngredient)
+    // console.log("This is the New Ingedient List", ingredientList)
+    // console.log("This is the New Object", newObject)
+  
+    setGlobalState(newObject)
   }
 
   return (

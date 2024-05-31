@@ -29,7 +29,64 @@ const ConcoctV3 = () => {
     useEffect (()=>{
         if (Object.keys(localState).length < 1) {
             console.log("Setting Local State", globalState)
-            setLocalState(globalState)}
+
+            const assembleFormula = () => {
+                const formulaObject = {...globalState}
+                console.log(formulaObject)
+                formulaObject.alcohol.forEach(e => {
+                    buildDrinkData(e);
+                });
+                formulaObject.liquid.forEach(e => {
+                    buildDrinkData(e);
+                });
+                formulaObject.garnish.forEach(e => {
+                    buildDrinkData(e);
+                });
+                console.log(formulaObject)
+                setLocalState(formulaObject)
+            };
+
+            const buildDrinkData = (data) => {
+                console.log(data)
+                const newUnit = data.amount.match(/[a-zA-Z]+/);
+                const newQty = Number(data.amount.match(/[0-9_.-]+/));
+        
+                let sliderValue = 0;
+                let value = 0;
+                let unit = '';
+                let altUnit = '';
+                
+                // Set unitOfMeasure + sliderValue
+                if (newUnit == 'oz') {
+                    unit = 'oz';
+                    sliderValue = newQty*2;
+                    value = newQty;
+                } else if (newUnit == 'ml') {
+                    unit = 'ml';
+                    sliderValue = (newQty/30)*2;
+                    value = newQty;
+                } else if (newUnit == null) {
+                    unit = '';
+                    sliderValue = newQty;
+                    value = newQty;
+                } else {
+                    unit = ''
+                    altUnit = `${newUnit}`;
+                }
+        
+                if (newQty == 0) {
+                    sliderValue = 1;
+                    value = 1;
+                }
+        
+                data.sliderValue = sliderValue;
+                data.value =value;
+                data.unit = unit;
+                data.altUnit = altUnit;
+            };
+            
+            assembleFormula()
+            };
         }
     ,[])
 
@@ -45,7 +102,7 @@ const ConcoctV3 = () => {
                 return (
                     <>
                         {/* <IngredientDiv ingredients={ingredientMatrix} type={receipeVar.keys[index]} index = {index} localState = {localState} setLocalState = {setLocalState}/> */}
-                        <IngredientDiv ingredients={ingredientMatrix} type={receipeVar.keys[index]} index = {index}/>
+                        <IngredientDiv ingredients={ingredientMatrix} type={receipeVar.keys[index]} index = {index} />
                     </>
         
                 )
@@ -68,6 +125,8 @@ const ConcoctV3 = () => {
                 </CardContent>
                     {Object.keys(localState).length > 0 ? ingredientRender : <></>}
             </Card>
+            {Object.keys(localState).length > 0 ? <DrinkSVG drinkData={globalState}/>: <></>}
+            
         </>
     )
 }
