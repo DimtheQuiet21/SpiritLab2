@@ -8,13 +8,15 @@ import {
 } from "@mui/material";
 import ReactSlider from "react-slider";
 import './ingredientSlider.css';
+import { useGlobalContext } from "../../../../globalProvider.jsx";
 
-const IngredientSlider = ( { sliderIndex, drinkData, setDrinkData } ) => {
+const IngredientSlider = ( {sliderIndex, drinkData, type, setDrinkData} ) => {
 
     const [sliderValue, setSliderValue] = useState(0);
     const [quantity, setQuantity] = useState('');
     const [unitOfMeasure, setUnitOfMeasure] = useState('');
     const [altUnit, setAltUnit] = useState('');
+    const {updateIngredientCategory} = useGlobalContext()
 
     // Sets initial states
     useEffect(() => {
@@ -42,11 +44,16 @@ const IngredientSlider = ( { sliderIndex, drinkData, setDrinkData } ) => {
     //Updates parent state with current slider values & unit
     const updateParent = () => {
         const updatedArr = [...drinkData];
+        console.log(updatedArr)
         updatedArr[sliderIndex].sliderValue = sliderValue;
         updatedArr[sliderIndex].unit = unitOfMeasure;
         if (quantity != 0) {
             updatedArr[sliderIndex].value = quantity;
+            console.log(quantity)
         }
+        updatedArr[sliderIndex].amount = `${updatedArr[sliderIndex].value} ${updatedArr[sliderIndex].unit}`
+        console.log("This is the updatedArr", updatedArr)
+        updateIngredientCategory(updatedArr, type)
         setDrinkData(updatedArr);
     };
 
