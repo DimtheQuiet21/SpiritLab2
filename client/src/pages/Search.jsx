@@ -1,255 +1,178 @@
 import { GET_ALL_FORMULAS } from "../utils/queries";
 import { useQuery } from "@apollo/client";
 import {
-  Autocomplete,
   TextField,
   Button,
   CircularProgress,
-  FormControlLabel,
-  Switch,
   Box,
   Grid,
 } from "@mui/material";
-import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-// import SearchDrink from "../components/search/SearchDrink.jsx";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../globalProvider.jsx";
-// import SearchBar from "../components/search/SearchBar.jsx";
-import SearchList from "../components/search/SearchList.jsx";
+import AlcoholChecklist from "../components/Search/SearchTypes/AlcoholChecklist.jsx";
+import LiquidChecklist from "../components/Search/SearchTypes/LiquidChecklist.jsx";
 
 function Search() {
-  const [searchToggle, setToggle] = useState(true);
-  const [searchLabel, setLabel] = useState("Formulas");
+  const location = useLocation();
   const [searchOptions, setOptions] = useState([]);
   const [searchTerm, setTerm] = useState("");
   const [formulas, setFormulas] = useState([]);
-  // const [chosenFormula, setChosenFormula] = useState({});
-  const { loading, data, error } = useQuery(GET_ALL_FORMULAS);
-  const { globalState, setGlobalState } = useGlobalContext();
 
+  const [selectedAlcoholTypes, setSelectedAlcoholTypes] = useState(location.state?.selectedAlcoholTypes || []); 
+  const [selectedLiquidTypes, setSelectedLiquidTypes] = useState(location.state?.selectedLiquidTypes || []);
+  // These variables are used to store the selected alcohol and liquid types. They are initialized with the values from the location state if it exists, otherwise they are initialized as empty arrays. The location state is used to pass data between routes for the Search and Results pages. After struggling to find a way to make it work, that was the best solution I came up with..
+
+  const { loading, data } = useQuery(GET_ALL_FORMULAS);
+  const { setGlobalState } = useGlobalContext();
+  const navigate = useNavigate();
+
+  // this will populate the searchOptions array with all the ingredients.
   useEffect(() => {
     if (!loading && data) {
       const formulaArray = data.formulas;
-      if (searchToggle) {
-        const names = formulaArray.map((formula) => formula.name);
-        setOptions(names);
-      } else {
-        const alcohols = formulaArray.map((formula) =>
-          formula.alcohol.map((element) => element.name)
-        );
-        const liquids = formulaArray.map((formula) =>
-          formula.liquid.map((element) => element.name)
-        );
-        const garnishes = formulaArray.map((formula) =>
-          formula.garnish.map((element) => element.name)
-        );
-        //So we first concatenate the arrays THEN we flatten them. Apparently, nested arrays don't have their duplicates filtered.
-        //apparently the ... spread function on the concat would also do the trick
-        const ingredients = alcohols.concat(liquids, garnishes).flat();
-        //Now we filter out the duplicate ingredients.
-        const uniqueIngredients = ingredients.filter(
-          (value, index, self) => self.indexOf(value) === index
-        );
-        setOptions(uniqueIngredients);
-      }
-    }
-    //Anytime the loading, data, or SearchToggle changes, run this UseEffect Again.
-  }, [loading, data, searchToggle]);
+      const ingredients = formulaArray.flatMap((formula) =>
+        [...formula.alcohol, ...formula.liquid, ...formula.garnish].map(
+          (element) => element.name
+        )
+      );
 
-  // Anytime we complete the updating of the terms, we change the label.
-  // This was throwing harsh timing related errors before. I eventually had to give up on updating
-  // The multiple property. A simple conditional render is the best way to go.
-  //But there will need to be additional options show based on what the
-  useEffect(() => {
-    if (searchLabel === "Formulas") {
-      setLabel("Search Formulas");
-    } else {
-      setLabel("Search Ingredients");
+      // this will remove the duplicates from the array
+      setOptions([...new Set(ingredients)]);
     }
-  }, [searchOptions]);
+  }, [loading, data]);
 
+  // this useEffect will filter the formulas based on the search term and will display the formulas that match the search term.  
   useEffect(() => {
-    //I was throwing an error because I alternate between strings and arrays.
-    if (searchTerm && Array.isArray(searchTerm)) {
-      //We go over all the search terms in the array, we go over all Formulas, We go over all ingredients
-      const validFormulaArray = [];
+    if (searchTerm) {
       const counts = {};
       const icons = {};
 
       function pickBackgroundColor(number) {
-        if (number === 1) {
-          return "rgb(18, 18, 18)";
-        }
-        if (number === 2) {
-          return "rgb(50, 22, 98)";
-        }
-        if (number === 3) {
-          return "rgb(27, 151, 238)";
-        }
-        if (number > 3) {
-          return "rgb(27, 238, 231)";
-        }
+        if (number === 1) return "rgb(18, 18, 18)";
+        if (number === 2) return "rgb(50, 22, 98)";
+        if (number === 3) return "rgb(27, 151, 238)";
+        if (number > 3) return "rgb(27, 238, 231)";
       }
 
-      function compareCount(a, b) {
-        return b.count - a.count;
-      }
+      // the validFormulas array will contain all the formulas that match the search term and will be what's displayed
+      const validFormulas = data.formulas.filter(
+        (formula) =>
+          formula.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
-      searchTerm.forEach((term) => {
-        const validFormula = data.formulas.filter(
-          (formula) =>
-            formula.alcohol.some((element) => element.name.includes(term)) ||
-            formula.liquid.some((element) => element.name.includes(term)) ||
-            formula.garnish.some((element) => element.name.includes(term))
-        );
-        validFormulaArray.push(...validFormula);
-      });
-
-      validFormulaArray.forEach((formula) => {
+      // this will count the number of times each formula appears and will store the icon of the formula
+      validFormulas.forEach((formula) => {
         counts[formula.name] = (counts[formula.name] || 0) + 1;
-      });
-
-      validFormulaArray.forEach((formula) => {
-        // console.log(formula);
-        // console.log(formula.icon);
         icons[formula.name] = formula.icon;
       });
 
-      const uniqueFormulas = [...new Set(validFormulaArray)];
-      const uniqueFormulaNames = uniqueFormulas.map((element) => element.name);
-      const uniqueFormulaObjects = uniqueFormulaNames.map((formula) => ({
-        name: formula,
-        count: counts[formula],
-        icon: icons[formula],
-        backgroundcolor: pickBackgroundColor(counts[formula]),
+      // we make a new array with the unique formulas and have them sorted based on the number of times they appear
+      const uniqueFormulas = Array.from(new Set(validFormulas.map((f) => f.name))).map((name) => ({
+        name,
+        count: counts[name],
+        icon: icons[name],
+        backgroundColor: pickBackgroundColor(counts[name]),
       }));
 
-      uniqueFormulaObjects.sort(compareCount);
-      // console.log(validFormulaArray);
-      // console.log(uniqueFormulaNames);
-      // console.log(counts);
-      // console.log(uniqueFormulaObjects);
-      const buttons = uniqueFormulaObjects.map((element, index) => {
-        return (
-          <div key={index}>
+      uniqueFormulas.sort((a, b) => b.count - a.count);
+
+      setFormulas(
+        uniqueFormulas.map((formula, index) => (
+          <Grid item key={index}>
             <Button
-              sx={{
-                backgroundColor: element.backgroundcolor,
-                minWidth: "200px !important",
-              }}
-              onClick={() => {
-                handleSetChoice(element.name);
-              }}
+              sx={{ backgroundColor: formula.backgroundColor, minWidth: "200px !important" }}
+              onClick={() => handleSetChoice(formula.name)}
               component={Link}
               to="/lab/"
             >
-              {element.name}
+              {formula.name}
             </Button>
-            <img
-              src={`/assets/icons/${element.icon}`}
-              style={{ maxWidth: "75px" }}
-            ></img>
-          </div>
-        );
-      });
-      setFormulas(buttons);
+            <img src={`/assets/icons/${formula.icon}`} style={{ maxWidth: "75px" }} alt={`${formula.name} icon`} />
+          </Grid>
+        ))
+      );
     } else {
       setFormulas([]);
     }
-    return () => setFormulas([]); //cleansup after unmounting the component
-  }, [searchTerm]);
+  }, [searchTerm, data]);
 
-  // useEffect(() => {
-  //   console.log(chosenFormula);
-  // }, [chosenFormula]);
+  // this should send the user to the lab page with the selected formula (shoutout global state !!)
+  const handleSetChoice = (choice) => {
+    const formulaMatch = data.formulas.find((formula) => formula.name === choice);
+    setGlobalState(formulaMatch);
+    navigate("/lab");
+  };
 
-  function handleSetChoice(choice) {
-    if (searchToggle) {
-      const formulaMatch = data.formulas.find((element) => {
-        return element.name == searchTerm;
+  // With this function, the user has the ability to select or deselect an option from the checklist
+  const handleCheckboxChange = (option, type) => {
+    if (type === 'alcohol') {
+      setSelectedAlcoholTypes((prev) => {
+        const newSelection = prev.includes(option)
+          ? prev.filter((item) => item !== option)
+          : [...prev, option];
+        return newSelection;
       });
-      setGlobalState(formulaMatch);
-    } else {
-      const formulaMatch = data.formulas.find((element) => {
-        return element.name == choice;
+    } else if (type === 'liquid') {
+      setSelectedLiquidTypes((prev) => {
+        const newSelection = prev.includes(option)
+          ? prev.filter((item) => item !== option)
+          : [...prev, option];
+        return newSelection;
       });
-      setGlobalState(formulaMatch);
     }
-  }
+  };
+
+  // this function will send the user to the results page with the selected alcohol and liquid types after user makes there selections and then clicks the "Gimme Drinks!" button
+  const handleApplySelections = () => {
+    navigate('/results', { state: { selectedAlcoholTypes, selectedLiquidTypes } });
+  };
+
+  const handleClearSelections = () => {
+    setSelectedAlcoholTypes([]);
+    setSelectedLiquidTypes([]);
+  };
 
   return (
     <div>
-      <Box display="flex" justifyContent="center">
-        <FormControlLabel
-          control={
-            <Switch
-              checked={searchToggle}
-              onChange={() => setToggle(!searchToggle)}
-              name="searchToggle"
-            />
-          }
+      <Box display="flex" justifyContent="center" mb={3}>
+        <TextField
+          label="Search Formulas"
+          variant="outlined"
+          value={searchTerm}
+          onChange={(e) => setTerm(e.target.value)}
+          placeholder="Search for formulas..."
+          fullWidth
         />
-
       </Box>
       <Box display="flex" justifyContent="center">
         {loading ? (
           <CircularProgress />
         ) : (
-          <div>
-            {searchToggle ? (
-              <div key="formulaAutocomplete">
-                <TextField
-                  sx={{ width: "330px" }}
-                  id="search"
-                  label={
-                    searchToggle ? "Search Formulas" : "Search Ingredients"
-                  }
-                  variant="outlined"
-                  onChange={(event) => setTerm(event.target.value)}
-                />
-                <>
-                  <SearchList
-                    data={data}
-                    searchTerm={searchTerm}
-                    searchToggle={searchToggle}
-                    setGlobalState={setGlobalState} 
-                  />
-                </>
-                {/* We don't need this button anymore */}
-                {/* <Button variant="contained" component={Link} to="/lab/">
-                  Concoct
-                </Button> */}
-              </div>
-            ) : (
-              <div key="ingredientsAutocomplete">
-                <Autocomplete
-                  multiple
-                  disablePortal
-                  id="combo-box"
-                  options={searchOptions}
-                  sx={{ width: "330px" }}
-                  onChange={(event, value) => setTerm(value)}
-                  renderInput={(params) => (
-                    <TextField {...params} label={searchLabel} />
-                  )}
-                />
+          // Assume the formulas list to be changed to something different. This layout is simply used for testing
+          <div key="ingredientsAutocomplete">
+            <Grid container spacing={1} justifyContent="center" marginBottom="15px">
+              {formulas}
+            </Grid>
 
-                {formulas && (
-                  <Grid
-                    container
-                    spacing={1}
-                    justifyContent="center"
-                    marginBottom={"15px"}
-                  >
-                    {formulas.map((formula, index) => (
-                      <Grid item key={index}>
-                        {formula}
-                      </Grid>
-                    ))}
-                  </Grid>
-                )}
-              </div>
-            )}
+            <AlcoholChecklist
+              options={searchOptions.filter(option => data.formulas.some(formula => formula.alcohol.some(alcohol => alcohol.name === option)))}
+              handleCheckboxChange={(option) => handleCheckboxChange(option, 'alcohol')}
+              selectedOptions={selectedAlcoholTypes}
+            />
+            <LiquidChecklist
+              options={searchOptions.filter(option => data.formulas.some(formula => formula.liquid.some(liquid => liquid.name === option)))}
+              handleCheckboxChange={(option) => handleCheckboxChange(option, 'liquid')}
+              selectedOptions={selectedLiquidTypes}
+            />
+            <Box display="flex" justifyContent="center" mt={2}>
+              <Button variant="contained" onClick={handleApplySelections}>
+                Gimme Drinks!
+              </Button>
+              <Button variant="outlined" onClick={handleClearSelections} sx={{ ml: 2 }}>
+                Clear Selections
+              </Button>
+            </Box>
           </div>
         )}
       </Box>

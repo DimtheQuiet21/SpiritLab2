@@ -10,7 +10,7 @@ import Home from './pages/Home';
 import TheLab from './pages/TheLab';
 import Profile from './pages/Profile.jsx';
 import Search from './pages/Search.jsx';
-import Explore from './pages/Explore.jsx';
+import Results from './pages/Results.jsx';
 
 //Temporary for Development
 import ConcoctV2 from './components/concoctV2/ConcoctV2.jsx';
@@ -38,10 +38,6 @@ const router = createBrowserRouter([
         path: '/lab',
         element: <TheLab />
       },
-      // {
-      //   path: '/explore',
-      //   element: <Explore />
-      // },  
       //Temporary for Development
       {
         path: '/concoctV2',
@@ -54,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: '/concoctV3',
         element: <ConcoctV3 />
+      },
+      {
+        path: '/results',
+        element: <Results />
       },
     ],
   },
