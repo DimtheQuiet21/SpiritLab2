@@ -6,6 +6,7 @@ import {
   CircularProgress,
   Box,
   Grid,
+  Typography
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -18,6 +19,7 @@ function Search() {
   const [searchOptions, setOptions] = useState([]);
   const [searchTerm, setTerm] = useState("");
   const [formulas, setFormulas] = useState([]);
+  const [gimmeDrinksClicked, setGimmeDrinksClicked] = useState(false);
 
   const [selectedAlcoholTypes, setSelectedAlcoholTypes] = useState(location.state?.selectedAlcoholTypes || []); 
   const [selectedLiquidTypes, setSelectedLiquidTypes] = useState(location.state?.selectedLiquidTypes || []);
@@ -97,6 +99,17 @@ function Search() {
     }
   }, [searchTerm, data]);
 
+  // we use this to display to the user, if they try to click gimme drinks and have not inputted any selections, a message that says "Nothing was selected"
+  // we don't need to keep this, just thought it was something to boost the user experience 
+  useEffect(() => {
+    if (gimmeDrinksClicked) {
+      const timer = setTimeout(() => {
+        setGimmeDrinksClicked(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [gimmeDrinksClicked]);
+
   // this should send the user to the lab page with the selected formula (shoutout global state !!)
   const handleSetChoice = (choice) => {
     const formulaMatch = data.formulas.find((formula) => formula.name === choice);
@@ -125,7 +138,12 @@ function Search() {
 
   // this function will send the user to the results page with the selected alcohol and liquid types after user makes there selections and then clicks the "Gimme Drinks!" button
   const handleApplySelections = () => {
-    navigate('/results', { state: { selectedAlcoholTypes, selectedLiquidTypes } });
+    if (selectedAlcoholTypes.length === 0 && selectedLiquidTypes.length === 0) {
+      setGimmeDrinksClicked(true);
+    } else {
+      setGimmeDrinksClicked(false);
+      navigate('/results', { state: { selectedAlcoholTypes, selectedLiquidTypes } });
+    }
   };
 
   const handleClearSelections = () => {
@@ -137,11 +155,11 @@ function Search() {
     <div>
       <Box display="flex" justifyContent="center" mb={3}>
         <TextField
-          label="Search Formulas"
+          label="Know The Name? Find It Here!"
           variant="outlined"
           value={searchTerm}
           onChange={(e) => setTerm(e.target.value)}
-          placeholder="Search for formulas..."
+          // placeholder="Search for formulas..."
           fullWidth
         />
       </Box>
@@ -151,7 +169,7 @@ function Search() {
         ) : (
           // Assume the formulas list to be changed to something different. This layout is simply used for testing
           <div key="ingredientsAutocomplete">
-            <Grid container spacing={1} justifyContent="center" marginBottom="15px">
+            <Grid container spacing={1} justifyContent="center" marginBottom="10px">
               {formulas}
             </Grid>
 
@@ -173,6 +191,11 @@ function Search() {
                 Clear Selections
               </Button>
             </Box>
+            {gimmeDrinksClicked && (
+              <Box display="flex" justifyContent="center" alignItems="center" mt={3} >
+                <Typography variant="h6">Gotta Select Something First Bruh</Typography>
+              </Box>
+            )}
           </div>
         )}
       </Box>
