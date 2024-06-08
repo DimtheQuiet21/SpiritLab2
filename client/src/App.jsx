@@ -56,7 +56,7 @@ const client = new ApolloClient({
 function App() {
   // </StoreProvider> Put this in later to return STATE functionality.
   const location = useLocation(); // Get the current location
-  const showNavbar = location.pathname !== "/search";
+  // const showNavbar = location.pathname !== "/search";
 
   return (
     <ApolloProvider client={client}>
@@ -64,7 +64,7 @@ function App() {
         <ThemeProvider theme={labTheme}>
           <CssBaseline />
           {/* <div className="fixed-navbar">  */}{" "}
-           {showNavbar && <Navbar />} {/* For the sake of the explore feature in search page, we're conditionally rendering the navbar to hide visibility on page */}
+            <Navbar /> 
           <Container maxWidth="xl" sx={{ pt: "24px" }}>
             <Outlet />
           </Container>

@@ -9,7 +9,7 @@ const AlcoholChecklist = ({ options, handleCheckboxChange, selectedOptions }) =>
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const displayedOptions = showAll ? options : options.slice(0, 0);
+  const displayedOptions = showAll ? options : options.slice(0, 0); // Set so if we decide that we want to initially show some options we can easily do so
 
   const filteredOptions = options.filter(option => 
     option.toLowerCase().includes(searchTerm.toLowerCase())
@@ -73,7 +73,7 @@ const AlcoholChecklist = ({ options, handleCheckboxChange, selectedOptions }) =>
         onClose={toggleDrawer(false)}
       >
         <Box
-          sx={{ height: '50vh', p: 2, overflow: 'auto', position: 'relative' }}
+          sx={{ height: '65vh', p: 2, overflow: 'auto', position: 'relative' }}
           role="presentation"
         >
           <Box sx={{ position: 'sticky', top: 0, zIndex: 1, backgroundColor: 'black' }}>
