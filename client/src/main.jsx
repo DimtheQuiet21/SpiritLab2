@@ -16,6 +16,9 @@ import Results from './pages/Results.jsx';
 import ConcoctV2 from './components/concoctV2/ConcoctV2.jsx';
 import ConcoctV3 from './components/concoctV3/ConcoctV3.jsx';
 
+//Universal Styles
+import './global.css';
+
 const router = createBrowserRouter([
   {
     path: '/',

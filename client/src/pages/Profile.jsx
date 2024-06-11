@@ -81,7 +81,10 @@ const Profile = () => {
           )}
         </>
       ) : (
-        <Typography>Either log in or sign up dude..... you got liquor to drink</Typography>
+        <>
+          <Typography>Either log in or sign up dude..... you got liquor to drink</Typography>
+        </>
+
       )}
     </Box>
   );
