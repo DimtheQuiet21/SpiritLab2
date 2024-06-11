@@ -5,9 +5,12 @@ import DrinkOfDay from "../components/Home/DrinkOfDay";
 // import RandomGen from '../components/home/RandomGen';
 import { Container } from '@mui/material';
 
+import ExploreCard from '../components/Explore/ExploreCard';
+
 function Home() {
     return (
         <Container maxWidth='xl'>
+            <ExploreCard />
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <Welcome />
@@ -23,6 +26,7 @@ function Home() {
                 </Grid> */}
             </Grid>
         </Container>
+
 
     );
 }

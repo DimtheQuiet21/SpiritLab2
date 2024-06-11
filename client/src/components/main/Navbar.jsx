@@ -43,7 +43,7 @@ function Navbar() {
               maxWidth: { xs: 175, md: 275 },
               }}
               alt="Spirit Labs Logo"
-              src="../spiritlabs-full-color.svg"
+              src="./logos/logo-dark.svg"
             />
 
             <Box>

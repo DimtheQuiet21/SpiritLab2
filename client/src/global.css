@@ -1,0 +1,78 @@
+:root {
+    /* COLORS */
+    --main-blue: #00BBF9;
+    --main-black: #2F2F2F;
+    --main-white: #FDFFFC;
+    --main-coral: #EF767A;
+
+    --darker-overlay: #00000080;
+    --dark-overlay: #00000030;
+
+    /* STYLES */
+    --round: 6pt;
+    --full: 100%;
+    --padding: 4pt;
+    --morepadding: 8pt;
+    --margin: 4pt;
+    --moremargin: 8pt;
+}
+
+.exploreCard {
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+
+    margin: var(--margin);
+    padding: var(--morepadding);
+
+    border-radius: var(--round);
+
+    background-size: cover;
+    background-color: var(--main-black);
+
+    min-height: 250px;
+}
+
+.exploreCardHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardHeaderItem {
+    display: flex;
+    justify-content: center;
+    padding: var(--padding);
+    padding-left: var(--morepadding);
+    padding-right: var(--morepadding);
+
+    color: var(--main-black);
+    font-weight: bolder !important;
+    
+    max-height: 24pt;
+
+    background-color: var(--main-white);
+    border-radius: 12pt;
+}
+
+.exploreCardHeaderChips {
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.exploreCardFooter {
+    display: flex;
+    justify-content: space-between;
+
+    background-color: var(--darker-overlay);
+
+    padding: var(--morepadding);
+    margin: -8pt;
+
+    border-radius: var(--round);
+    border-top-left-radius: 0pt;
+    border-top-right-radius: 0pt;
+}
+
+.cardFavoriteButton {
+    background-color: var(--dark-overlay) !important;
+}
