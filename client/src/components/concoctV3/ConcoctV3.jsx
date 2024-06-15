@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useMemo } from "react";
-
+import { useQuery } from "@apollo/client";
 import { ButtonGroup, Divider, Drawer} from "@mui/material";
 
 import IngredientDiv from "./subcomponents/ingredientBox/IngredientDiv";
@@ -20,78 +20,116 @@ import { Box, Container } from '@mui/material';
 
 import './drinkRenderer.css';
 import { useGlobalContext } from "../../globalProvider.jsx";
+import { GET_ALL_INGREDIENTS } from "../../utils/queries.js"
 
 const ConcoctV3 = () => {
 
     const { globalState, setGlobalState } = useGlobalContext();
     const [localState, setLocalState] = useState({});
-
+    const {loading, data, error} = useQuery(GET_ALL_INGREDIENTS);
+    
     useEffect (()=>{
-        if (Object.keys(localState).length < 1) {
-            console.log("Setting Local State", globalState)
+        if (!loading && data) {
 
-            const assembleFormula = () => {
-                const formulaObject = {...globalState}
-                console.log(formulaObject)
-                formulaObject.alcohol.forEach(e => {
-                    buildDrinkData(e);
-                });
-                formulaObject.liquid.forEach(e => {
-                    buildDrinkData(e);
-                });
-                formulaObject.garnish.forEach(e => {
-                    buildDrinkData(e);
-                });
-                console.log(formulaObject)
-                setLocalState(formulaObject)
-            };
+            //This sets the local state baseond on the global state for the fist time.
+            if (Object.keys(localState).length < 1) {
 
-            const buildDrinkData = (data) => {
-                console.log(data)
-                const newUnit = data.amount.match(/[a-zA-Z]+/);
-                const newQty = Number(data.amount.match(/[0-9_.-]+/));
-        
-                let sliderValue = 0;
-                let value = 0;
-                let unit = '';
-                let altUnit = '';
+                console.log("Setting Local State", globalState)
                 
-                // Set unitOfMeasure + sliderValue
-                if (newUnit == 'oz') {
-                    unit = 'oz';
-                    sliderValue = newQty*2;
-                    value = newQty;
-                } else if (newUnit == 'ml') {
-                    unit = 'ml';
-                    sliderValue = (newQty/30)*2;
-                    value = newQty;
-                } else if (newUnit == null) {
-                    unit = '';
-                    sliderValue = newQty;
-                    value = newQty;
-                } else {
-                    unit = ''
-                    altUnit = `${newUnit}`;
-                }
+                //this calls all the known ingredients from the database ONE time.
+                const assembleSearchList = () => {
+                    const ingredients = [];
+                    console.log(data)
+                    const formulas = data.formulas;
+                    formulas.forEach((el) => {
+                        const receipeVar = [el.alcohol, el.liquid, el.garnish];
+                        receipeVar.forEach((ingredientMat)=>{
+                            ingredientMat.forEach((ingredient) => {
+                                ingredients.push(ingredient)
+                            })
+                        })
+                    })
+                    //This removes duplicates while preserving the objects (we will probably need these later as objects)
+                    const ingredientMap = new Map();
+                    ingredients.forEach((ingredient) => {
+                        if (!ingredientMap.has(ingredient.name)) {
+                            ingredientMap.set(ingredient.name, ingredient);
+                        }
+                    });
+                    const uniqueIngredients = Array.from(ingredientMap.values());
+                    const newLocalState = {...localState}
         
-                if (newQty == 0) {
-                    sliderValue = 1;
-                    value = 1;
+                    newLocalState.searchList = uniqueIngredients;
+                    console.log(uniqueIngredients)
+                    return newLocalState
                 }
-        
-                data.sliderValue = sliderValue;
-                data.value =value;
-                data.unit = unit;
-                data.altUnit = altUnit;
-            };
+
+                const assembleFormula = () => {
+                    const formulaObject = {...globalState}
+                    console.log(formulaObject)
+                    formulaObject.alcohol.forEach(e => {
+                        buildDrinkData(e);
+                    });
+                    formulaObject.liquid.forEach(e => {
+                        buildDrinkData(e);
+                    });
+                    formulaObject.garnish.forEach(e => {
+                        buildDrinkData(e);
+                    });
+                    console.log(formulaObject)
+                    return formulaObject
+                };
+    
+                const buildDrinkData = (data) => {
+                    console.log(data)
+                    const newUnit = data.amount.match(/[a-zA-Z]+/);
+                    const newQty = Number(data.amount.match(/[0-9_.-]+/));
             
-            assembleFormula()
+                    let sliderValue = 0;
+                    let value = 0;
+                    let unit = '';
+                    let altUnit = '';
+                    
+                    // Set unitOfMeasure + sliderValue
+                    if (newUnit == 'oz') {
+                        unit = 'oz';
+                        sliderValue = newQty*2;
+                        value = newQty;
+                    } else if (newUnit == 'ml') {
+                        unit = 'ml';
+                        sliderValue = (newQty/30)*2;
+                        value = newQty;
+                    } else if (newUnit == null) {
+                        unit = '';
+                        sliderValue = newQty;
+                        value = newQty;
+                    } else {
+                        unit = ''
+                        altUnit = `${newUnit}`;
+                    }
+            
+                    if (newQty == 0) {
+                        sliderValue = 1;
+                        value = 1;
+                    }
+            
+                    data.sliderValue = sliderValue;
+                    data.value =value;
+                    data.unit = unit;
+                    data.altUnit = altUnit;
+                };
+
+                setLocalState ({
+                    formula:assembleFormula(),
+                    searchList: assembleSearchList()
+                })
             };
-        }
-    ,[])
+        }  
+    } ,[loading, data])
+
 
     const ingredientRender = useMemo(() => {
-        const renderObject = {...localState};
+        const renderObject = {...localState.formula};
         const receipeVar = {
             matrix:[renderObject.alcohol, renderObject.liquid, renderObject.garnish],
             keys:["alcohol","liquid","garnish"]
@@ -102,7 +140,7 @@ const ConcoctV3 = () => {
                 return (
                     <>
                         {/* <IngredientDiv ingredients={ingredientMatrix} type={receipeVar.keys[index]} index = {index} localState = {localState} setLocalState = {setLocalState}/> */}
-                        <IngredientDiv ingredients={ingredientMatrix} type={receipeVar.keys[index]} index = {index} />
+                        <IngredientDiv ingredients={ingredientMatrix} type={receipeVar.keys[index]} index = {index} searchList = {localState.searchList}/>
                     </>
         
                 )
@@ -110,7 +148,7 @@ const ConcoctV3 = () => {
     },[localState]) 
 
     function titleRender () {
-        const renderObject = {...localState};
+        const renderObject = {...localState.formula};
         console.log ("This is the Drink - ", renderObject.name)
         return (
             <Typography variant="h5" component="div" gutterBottom sx={{borderBottom: "solid 2px #2c2c2c", p: "8px"}}> <strong>{renderObject.name}</strong> </Typography>

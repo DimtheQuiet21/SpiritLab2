@@ -119,7 +119,7 @@ const resolvers = {
         ],
       });
     },
-
+    
     inventorybyterms: async (parent, { terms }) => {
       const regex = terms.map((term) => new RegExp(term, "i")); // this creates an array of regex expressions that are not case sensitive.
       return Inventory.find({
@@ -179,7 +179,8 @@ const resolvers = {
         throw new Error("Failed to get user favorites with ingredients: " + err.message);
       }
     },
-      allFavoriteDrinks: async () => {
+
+    allFavoriteDrinks: async () => {
         try {
           // Fetch all formulas from the database
           const formulas = await Formulas.find({});

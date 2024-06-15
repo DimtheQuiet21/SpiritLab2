@@ -18,62 +18,16 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import IngredientSlider from './IngredientSlider'
+import IngredientPopUp from '../ingredientPopUp/IngredientPopUp.jsx';
 
 
 
-const IngredientDiv = ({ingredients, type, index }) => {
-
-    //console.log(props, ingredientMatrix, ingredientType)
+const IngredientDiv = ({ingredients, type, index, searchList }) => {
     
     const [open, setOpen] = useState(false);
+    const [popUpState, setPopUpState] = useState({toggle : false})
     const [ingredientState, setIngredientState] = useState([])
     const {updateIngredientCategory} = useGlobalContext()
-
-    //     console.log("Building Drink Data", data)
-    //     const initSliderValues = [];
-    //     data.forEach(ingredient => {
-    //         const newUnit = ingredient.amount.match(/[a-zA-Z]+/);
-    //         const newQty = Number(ingredient.amount.match(/[0-9_.-]+/));
-    
-    //         let sliderValue = 0;
-    //         let value = 0;
-    //         let unit = '';
-    //         let altUnit = '';
-            
-    //         // Set unitOfMeasure + sliderValue
-    //         if (newUnit == 'oz') {
-    //             unit = 'oz';
-    //             sliderValue = newQty*2;
-    //             value = newQty;
-    //         } else if (newUnit == 'ml') {
-    //             unit = 'ml';
-    //             sliderValue = (newQty/30)*2;
-    //             value = newQty;
-    //         } else if (newUnit == null) {
-    //             unit = '';
-    //             sliderValue = newQty;
-    //             value = newQty;
-    //         } else {
-    //             unit = ''
-    //             altUnit = `${newUnit}`;
-    //         }
-    
-    //         if (newQty == 0) {
-    //             sliderValue = 1;
-    //             value = 1;
-    //         }
-
-    //         initSliderValues.push({
-    //             name: ingredient.name,
-    //             sliderValue: sliderValue,
-    //             value: value,
-    //             unit: unit,
-    //             altUnit: altUnit
-    //         });
-    //     });
-
-    //     setDrinkData(initSliderValues);
-    // };
 
     useEffect (() => {
         if (ingredients.length !== 0) {
@@ -81,25 +35,33 @@ const IngredientDiv = ({ingredients, type, index }) => {
         }
     }, [])
 
-    function handleAddition(matrix) {
+    function handleAddition(type) {
         
-        const newArray = [...ingredientState];
-        newArray.push(
-            {
-                _typename: "Ingredient",
-                name:"ingredient",
-                amount:"0 oz",
-                technique:"",
-                sliderValue : 1,
-                value : 0,
-                unit :"oz",
-                altUnit : ""
-            });
+        // const newArray = [...ingredientState];
+        // newArray.push(
+        //     {
+        //         _typename: "Ingredient",
+        //         name:"ingredient",
+        //         amount:"0 oz",
+        //         technique:"",
+        //         sliderValue : 1,
+        //         value : 0,
+        //         unit :"oz",
+        //         altUnit : ""
+        //     });
 
-        console.log("This is the New Array", newArray)
-        setIngredientState(newArray)
-        //buildDrinkData(newArray)
-        updateIngredientCategory (newArray, matrix)
+        // console.log("This is the New Array", newArray)
+        // setIngredientState(newArray)
+        // //buildDrinkData(newArray)
+        // updateIngredientCategory (newArray, matrix)
+        setPopUpState({
+            toggle:true,
+            option: "Add",
+            parameters: {
+                type: type,
+                state: ingredientState
+            }
+        })
     }
 
     function handleDeletion (matrixindex) {
@@ -115,7 +77,6 @@ const IngredientDiv = ({ingredients, type, index }) => {
         //buildDrinkData(newArray)
         updateIngredientCategory (newArray, matrix)
     }
-
 
     const listRender = useMemo(() => {
         console.log(ingredientState.length > 0);
@@ -148,7 +109,7 @@ const IngredientDiv = ({ingredients, type, index }) => {
             return null
         }
 
-    }, [ingredientState ]);
+    }, [ingredientState]);
 
     const toggleCollapse = (newOpen) => {
         setOpen(newOpen);
@@ -168,6 +129,18 @@ const IngredientDiv = ({ingredients, type, index }) => {
             <Button  onClick={() => toggleCollapse(!open)} endIcon={icon()} >{type}</Button>
             <Collapse in = {open} key = {type} index = {index}>
                 {ingredientState.length > 0 ? listRender : (<></>)}
+                {popUpState.toggle ? 
+                    <IngredientPopUp 
+                        option = {popUpState.option}
+                        parameters = {popUpState.parameters}
+                        setPopUpState = {setPopUpState}
+                        setIngredientState = {setIngredientState}
+                        updateIngredientCategory = {updateIngredientCategory}
+                        searchList = {searchList}
+                    /> 
+                :   
+                    <></>
+                }
                 <Button size="small" onClick={() => handleAddition(type)} endIcon = {<AddIcon />}></Button>
             </Collapse>
         </> 
