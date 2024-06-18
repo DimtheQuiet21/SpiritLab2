@@ -80,7 +80,7 @@ function Search() {
       uniqueFormulas.sort((a, b) => b.count - a.count);
 
       setFormulas(
-        uniqueFormulas.map((formula, index) => (
+        uniqueFormulas.slice(0,5).map((formula, index) => (
           <Grid item key={index}>
             <Button
               sx={{ backgroundColor: formula.backgroundColor, minWidth: "200px !important" }}
@@ -90,7 +90,7 @@ function Search() {
             >
               {formula.name}
             </Button>
-            <img src={`/assets/icons/${formula.icon}`} style={{ maxWidth: "75px" }} alt={`${formula.name} icon`} />
+            {/* <img src={`/assets/icons/${formula.icon}`} style={{ maxWidth: "75px" }} alt={`${formula.name} icon`} /> */}
           </Grid>
         ))
       );
@@ -153,7 +153,7 @@ function Search() {
 
   return (
     <div>
-      <Box display="flex" justifyContent="center" mb={3}>
+      <Box display="flex" justifyContent="center" mb={1}>
         <TextField
           label="Know The Name? Find It Here!"
           variant="outlined"
@@ -169,7 +169,7 @@ function Search() {
         ) : (
           // Assume the formulas list to be changed to something different. This layout is simply used for testing
           <div key="ingredientsAutocomplete">
-            <Grid container spacing={1} justifyContent="center" marginBottom="10px">
+            <Grid container spacing={1} justifyContent="center">
               {formulas}
             </Grid>
 
@@ -183,7 +183,7 @@ function Search() {
               handleCheckboxChange={(option) => handleCheckboxChange(option, 'liquid')}
               selectedOptions={selectedLiquidTypes}
             />
-            <Box display="flex" justifyContent="center" mt={2}>
+            <Box display="flex" justifyContent="center" mt={2} mb={5}>
               <Button variant="contained" onClick={handleApplySelections}>
                 Gimme Drinks!
               </Button>
