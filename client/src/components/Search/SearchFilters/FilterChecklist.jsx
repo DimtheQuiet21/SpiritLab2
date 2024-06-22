@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import './SearchFilters.css';
 
 // This component is used to display the list of alcohol types that the user can select from. Users also have the ability to search for a specific alcohol type and select or deselect an option from the checklist within the drawer.
-const FilterChecklist = ({ options, handleCheckboxChange, selectedOptions }) => {
+const FilterChecklist = ({ options, handleCheckboxChange, selectedOptions, title, searchLabel }) => {
   const [showAll, setShowAll] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -31,7 +31,7 @@ const FilterChecklist = ({ options, handleCheckboxChange, selectedOptions }) => 
   return (
     <Box>
       <FormGroup> <br />
-      <h1 className='searchChecklistsTypeTitle'>Select Alcohol(s)</h1>
+      <h1 className='searchChecklistsTypeTitle'>{title}</h1>
         <Grid container spacing={1}>
           {displayedOptions.map((option, index) => (
             <Grid item xs={6} key={index}>
@@ -81,7 +81,7 @@ const FilterChecklist = ({ options, handleCheckboxChange, selectedOptions }) => 
             <TextField
               className='checkboxSearchBarField'
               fullWidth 
-              label="Search Alcohol"
+              label={searchLabel}
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
               InputProps={{

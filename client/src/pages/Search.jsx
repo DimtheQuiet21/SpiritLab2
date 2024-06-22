@@ -154,6 +154,7 @@ function Search() {
               <>
                 <FilterChecklist
                   title="Select Alcohol(s)"
+                  searchLabel={'Search Alcohol'}
                   options={searchOptions.filter((option) =>
                     data.formulas.some((formula) =>
                       formula.alcohol.some((alcohol) => alcohol.name === option)
@@ -164,6 +165,7 @@ function Search() {
                 />
                 <FilterChecklist
                   title="Select Mixer(s)"
+                  searchLabel={'Search Mixers'}
                   options={searchOptions.filter((option) =>
                     data.formulas.some((formula) =>
                       formula.liquid.some((liquid) => liquid.name === option)
