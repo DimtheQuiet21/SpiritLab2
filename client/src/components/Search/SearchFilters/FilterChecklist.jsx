@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { Box, FormGroup, FormControlLabel, Checkbox, Button, Grid, Drawer, TextField, InputAdornment, IconButton, Chip } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
+import './SearchFilters.css';
 
-// This component is used to display the list of liquid types that the user can select from. Users also have the ability to search for a specific liquid type and select or deselect an option from the checklist within the drawer.
-const LiquidChecklist = ({ options, handleCheckboxChange, selectedOptions }) => {
+// This component is used to display the list of alcohol types that the user can select from. Users also have the ability to search for a specific alcohol type and select or deselect an option from the checklist within the drawer.
+const FilterChecklist = ({ options, handleCheckboxChange, selectedOptions }) => {
   const [showAll, setShowAll] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const displayedOptions = showAll ? options : options.slice(0, 0);
+  const displayedOptions = showAll ? options : options.slice(0, 0); // Set so if we decide that we want to initially show some options we can easily do so
 
   const filteredOptions = options.filter(option => 
     option.toLowerCase().includes(searchTerm.toLowerCase())
@@ -29,8 +30,8 @@ const LiquidChecklist = ({ options, handleCheckboxChange, selectedOptions }) => 
 
   return (
     <Box>
-      <FormGroup>
-        <h1>Select Mixer(s)</h1>
+      <FormGroup> <br />
+      <h1 className='searchChecklistsTypeTitle'>Select Alcohol(s)</h1>
         <Grid container spacing={1}>
           {displayedOptions.map((option, index) => (
             <Grid item xs={6} key={index}>
@@ -51,6 +52,7 @@ const LiquidChecklist = ({ options, handleCheckboxChange, selectedOptions }) => 
         <Box display="flex" flexWrap="wrap" mt={2}>
           {selectedOptions.map((option, index) => (
             <Chip
+              className='selectedOptionChip'
               key={index}
               label={option}
               onDelete={() => handleRemoveSelectedOption(option)}
@@ -72,15 +74,14 @@ const LiquidChecklist = ({ options, handleCheckboxChange, selectedOptions }) => 
         open={drawerOpen}
         onClose={toggleDrawer(false)}
       >
-        <Box
-          sx={{ height: '50vh', p: 2, overflow: 'auto', position: 'relative' }}
+        <Box className = 'checkboxSearchBarBox'
           role="presentation"
         >
-          <Box sx={{ position: 'sticky', top: 0, zIndex: 1, backgroundColor: 'black' }}>
+          <Box className='checkboxSearchBar'>
             <TextField
-              fullWidth
-              label="Search Liquid"
-              variant="outlined"
+              className='checkboxSearchBarField'
+              fullWidth 
+              label="Search Alcohol"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
               InputProps={{
@@ -98,7 +99,7 @@ const LiquidChecklist = ({ options, handleCheckboxChange, selectedOptions }) => 
               }}
             />
           </Box>
-          <Box sx={{ pt: 3 }}>
+          <Box className='checkboxSearchBarItems'>
             <FormGroup>
               {filteredOptions.map((option, index) => (
                 <FormControlLabel
@@ -120,4 +121,4 @@ const LiquidChecklist = ({ options, handleCheckboxChange, selectedOptions }) => 
   );
 };
 
-export default LiquidChecklist;
+export default FilterChecklist;
