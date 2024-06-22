@@ -11,6 +11,7 @@ import TheLab from './pages/TheLab';
 import Profile from './pages/Profile.jsx';
 import Search from './pages/Search.jsx';
 import Results from './pages/Results.jsx';
+import Description from './pages/Description.jsx';
 
 //Temporary for Development
 import ConcoctV2 from './components/concoctV2/ConcoctV2.jsx';
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
         path: '/results',
         element: <Results />
       },
+      {
+        path: '/description',
+        element: <Description />
+      }
     ],
   },
 ]);

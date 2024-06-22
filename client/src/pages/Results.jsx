@@ -45,7 +45,7 @@ const Results = () => {
   // This function is defined to navigate to the '/lab' route with the clicked formula as state
   const handleFormulaClick = (formula) => {
     setGlobalState(formula);
-    navigate('/lab', { state: { formula } });
+    navigate('/description', { state: { formula } });
   };
 
   // We don't have the user profile configured yet so we're just toggling the favorite status of the formula
@@ -54,7 +54,22 @@ const Results = () => {
     updatedFormulas[index].favorite = !updatedFormulas[index].favorite;
     setMatchingFormulas(updatedFormulas);
   };
+  const getBackgroundColor = (formula) => {
+    const selectedTypes = [...selectedAlcoholTypes];
+    const ingredientNames = [
+      ...formula.alcohol.map((a) => a.name),
+      // ...formula.liquid.map((l) => l.name),
+    ];
 
+    const matches = selectedTypes.filter((type) => ingredientNames.includes(type)).length;
+
+    if (matches === 1) return 'default';
+    if (matches === 2) return '#004ab3';
+    if (matches === 3) return '#b638ff';
+    if (matches >= 4) return 'orange';
+
+    return 'default';
+  };
   return (
     <Box>
       <Box display="flex" alignItems="center" mb={2}>
@@ -69,7 +84,13 @@ const Results = () => {
         {matchingFormulas.length > 0 ? (
           matchingFormulas.map((formula, index) => (
             <Grid item key={index} xs={12} sm={6} md={4}>
-              <Card onClick={() => handleFormulaClick(formula)} sx={{ cursor: 'pointer' }}>
+              <Card onClick={() => handleFormulaClick(formula)} sx={{
+                  cursor: 'pointer',
+                  backgroundColor: getBackgroundColor(formula),
+                  '&:hover': {
+                    backgroundColor: getBackgroundColor(formula),
+                  },
+                }}>
                 <Box
                   sx={{
                     position: 'relative',
@@ -90,7 +111,7 @@ const Results = () => {
                       backgroundSize: 'contain',
                       backgroundRepeat: 'no-repeat',
                       backgroundPosition: 'center',
-                      opacity: 0.8
+                      opacity: 1
                     }}
                   />
                   
@@ -100,7 +121,7 @@ const Results = () => {
                       <StarIcon fontSize="small" sx={{ color: 'var(--main-coral)' }} />
                       {formula.rating || 'N/A'}
                     </Typography>
-                    <Stack direction='row' spacing={1} >
+                    <Stack direction='column' spacing={1} >
                       {formula.alcohol.slice(0, 2).map((ingredient, index) => (
                         <Chip key={index} variant='outlined' size='small' label={ingredient.name} />
                       ))}

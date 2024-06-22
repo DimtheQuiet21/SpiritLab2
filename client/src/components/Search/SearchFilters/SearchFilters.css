@@ -1,0 +1,30 @@
+.checkboxSearchBarBox {
+    height: 50vh;
+    padding: 1rem;
+    position: relative;
+}
+
+.checkboxSearchBar {
+  position: sticky;
+  background-color: black;
+  border-radius: 15px;
+}
+
+.checkboxSearchBarField {
+  fieldset {
+    border-radius: 15px;
+  }
+}
+
+.checkboxSearchBarItems {
+    padding-top: 10px;
+    text-transform: capitalize;
+}
+
+.selectedOptionChip {
+  text-transform: capitalize;
+}
+
+.searchChecklistsTypeTitle {
+  text-align: center;
+}
