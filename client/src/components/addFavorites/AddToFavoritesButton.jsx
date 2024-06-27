@@ -29,6 +29,8 @@ const AddToFavoritesButton = ({ drinkName, userId, isFavorite, onSuccess }) => {
         setGlobalState({ ...globalState, favorites: updatedFavorites });
         onSuccess(updatedFavorites);
         console.log("Favorites updated:", updatedFavorites);
+        console.log(globalState.favorites)
+        console.log("data:", response.data)
       })
       .catch((error) => {
         console.error("Error updating favorites:", error);
