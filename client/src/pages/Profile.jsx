@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_USER_FAVORITE_DRINKS } from "../utils/queries";
 import { useMutation } from "@apollo/client";
@@ -16,6 +16,17 @@ const Profile = () => {
   });
 
   const [removeFavoriteDrink] = useMutation(REMOVE_FAVORITE_DRINK);
+  const [uniqueFavoriteDrinks, setUniqueFavoriteDrinks] = useState(new Set());
+  // we want to maintain the state of the specific drink (uniqueFavoriteDrinks) so that we ensure no duplicates are added to the list
+  // so if a user clicks favorite more than once, then duplicates are tracked and not added to the list
+  // this will change once the other components for the user profile are incorporated 
+  useEffect(() => {
+    if (data && data.userFavorites) {
+      // Create a set of unique drink names
+      const uniqueDrinks = new Set(data.userFavorites.map((drink) => drink.name));
+      setUniqueFavoriteDrinks(uniqueDrinks);
+    }
+  }, [data]);
 
   if (!userId) {
     return (
@@ -34,7 +45,7 @@ const Profile = () => {
   if (loading) return <Typography>Loading...</Typography>;
   if (error) return <Typography>Error: {error.message}</Typography>;
 
-  const favoriteDrinks = data.userFavorites || [];
+  // const favoriteDrinks = data.userFavorites || [];
 
   const handleRemoveFavorite = async (drinkName) => {
     try {
@@ -56,37 +67,25 @@ const Profile = () => {
         borderRadius: "10px",
       }}
     >
-      {userId ? (
+      {uniqueFavoriteDrinks.size > 0 ? (
         <>
-          {favoriteDrinks.length > 0 ? (
-            <Box>
-              <Typography variant="h3">Favorite Drinks</Typography>
-              <ul>
-                {favoriteDrinks.map((drink, index) => (
-                  <li key={index}>
-                    <Tooltip variant="h3" title={`Ingredients: ${drink.ingredients.join(", ")}`} arrow>
-                      <Typography variant="h5">{drink.name}</Typography>
-                    </Tooltip>
-                    <Button onClick={() => handleRemoveFavorite(drink.name)}>
-                      Remove
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            </Box>
-          ) : (
-            <Box>
-              <Typography>No favorite drinks yet fam...</Typography>
-            </Box>
-          )}
+          <Typography variant="h3">Favorite Drinks</Typography>
+          <ul>
+            {[...uniqueFavoriteDrinks].map((drinkName, index) => (
+              <li key={index}>
+                <Tooltip title={`Drink Name: ${drinkName}`} arrow>
+                  <Typography variant="h5">{drinkName}</Typography>
+                </Tooltip>
+                <Button onClick={() => handleRemoveFavorite(drinkName)}>Remove</Button>
+              </li>
+            ))}
+          </ul>
         </>
       ) : (
-        <>
-          <Typography>Either log in or sign up dude..... you got liquor to drink</Typography>
-        </>
-
+        <Typography>No favorite drinks yet fam...</Typography>
       )}
     </Box>
+
   );
 };
 
