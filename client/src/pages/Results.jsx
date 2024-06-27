@@ -18,6 +18,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import StarIcon from "@mui/icons-material/Star";
 import AddToFavoritesButton from "../components/AddFavorites/AddToFavoritesButton";
 import Auth from "../utils/auth";
+import "../components/Search/FormulaResults/ResultsList.css"
 
 const Results = () => {
   const location = useLocation();
@@ -107,36 +108,13 @@ const Results = () => {
                   },
                 }}
               >
-                <Box
-                  sx={{
-                    position: "relative",
-                    height: "250px",
-                    overflow: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    padding: "10px",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      width: "100%",
-                      height: "70%",
-                      backgroundImage: `url('/assets/icons/${formula.icon}')`,
-                      backgroundSize: "contain",
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "center",
-                      opacity: 1,
-                    }}
+                <Box className = 'drinkCard'>
+                  <Box className = 'drinkCardImage'
+                    sx={{ backgroundImage: `url('/assets/icons/${formula.icon}')`}}
                   />
 
                   {/* Reviews will be available once we set up the server to track the user preferences. For now we will have 'N/A' displayed */}
-                  <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
+                  <Box className = 'drinkCardReviews'>
                     <Typography variant="body2" className="cardHeaderItem">
                       <StarIcon
                         fontSize="small"
@@ -180,6 +158,7 @@ const Results = () => {
                           userId={userId}
                           isFavorite={globalState.favorites?.includes(
                             formula.name
+                            
                           )}
                           onSuccess={(updatedFavorites) =>
                             setGlobalState({

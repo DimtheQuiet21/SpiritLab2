@@ -16,6 +16,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddToFavoritesButton from "../components/AddFavorites/AddToFavoritesButton";
+import "../components/Search/FormulaDescription/DrinkPage.css";
 
 const Description = () => {
   const location = useLocation();
@@ -41,16 +42,16 @@ const Description = () => {
     if (userId) {
       const updatedFavorites = new Set(globalState.favorites ?? []); // Default to empty array
       if (isFavorite) {
-        updatedFavorites.add(formula.name);
-      } else {
         updatedFavorites.delete(formula.name);
+      } else {
+        updatedFavorites.add(formula.name);
       }
       setGlobalState({ ...globalState, favorites: Array.from(updatedFavorites) });
     }
   };
 
   return (
-    <Box sx={{ position: "relative", minHeight: "100vh", paddingBottom: "60px" }}>
+    <Box className = 'drinkCardBox'>
       <Box display="flex" alignItems="center" mb={2}>
         <IconButton onClick={() => navigate(-1)}>
           <ArrowBackIcon />
@@ -59,7 +60,7 @@ const Description = () => {
           {formula.name}
         </Typography>
       </Box>
-      <Card sx={{ margin: "20px", padding: "20px", position: "relative", borderRadius: "15px" }}>
+      <Card className="drinkCard">
         <Box display="flex" justifyContent="space-between" alignItems="center">
         {userId && (
             <AddToFavoritesButton
@@ -70,15 +71,8 @@ const Description = () => {
             />
           )}
         </Box>
-        <Box
-          sx={{
-            height: "200px",
-            backgroundImage: `url('/assets/icons/${formula.icon}')`,
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            marginBottom: "20px",
-          }}
+        <Box className= "drinkCardIcon"
+          sx={{ backgroundImage: `url('/assets/icons/${formula.icon}')` }}
         />
       </Card>
       <CardContent>
