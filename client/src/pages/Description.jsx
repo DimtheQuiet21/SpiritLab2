@@ -1,5 +1,3 @@
-// Fellas here is the "Detail" page; which is a page that displays the details of a formula. It shows the name, creator, icon, ingredients, and reviews of the formula. It also allows the user to favorite the formula, view the ingredients, and view the reviews. The user can also navigate to the "Lab" page to modify the formula. 
-
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -12,21 +10,22 @@ import {
   Tab,
   Button,
 } from "@mui/material";
-import { useGlobalContext } from '../globalProvider';
-
+import { useGlobalContext } from "../globalProvider";
+import Auth from "../utils/auth";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AddToFavoritesButton from "../components/AddFavorites/AddToFavoritesButton";
 
-const Detail = () => {
+const Description = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { formula } = location.state || {};
   const [tabIndex, setTabIndex] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const { setGlobalState } = useGlobalContext();
+  const { globalState, setGlobalState } = useGlobalContext();
+  const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
+  const isFavorite = globalState.favorites?.includes(formula.name); 
+
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
@@ -37,12 +36,21 @@ const Detail = () => {
     navigate("/lab", { state: { formula } });
   };
 
+  // we toggle the status of the favorite drink by checking if the drink is already a favorite or not
   const handleFavoriteToggle = () => {
-    setIsFavorite(!isFavorite);
+    if (userId) {
+      const updatedFavorites = new Set(globalState.favorites ?? []); // Default to empty array
+      if (isFavorite) {
+        updatedFavorites.add(formula.name);
+      } else {
+        updatedFavorites.delete(formula.name);
+      }
+      setGlobalState({ ...globalState, favorites: Array.from(updatedFavorites) });
+    }
   };
 
   return (
-    <Box sx={{ position: 'relative', minHeight: '100vh', paddingBottom: '60px' }}>
+    <Box sx={{ position: "relative", minHeight: "100vh", paddingBottom: "60px" }}>
       <Box display="flex" alignItems="center" mb={2}>
         <IconButton onClick={() => navigate(-1)}>
           <ArrowBackIcon />
@@ -53,13 +61,14 @@ const Detail = () => {
       </Box>
       <Card sx={{ margin: "20px", padding: "20px", position: "relative", borderRadius: "15px" }}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <IconButton onClick={handleFavoriteToggle}>
-            {isFavorite ? (
-              <FavoriteIcon sx={{ color: 'var(--main-coral)' }} />
-            ) : (
-              <FavoriteBorderIcon sx={{ color: 'var(--main-blue)' }} />
-            )}
-          </IconButton>
+        {userId && (
+            <AddToFavoritesButton
+              drinkName={formula.name}
+              userId={userId}
+              isFavorite={isFavorite}
+              onSuccess={handleFavoriteToggle}
+            />
+          )}
         </Box>
         <Box
           sx={{
@@ -79,17 +88,17 @@ const Detail = () => {
             <Typography variant="subtitle2">Concocted by: Spirit Labs</Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="center">
-              <IconButton>
-                <CheckIcon sx={{ color: "green" }} />
-              </IconButton>
-              <Typography variant="body2">12k</Typography> {/* Placeholder for check count */}
-            </Box>
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <IconButton>
-                <CloseIcon sx={{ color: "red" }} />
-              </IconButton>
-              <Typography variant="body2">7k</Typography> {/* Placeholder for close count */}
-            </Box>
+            <IconButton>
+              <CheckIcon sx={{ color: "green" }} />
+            </IconButton>
+            <Typography variant="body2">12k</Typography> {/* Placeholder for check count */}
+          </Box>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <IconButton>
+              <CloseIcon sx={{ color: "red" }} />
+            </IconButton>
+            <Typography variant="body2">7k</Typography> {/* Placeholder for close count */}
+          </Box>
         </Box>
       </CardContent>
       <Tabs value={tabIndex} onChange={handleTabChange} centered>
@@ -106,16 +115,8 @@ const Detail = () => {
               {formula.liquid.map((ingredient, index) => (
                 <li key={index}>{ingredient.name}</li>
               ))}
-              {/* <Typography variant="h6">Assembly Instructions</Typography>
-              {formula.assembly} */}
-
             </ul>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleGoToLab}
-              sx={{ width: "100%" }}
-            >
+            <Button variant="contained" color="primary" onClick={handleGoToLab} sx={{ width: "100%" }}>
               Modify Concoction in Lab
             </Button>
           </Box>
@@ -123,12 +124,8 @@ const Detail = () => {
         {tabIndex === 1 && (
           <Box>
             <Typography variant="h6">Reviews</Typography>
-            {/* Placeholder for reviews */}
             <Typography>No reviews yet.</Typography>
-            <Button
-            variant="contained"
-            color="primary"
-            sx={{width:'100%'}}>
+            <Button variant="contained" color="primary" sx={{ width: "100%" }}>
               Leave a Review
             </Button>
           </Box>
@@ -138,4 +135,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default Description;
