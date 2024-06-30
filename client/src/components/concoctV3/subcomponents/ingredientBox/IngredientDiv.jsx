@@ -36,29 +36,24 @@ const IngredientDiv = ({ingredients, type, index, searchList }) => {
     }, [])
 
     function handleAddition(type) {
-        
-        // const newArray = [...ingredientState];
-        // newArray.push(
-        //     {
-        //         _typename: "Ingredient",
-        //         name:"ingredient",
-        //         amount:"0 oz",
-        //         technique:"",
-        //         sliderValue : 1,
-        //         value : 0,
-        //         unit :"oz",
-        //         altUnit : ""
-        //     });
-
-        // console.log("This is the New Array", newArray)
-        // setIngredientState(newArray)
-        // //buildDrinkData(newArray)
-        // updateIngredientCategory (newArray, matrix)
         setPopUpState({
             toggle:true,
             option: "Add",
             parameters: {
                 type: type,
+                state: ingredientState
+            }
+        })
+    }
+
+    function handleEdit(type,ingredient, index) {
+        setPopUpState({
+            toggle:true,
+            option: "Edit",
+            parameters: {
+                type: type,
+                ingredient: ingredient,
+                index: index,
                 state: ingredientState
             }
         })
@@ -79,9 +74,10 @@ const IngredientDiv = ({ingredients, type, index, searchList }) => {
     }
 
     const listRender = useMemo(() => {
-        console.log(ingredientState.length > 0);
+        //console.log(ingredientState.length > 0);
         if (ingredientState.length > 0){
             return ingredientState.map((ingredient, index) => {
+                console.log(ingredient)
                 return (
                     <Box key={index}>
                         <Box className="ingredientHeader">
@@ -89,7 +85,7 @@ const IngredientDiv = ({ingredients, type, index, searchList }) => {
                                 <Typography>{`${ingredient.name[0].toUpperCase() + ingredient.name.slice(1)}`}</Typography>
                             </Box>
                             <ButtonGroup variant="contained" className="titleButtons">
-                                <Button id = {`${type} ${index}`}><EditIcon fontSize="small" /></Button>
+                                <Button id = {`${type} ${index}`} onClick={() => handleEdit(`${type}`,`${ingredient.name[0].toUpperCase() + ingredient.name.slice(1)}`, index)}><EditIcon fontSize="small" /></Button>
                                 <Button id = {`${type} ${index}`} onClick={() => handleDeletion(`${type} ${index}`)}><DeleteIcon fontSize="small" /></Button>
                             </ButtonGroup>
                         </Box>
