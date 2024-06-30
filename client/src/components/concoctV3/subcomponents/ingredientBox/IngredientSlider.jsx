@@ -12,10 +12,11 @@ import { useGlobalContext } from "../../../../globalProvider.jsx";
 
 const IngredientSlider = ( {sliderIndex, drinkData, type, setDrinkData} ) => {
 
-    const [sliderValue, setSliderValue] = useState(0);
+    const [data, setData] = useState(drinkData)
+    const [sliderValue, setSliderValue] = useState(drinkData[sliderIndex].sliderValue);
     const [quantity, setQuantity] = useState('');
-    const [unitOfMeasure, setUnitOfMeasure] = useState('');
-    const [altUnit, setAltUnit] = useState('');
+    const [unitOfMeasure, setUnitOfMeasure] = useState(drinkData[sliderIndex].unit);
+    const [altUnit, setAltUnit] = useState(drinkData[sliderIndex].altUnit);
     const {updateIngredientCategory} = useGlobalContext()
 
     // Sets initial states
@@ -23,35 +24,62 @@ const IngredientSlider = ( {sliderIndex, drinkData, type, setDrinkData} ) => {
         if (!drinkData) {
             return;
         } else {
-            const newValue = drinkData[sliderIndex].sliderValue;
-            const newUnit = drinkData[sliderIndex].unit;
-            const newAltUnit = drinkData[sliderIndex].altUnit;
+            // const newValue = drinkData[sliderIndex].sliderValue;
+            // const newUnit = drinkData[sliderIndex].unit;
+            // const newAltUnit = drinkData[sliderIndex].altUnit;
     
-            setSliderValue(newValue);
-            setUnitOfMeasure(newUnit);
-            setAltUnit(newAltUnit);
+            // setSliderValue(newValue);
+            // setUnitOfMeasure(newUnit);
+            // setAltUnit(newAltUnit);
     
-            handleQuantity(sliderValue);
+        handleQuantity(sliderValue);
         }
     }, [])
 
     //Updates quanitity displays and parent state on slider change
     useEffect(() => {
-        handleQuantity(sliderValue);
-        updateParent(sliderValue);
+        //console.log("This is the sliderValue",sliderValue
+
+        //for SOME cursed reason, the slider value was getting changed? Even though it wasn't? So I put this 
+        //Little IF statement in. Now the sliderValue ACTUALLY has to be different than the input data coming in
+        //To cause a change to the global state.
+        
+        if (sliderValue !== drinkData[sliderIndex].sliderValue) {
+            console.log("YOU ARE HITTING A SLIDER VALUE, GLOBAL UPDATE EMMINENT")
+            handleQuantity(sliderValue);
+            updateParent(sliderValue);
+        }
     }, [sliderValue, unitOfMeasure])
 
     //Updates parent state with current slider values & unit
-    const updateParent = () => {
-        const updatedArr = [...drinkData];
-        console.log(updatedArr)
+    function updateParent () {
+        
+        const updatedArr = [...data];
+        console.log("Updating Parent", updatedArr)
+        //console.log(updatedArr)
+
+        //Again for some reason the objects do not come in as extensible. So I have
+        //to add this condition to check that they are and make a shallow copy if not.
+        
+        if (!Object.isExtensible(updatedArr[sliderIndex])){
+            updatedArr[sliderIndex] = {...updatedArr[sliderIndex]}
+        }
+
         updatedArr[sliderIndex].sliderValue = sliderValue;
         updatedArr[sliderIndex].unit = unitOfMeasure;
-        if (quantity != 0) {
-            updatedArr[sliderIndex].value = quantity;
-            console.log(quantity)
-        }
+
+        // if (quantity != 0) {
+        //     updatedArr[sliderIndex].value = quantity;
+        //     console.log("This is the NEW quantity",quantity,sliderIndex)
+        // }
+
+        updatedArr[sliderIndex].value = quantity;
+        console.log("This is the NEW quantity",quantity,sliderIndex)
+
+
         updatedArr[sliderIndex].amount = `${updatedArr[sliderIndex].value} ${updatedArr[sliderIndex].unit}`
+
+
         console.log("This is the updatedArr", updatedArr)
         updateIngredientCategory(updatedArr, type)
         setDrinkData(updatedArr);
@@ -65,6 +93,7 @@ const IngredientSlider = ( {sliderIndex, drinkData, type, setDrinkData} ) => {
     //Updates quantity display based on unit
     const handleQuantity = (value) => {
         if (unitOfMeasure == 'oz') {
+            //console.log(value)
             setQuantity(value*0.5);
         } else if (unitOfMeasure == 'ml') {
             setQuantity((value*30)*0.5);
@@ -92,8 +121,11 @@ const IngredientSlider = ( {sliderIndex, drinkData, type, setDrinkData} ) => {
             defaultValue={0}
             value={sliderValue}
             onChange={(value) => {
-                setSliderValue(value);
-                handleQuantity(value);
+                const max = 10;
+                if (value < max) {
+                    setSliderValue(value);
+                    handleQuantity(value);
+                }
             }}
             />
         </Box>
