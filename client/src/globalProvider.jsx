@@ -11,7 +11,7 @@ export const useGlobalContext = () => useContext(globalContext)
 // Then the Global state acts like a hard reset if you summon it.
 
 const GlobalProvider = ({ children }) => {
-  const [globalState, setGlobalState] = useState({favorites: []}); 
+  const [globalState, setGlobalState] = useState({ favorites: [] }); 
   // prior to initializing favorites as an empty array, I kept receiving errors with any operation I would try to use that involving the favorites array. ('Cannot read property 'includes' of undefined')
   // so I initialized it as an empty array because we know that the favorites array will be an array of strings right from the start
   // plus managing favorites in the global state makes it way easier to manage the favorites list across the application since users will be able to `Favorite` drinks from most of the pages

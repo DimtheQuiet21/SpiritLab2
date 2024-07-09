@@ -83,19 +83,6 @@ const resolvers = {
     inventory: async () => {
       return Inventory.find({});
     },
-    allDrinks: async () => {
-      try {
-        const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-        const data = await response.json();
-        return data.drinks.map(drink => ({
-          name: drink.strDrink,
-          ingredients: [drink.strIngredient1, drink.strIngredient2, drink.strIngredient3, drink.strIngredient4, drink.strIngredient5, drink.strIngredient6 ].filter(Boolean),
-          image: drink.strDrinkThumb
-        }));
-      } catch (error) {
-        throw new Error('Failed to fetch all drinks');
-      }
-    },
 
     formulas: async () => {
       return Formulas.find({});
@@ -159,25 +146,47 @@ const resolvers = {
         if (!user) {
           throw new Error("User does not exist");
         }
-        
+    
         // Populate the ingredients for each favorite drink
         const favoriteDrinksWithIngredients = await Promise.all(
           user.favoriteDrinks.map(async (favoriteDrink) => {
-            // Fetch a random cocktail to get names and ingredients
-            const randomCocktail = await fetchRandomCocktail();
-            // Return the random cocktail data with the favorite drink's name
-            return {
-              name: favoriteDrink.name,
-              ingredients: randomCocktail.ingredients
-            };
+            try {
+              // Fetch the formula to get names, ingredients, and icon
+              const formula = await Formulas.findOne({ name: favoriteDrink.name });
+              if (!formula) {
+                console.warn(`Formula ${favoriteDrink.name} not found`);
+                return null;
+              }
+              // Return the formula data with the favorite drink's name and icon
+              return {
+                name: favoriteDrink.name,
+                ingredients: [
+                  ...formula.alcohol.map(ingredient => ingredient.name),
+                  ...formula.liquid.map(ingredient => ingredient.name),
+                  ...formula.garnish.map(ingredient => ingredient.name)
+                ],
+                icon: formula.icon
+              };
+            } catch (err) {
+              console.error(`Error fetching formula for ${favoriteDrink.name}:`, err);
+              return null;
+            }
           })
         );
+    
+        // Filter out any drinks that were not found
+        // Filter out duplicates based on name
+        const uniqueFavoriteDrinks = favoriteDrinksWithIngredients.filter((drink, index, self) =>
+          index === self.findIndex((d) => (
+          d && drink && d.name === drink.name
+    ))
+  );
 
-        return favoriteDrinksWithIngredients;
-      } catch (err) {
-        console.error(err);
-        throw new Error("Failed to get user favorites with ingredients: " + err.message);
-      }
+  return uniqueFavoriteDrinks;
+} catch (err) {
+  console.error(err);
+  throw new Error("Failed to get user favorites with ingredients: " + err.message);
+}
     },
 
     allFavoriteDrinks: async () => {
@@ -193,7 +202,8 @@ const resolvers = {
               ...formula.alcohol.map(ingredient => ingredient.name),
               ...formula.liquid.map(ingredient => ingredient.name),
               ...formula.garnish.map(ingredient => ingredient.name)
-            ]
+            ],
+            icon: formula.icon
           }));
         } catch (error) {
           console.error("Error fetching all drinks:", error);
@@ -249,16 +259,14 @@ const resolvers = {
         if (!user) {
           throw new Error("User does not exist");
         }
-        if (!user.favoriteDrinks) {
-          user.favoriteDrinks = [];
-        }
         // Check if the drink is already in the user's favorites list
-        if (!user.favoriteDrinks.includes(drink)) {
-          // Add the drink to the favorites list
-          user.favoriteDrinks.push({ name: drink });
+        const alreadyExists = user.favoriteDrinks.some(fav => fav.name === drink);
+        if (!alreadyExists) {
+        // Add the drink to the favorites list
+        user.favoriteDrinks.push({ name: drink });
 
-          // Save the updated user
-          await user.save();
+        // Save the updated user
+        await user.save();
         }
 
         return { name: drink };

@@ -103,10 +103,10 @@ const Description = () => {
         {tabIndex === 0 && (
           <Box>
             <ul>
-              {formula.alcohol.map((ingredient, index) => (
+              {formula.alcohol && formula.alcohol.map((ingredient, index) => (
                 <li key={index}>{ingredient.name}</li>
               ))}
-              {formula.liquid.map((ingredient, index) => (
+              {formula.liquid && formula.liquid.map((ingredient, index) => (
                 <li key={index}>{ingredient.name}</li>
               ))}
             </ul>
