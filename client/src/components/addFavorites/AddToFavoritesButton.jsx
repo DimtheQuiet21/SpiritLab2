@@ -20,6 +20,7 @@ const AddToFavoritesButton = ({ drinkName, userId, isFavorite, onSuccess }) => {
       variables: {
         userId: userId,
         drink: drinkName,
+        ingredients: [],
       },
     })
       .then((response) => {

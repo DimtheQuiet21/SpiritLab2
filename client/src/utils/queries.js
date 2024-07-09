@@ -117,6 +117,7 @@ query GetUserFavoriteDrinks($userId: ID!) {
   userFavorites(userId: $userId) {
     name
     ingredients
+    icon
   }
 }
 `;

@@ -1,0 +1,11 @@
+.user-profile {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Adjust as needed */
+  }
+  
+  .profile-image {
+    border-radius: 50%; 
+    object-fit: cover;
+    background-color: #e0e0e0;
+  }

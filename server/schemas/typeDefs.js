@@ -43,6 +43,7 @@ type Cocktail {
 
 type DrinkFavorite {
     name: String!
+    icon: String
     ingredients: [String]!
 }
 
@@ -91,7 +92,7 @@ type Query {
 type Mutation {
     addUser(userName: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addToFavorites(userId: ID!, drink: String!): DrinkFavorite
+    addToFavorites(userId: ID!, drink: String!, ingredients: [String]!): DrinkFavorite
     removeFavoriteDrink(userId: ID!, drink: String!): DrinkFavorite
 }
 `
