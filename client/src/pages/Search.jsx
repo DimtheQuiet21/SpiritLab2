@@ -53,8 +53,11 @@ function Search() {
   const handleSetChoice = (choice) => {
     const formulaMatch = data.formulas.find((formula) => formula.name === choice);
     if (formulaMatch) {
+      setGlobalState(prevState => ({
+        ...prevState,
+        formula: formulaMatch
+      }));
       navigate("/description", { state: { formula: formulaMatch } });
-      console.log(formulaMatch);
     } else {
       console.error(`Formula '${choice}' not found.`);
     }

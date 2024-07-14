@@ -56,7 +56,10 @@ const Results = () => {
 
   // This function is defined to navigate to the '/lab' route with the clicked formula as state
   const handleFormulaClick = (formula) => {
-    setGlobalState(formula);
+    setGlobalState(prevState => ({
+      ...prevState,
+      formula: formula
+    }));
     navigate("/description", { state: { formula } });
   };
 

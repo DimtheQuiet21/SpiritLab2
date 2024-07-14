@@ -9,7 +9,10 @@ import {
   Tabs,
   Tab,
   Button,
+  CircularProgress,
 } from "@mui/material";
+import { useQuery } from "@apollo/client";
+import { GET_ALL_FORMULAS } from "../utils/queries";
 import { useGlobalContext } from "../globalProvider";
 import Auth from "../utils/auth";
 import CheckIcon from "@mui/icons-material/Check";
@@ -22,11 +25,16 @@ const Description = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { formula } = location.state || {};
+  const { loading, error, data } = useQuery(GET_ALL_FORMULAS);
   const [tabIndex, setTabIndex] = useState(0);
   const { globalState, setGlobalState } = useGlobalContext();
   const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
-  const isFavorite = globalState.favorites?.includes(formula.name); 
+  const isFavorite = globalState.favorites?.includes(formula?.name); 
 
+  if (loading) return <CircularProgress />;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const drinkInfo = data.formulas.find((f) => f.name === formula?.name);
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
@@ -37,48 +45,51 @@ const Description = () => {
     navigate("/lab", { state: { formula } });
   };
 
-  // we toggle the status of the favorite drink by checking if the drink is already a favorite or not
-  const handleFavoriteToggle = () => {
-    if (userId) {
-      const updatedFavorites = new Set(globalState.favorites ?? []); // Default to empty array
-      if (isFavorite) {
-        updatedFavorites.delete(formula.name);
-      } else {
-        updatedFavorites.add(formula.name);
-      }
-      setGlobalState({ ...globalState, favorites: Array.from(updatedFavorites) });
-    }
+  const renderIngredientsList = () => {
+    if (!drinkInfo) return null;
+
+    return (
+      <ul>
+        {drinkInfo.alcohol && drinkInfo.alcohol.map((ingredient, index) => (
+          <li key={index}>{ingredient.name}</li>
+        ))}
+        {drinkInfo.liquid && drinkInfo.liquid.map((ingredient, index) => (
+          <li key={index}>{ingredient.name}</li>
+        ))}
+        {drinkInfo.garnish && drinkInfo.garnish.map((ingredient, index) => (
+          <li key={index}>{ingredient.name}</li>
+        ))}
+      </ul>
+    );
   };
 
   return (
-    <Box className = 'drinkCardBox'>
+    <Box className='drinkCardBox'>
       <Box display="flex" alignItems="center" mb={2}>
         <IconButton onClick={() => navigate(-1)}>
           <ArrowBackIcon />
         </IconButton>
         <Typography variant="h4" gutterBottom>
-          {formula.name}
+          {formula?.name}
         </Typography>
       </Box>
       <Card className="drinkCard">
         <Box display="flex" justifyContent="space-between" alignItems="center">
-        {userId && (
+          {userId && (
             <AddToFavoritesButton
-              drinkName={formula.name}
+              drinkName={drinkInfo?.name}
               userId={userId}
               isFavorite={isFavorite}
-              onSuccess={handleFavoriteToggle}
+              onSuccess={() => {}}
             />
           )}
         </Box>
-        <Box className= "drinkCardIcon"
-          sx={{ backgroundImage: `url('/assets/icons/${formula.icon}')` }}
-        />
+        <Box className="drinkCardIcon" sx={{ backgroundImage: `url('/assets/icons/${formula?.icon}')` }} />
       </Card>
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box>
-            <Typography variant="h5">{formula.name}</Typography>
+            <Typography variant="h5">{drinkInfo?.name}</Typography>
             <Typography variant="subtitle2">Concocted by: Spirit Labs</Typography>
           </Box>
           <Box display="flex" flexDirection="column" alignItems="center">
@@ -102,14 +113,7 @@ const Description = () => {
       <Box sx={{ padding: "20px" }}>
         {tabIndex === 0 && (
           <Box>
-            <ul>
-              {formula.alcohol && formula.alcohol.map((ingredient, index) => (
-                <li key={index}>{ingredient.name}</li>
-              ))}
-              {formula.liquid && formula.liquid.map((ingredient, index) => (
-                <li key={index}>{ingredient.name}</li>
-              ))}
-            </ul>
+            {renderIngredientsList()}
             <Button variant="contained" color="primary" onClick={handleGoToLab} sx={{ width: "100%" }}>
               Modify Concoction in Lab
             </Button>
