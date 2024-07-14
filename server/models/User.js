@@ -23,6 +23,7 @@ const userSchema = new Schema({
   favoriteDrinks: {
     type: [{
       name: String,
+      ingredients: [String],
     }],
   }
 });

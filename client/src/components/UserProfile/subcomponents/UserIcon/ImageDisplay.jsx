@@ -1,12 +1,13 @@
 import React from "react";
-import { Typography, Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import "../UserIcon/ImageDisplay.css";
+import TheDude from "../../assets/TheDude.png";
 
 const ImageDisplay = () => {
   return (
     <Box className="user-profile">
-    <img src="https://via.placeholder.com/250" alt="User" className="profile-image" />
-  </Box>
+      <img src={TheDude} alt="The Dude" className="user-profile-image" /> 
+    </Box>
   );
 };
 

@@ -7,7 +7,7 @@ import { Typography, Box } from "@mui/material";
 import UserProfile from "../components/UserProfile/UserProfile.jsx";
 
 const Profile = () => {
-  const { globalState } = useGlobalContext;
+  const { globalState, setGlobalState } = useGlobalContext();
   const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
   const username = Auth.loggedIn() ? Auth.getProfile().data.userName : null;
 
@@ -24,6 +24,7 @@ const Profile = () => {
       // Remove duplicates based on name
       const uniqueDrinks = removeDuplicates(data.userFavorites, 'name');
       setUniqueFavoriteDrinks(uniqueDrinks);
+      setGlobalState({ ...globalState, favorites: uniqueDrinks.map(drink => drink.name) });
       console.log("Unique drinks:", uniqueDrinks);
     }
   }, [data]);
