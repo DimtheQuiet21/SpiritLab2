@@ -1,83 +1,6 @@
 const { Inventory, Formulas, User } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
-// const fetchCocktail = async (url) => {
-//   // For resusability, this makes a fetch request to the cocktail API and returns the data
-//   const response = await fetch(url);
-//   const data = await response.json();
-//   const drink = data.drinks[0]; // Will get us the first drink from the array
-//   if (!drink) {
-//     throw new Error("No drink found");
-//   }
-//   return {
-//     name: drink.strDrink,
-//     ingredients: [
-//       drink.strIngredient1,
-//       drink.strIngredient2,
-//       drink.strIngredient3,
-//       drink.strIngredient4,
-//       drink.strIngredient5,
-//       drink.strIngredient6,
-//     ].filter(Boolean), // This will remove any null or undefined values from array (in case the drink has less than 6 ingredients)
-//     image: drink.strDrinkThumb,
-//   };
-// };
-// const fetchRandomCocktail = async () => {
-//   try {
-//     const response = await fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php");
-//     const data = await response.json();
-//     if (!data.drinks || data.drinks.length === 0) {
-//       throw new Error("No random cocktail found");
-//     }
-//     const randomCocktail = data.drinks[0];
-//     const ingredients = [];
-//     // Collect up to 15 ingredients
-//     for (let i = 1; i <= 15; i++) {
-//       const ingredient = randomCocktail[`strIngredient${i}`];
-//       if (!ingredient) break; // Stop if there are no more ingredients
-//       ingredients.push(ingredient);
-//     }
-//     return {
-//       name: randomCocktail.strDrink,
-//       ingredients: ingredients.filter(Boolean) // Filter out any empty strings
-//     };
-//   } catch (error) {
-//     console.error("Error fetching random cocktail:", error);
-//     throw new Error("Failed to fetch random cocktail");
-//   }
-// };
-
-// fetchPreciseCocktail = async (url) => {
-//   try {
-//     const response = await fetch(url);
-//     const data = await response.json();
-//     const drink = data.drinks[0];
-//     if (!data.drinks || data.drinks.length === 0) {
-//       throw new Error("No drink found");
-//     }
-
-    
-//     const ingredients = [
-//       drink.strIngredient1,
-//       drink.strIngredient2,
-//       drink.strIngredient3,
-//       drink.strIngredient4,
-//       drink.strIngredient5,
-//       drink.strIngredient6,
-//       drink.strIngredient7,
-//     ].filter(Boolean);
-
-//     return {
-//       name: drink.strDrink,
-//       ingredients: ingredients,
-//       image: drink.strDrinkThumb,
-//     };
-//   } catch (error) {
-//     console.error("Error fetching precise cocktail:", error);
-//     throw new Error("Failed to fetch precise cocktail");
-//   }
-// };
-
 const resolvers = {
   Query: {
     inventory: async () => {
@@ -117,6 +40,12 @@ const resolvers = {
       });
     },
 
+    randomDrink: async () => {
+      const count = await Formulas.countDocuments(); // get the count of all formulas
+      const random = Math.floor(Math.random() * count); // get random number between 0 and count
+      return Formulas.findOne().skip(random); // skip to the random number and return that formula
+    },
+
     users: async (parent, { userName }) => {
       return User.find();
     },
@@ -124,22 +53,7 @@ const resolvers = {
     user: async (parent, { userName }) => {
       return User.findOne({ userName });
     },
-
-    // randomCocktail: async () => {
-    //   return fetchCocktail(
-    //     "https://www.thecocktaildb.com/api/json/v1/1/random.php"
-    //   );
-    // },
-    // drinkOfDay: async () => {
-    //   return fetchPreciseCocktail(
-    //     "https://www.thecocktaildb.com/api/json/v1/1/random.php"
-    //   );
-    // },
-    // searchCocktail: async (parent, { name }) => {
-    //   const encodedName = encodeURIComponent(name);
-    //   const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodedName}`;
-    //   return fetchPreciseCocktail(url);
-    // },
+    
     userFavorites: async (parent, { userId }) => {
       try {
         const user = await User.findById(userId);

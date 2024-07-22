@@ -76,27 +76,36 @@ query getInventoryData($terms: [String]!) {
   }
 }
 `
-export const RANDOM_COCKTAIL_QUERY = gql`
-  query RandomCocktail {
-    randomCocktail {
+
+export const RANDOM_DRINK_QUERY = gql`
+  query RandomDrink {
+    randomDrink {
+      _id
       name
-      ingredients
-      image
+      type
+      icon
+      alcohol {
+        name
+        amount
+        technique
+      }
+      liquid {
+        name
+        amount
+        technique
+      }
+      garnish {
+        name
+        amount
+        technique
+      }
+      assembly
     }
   }
 `;
 export const GET_ALL_DRINKS = gql`
   query GetAllDrinks {
     allDrinks {
-      name
-      ingredients
-      image
-    }
-  }
-`;
-export const DRINK_OF_DAY_QUERY = gql`
-  query GetDayCocktail {
-    drinkOfDay {
       name
       ingredients
       image

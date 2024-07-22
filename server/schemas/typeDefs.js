@@ -32,7 +32,7 @@ type Ingredient {
 type DayDrink {
     name: String
     ingredients: [String]
-    image: String
+    icon: String
 }
 
 type Cocktail {
@@ -56,7 +56,7 @@ type PopularDrink {
 type Drink {
     name: String
     ingredients: [String]
-    image: String
+    icon: String
   }
 
 type User {
@@ -78,7 +78,7 @@ type Query {
     formulasbytype(type: String!):[Formulas]
     formulasbyingredient(terms:[String]!):[Formulas]
     formula(name: String!): Formulas
-    randomCocktail: Cocktail
+    randomDrink: Formulas
     searchCocktail(name: String!): Cocktail
     drinkOfDay: DayDrink
     users: [User]
