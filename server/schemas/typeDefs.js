@@ -16,11 +16,13 @@ type Formulas {
     _id: ID
     name: String
     type : String
+    glass: String
     icon: String
     alcohol: [Ingredient]
     liquid: [Ingredient]
     garnish: [Ingredient]
     assembly: String
+    favoritesCount: Int
 }
 
 type Ingredient {
@@ -44,12 +46,6 @@ type Cocktail {
 type DrinkFavorite {
     name: String!
     icon: String
-    ingredients: [String]!
-}
-
-type PopularDrink {
-    name: String!
-    favorites: Int!
     ingredients: [String]!
 }
 
@@ -79,12 +75,12 @@ type Query {
     formulasbyingredient(terms:[String]!):[Formulas]
     formula(name: String!): Formulas
     randomDrink: Formulas
+    allGlassTypes: [String]
     searchCocktail(name: String!): Cocktail
     drinkOfDay: DayDrink
     users: [User]
     user(userName: String!): User
     userFavorites(userId: ID!): [DrinkFavorite]
-    allFavoriteDrinks: [PopularDrink]!
     allDrinks: [Drink]
 
 }

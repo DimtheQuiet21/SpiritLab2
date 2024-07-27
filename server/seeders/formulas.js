@@ -156,6 +156,15 @@ const worcester = "worcestershire sauce";
 const margarita = "margarita";
 const unsweetendCocoaPowder = "unsweetened cocoa powder";
 
+const highballGlass = "highball glass";
+const martiniGlass = "martini glass";
+const oldFashionedGlass = "old-fashioned glass";
+const margaritaGlass = "margarita glass";
+const shotGlass = "shot glass";
+const collinsGlass = "collins glass";
+const wineGlass = "wine glass";
+const sourGlass = "sour glass";
+
 const namesArray = [
     "045-cocktails-3.png",
     "001-cocktail-3.png",
@@ -214,6 +223,7 @@ const formulas = [
     {
         "name":"Acapulco",
         "type":tequila,
+        "glass":highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -252,6 +262,7 @@ const formulas = [
     {
         "name":"Bird of Paradise",
         "type":tequila,
+        "glass":martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -284,6 +295,7 @@ const formulas = [
     {
         "name":"Bite of the Iguana",
         "type":tequila,
+        "glass": margaritaGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -341,6 +353,7 @@ const formulas = [
     {
         "name":"Black Sombrero",
         "type":tequila,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -368,6 +381,7 @@ const formulas = [
     {
         "name":"Bloody Maria",
         "type":tequila,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -425,6 +439,7 @@ const formulas = [
     {
         "name":"Blue Moon",
         "type":tequila,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -457,6 +472,8 @@ const formulas = [
     {
         "name":"Blue Shark",
         "type":tequila,
+        "glass": martiniGlass,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -484,6 +501,7 @@ const formulas = [
     {
         "name":"Bonsai Margarita",
         "type":tequila,
+        "glass": margaritaGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -536,6 +554,7 @@ const formulas = [
     {
         "name":"Brave Bull",
         "type":tequila,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -563,6 +582,7 @@ const formulas = [
     {
         "name":"Southern Bull",
         "type":tequila,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -595,6 +615,7 @@ const formulas = [
     {
         "name":"Chapala",
         "type":tequila,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -637,6 +658,7 @@ const formulas = [
     {
         "name":"Cherry Picker",
         "type":tequila,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -674,6 +696,7 @@ const formulas = [
     {
         "name":"Classic Tequila Shot",
         "type":tequila,
+        "glass": shotGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -701,6 +724,7 @@ const formulas = [
     {
         "name":"Compadre",
         "type":tequila,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -738,6 +762,7 @@ const formulas = [
     {
         "name":"El Diablo",
         "type":tequila,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -770,6 +795,7 @@ const formulas = [
     {
         "name":"Freddy Fudpucker",
         "type":tequila,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -797,6 +823,7 @@ const formulas = [
     {
         "name":"Frostbite",
         "type":tequila,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -834,6 +861,7 @@ const formulas = [
     {
         "name":"Hot Pants",
         "type":tequila,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -876,6 +904,7 @@ const formulas = [
     {
         "name":"La Bomba",
         "type":tequila,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -913,6 +942,7 @@ const formulas = [
     {
         "name":"La Conga",
         "type":tequila,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -950,6 +980,7 @@ const formulas = [
     {
         "name":"Loco Padre",
         "type":tequila,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -987,6 +1018,7 @@ const formulas = [
     {
         "name":"Madacascar Mood Shifter",
         "type":tequila,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1034,6 +1066,7 @@ const formulas = [
     {
         "name":"Matador",
         "type":tequila,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1061,6 +1094,7 @@ const formulas = [
     {
         "name":"Frozen Matador",
         "type":tequila,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1093,6 +1127,7 @@ const formulas = [
     {
         "name":"Classic Margarita",
         "type":margarita,
+        "glass": margaritaGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1130,6 +1165,7 @@ const formulas = [
     {
         "name":"Strawberry Margarita",
         "type":margarita,
+        "glass": margaritaGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1177,6 +1213,7 @@ const formulas = [
     {
         "name":"Peach Margarita",
         "type":margarita,
+        "glass": margaritaGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1219,6 +1256,7 @@ const formulas = [
     {
         "name":"Mango Margarita",
         "type":margarita,
+        "glass": margaritaGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1256,6 +1294,7 @@ const formulas = [
     {
         "name":"Melon Margarita",
         "type":margarita,
+        "glass": margaritaGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1298,6 +1337,7 @@ const formulas = [
     {
         "name":"Avacado Margarita",
         "type":margarita,
+        "glass": margaritaGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1355,6 +1395,7 @@ const formulas = [
     {
         "name":"Cadillac Margarita",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1387,6 +1428,7 @@ const formulas = [
     {
         "name":"Chocolate Margarita",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1429,6 +1471,7 @@ const formulas = [
     {
         "name":"Cucumber Margarita",
         "type":margarita,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1466,6 +1509,7 @@ const formulas = [
     {
         "name":"Blue Margarita",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1508,6 +1552,7 @@ const formulas = [
     {
         "name":"Papaya Margarita",
         "type":margarita,
+        "glass": margaritaGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1550,6 +1595,7 @@ const formulas = [
     {
         "name":"Mexican Madras",
         "type":margarita,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1587,6 +1633,7 @@ const formulas = [
     {
         "name":"Mexican Mule",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1619,6 +1666,7 @@ const formulas = [
     {
         "name":"Mexicola",
         "type":margarita,
+        "glass": collinsGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1651,6 +1699,7 @@ const formulas = [
     {
         "name":"Multiple Orgasm",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1688,6 +1737,7 @@ const formulas = [
     {
         "name":"Nectarine Dream",
         "type":margarita,
+        "glass": wineGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1735,6 +1785,8 @@ const formulas = [
     {
         "name":"Prickly Agave",
         "type":margarita,
+        "glass": margaritaGlass,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1787,6 +1839,8 @@ const formulas = [
     {
         "name":"Rosaita",
         "type":margarita,
+        "glass": martiniGlass,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1824,6 +1878,7 @@ const formulas = [
     {
         "name":"Rude Cosmopolitan",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1856,6 +1911,7 @@ const formulas = [
     {
         "name":"Salty Chihuahua",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1888,6 +1944,7 @@ const formulas = [
     {
         "name":"Shady Lady",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1915,6 +1972,7 @@ const formulas = [
     {
         "name":"Short Fuse",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1957,6 +2015,7 @@ const formulas = [
     {
         "name":"Silk Stocking",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -1994,6 +2053,7 @@ const formulas = [
     {
         "name":"Sloe Tequila",
         "type":margarita,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2026,6 +2086,7 @@ const formulas = [
     {
         "name":"South of the Border",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2058,6 +2119,7 @@ const formulas = [
     {
         "name":"Tequila Cocktail",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2090,6 +2152,7 @@ const formulas = [
     {
         "name":"Tequila Colada",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2127,6 +2190,7 @@ const formulas = [
     {
         "name":"Tequila Fizz",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2159,6 +2223,7 @@ const formulas = [
     {
         "name":"Tequila Ghost",
         "type":margarita,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2186,6 +2251,7 @@ const formulas = [
     {
         "name":"Tequila Mockingbird",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2218,6 +2284,7 @@ const formulas = [
     {
         "name":"Tequila Sour",
         "type":margarita,
+        "glass": sourGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2250,6 +2317,8 @@ const formulas = [
     {
         "name":"Tequila Sunrise",
         "type":margarita,
+        "glass": highballGlass,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2282,6 +2351,7 @@ const formulas = [
     {
         "name":"Tequilatini",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2314,6 +2384,7 @@ const formulas = [
     {
         "name":"Tequini",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2346,6 +2417,7 @@ const formulas = [
     {
         "name":"Tijuana Speedball",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2383,6 +2455,7 @@ const formulas = [
     {
         "name":"Tijuana Taxi",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2435,6 +2508,7 @@ const formulas = [
     {
         "name":"Toreador",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2467,6 +2541,7 @@ const formulas = [
     {
         "name":"The Jake",
         "type":margarita,
+        "glass": martiniGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2494,6 +2569,7 @@ const formulas = [
     {
         "name":"Vampiro",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2556,6 +2632,7 @@ const formulas = [
     {
         "name":"Mezcal Buck",
         "type":margarita,
+        "glass": highballGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2588,6 +2665,7 @@ const formulas = [
     {
         "name":"Pan-Am",
         "type":margarita,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {
@@ -2620,6 +2698,7 @@ const formulas = [
     {
         "name":"Spanish Fly",
         "type":margarita,
+        "glass": oldFashionedGlass,
         "icon": randomIcon(),
         "alcohol":[
             {

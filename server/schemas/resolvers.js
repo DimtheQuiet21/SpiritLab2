@@ -42,8 +42,16 @@ const resolvers = {
 
     randomDrink: async () => {
       const count = await Formulas.countDocuments(); // get the count of all formulas
+      if (count === 0) {
+        throw new Error("No formulas available");
+      }
       const random = Math.floor(Math.random() * count); // get random number between 0 and count
       return Formulas.findOne().skip(random); // skip to the random number and return that formula
+    },
+    
+    allGlassTypes: async () => {
+      const glassTypes = await Formulas.distinct('glass');
+      return glassTypes.filter(glass => glass !== null); // Filter out null values if any
     },
 
     users: async (parent, { userName }) => {
@@ -109,27 +117,6 @@ const resolvers = {
       }
     },
 
-    allFavoriteDrinks: async () => {
-        try {
-          // Fetch all formulas from the database
-          const formulas = await Formulas.find({});
-  
-          // Map the fetched formulas to return only the required fields
-          return formulas.map(formula => ({
-            name: formula.name,
-            favorites: formula.totalFavorites, // Assuming totalFavorites is calculated correctly
-            ingredients: [
-              ...formula.alcohol.map(ingredient => ingredient.name),
-              ...formula.liquid.map(ingredient => ingredient.name),
-              ...formula.garnish.map(ingredient => ingredient.name)
-            ],
-            icon: formula.icon
-          }));
-        } catch (error) {
-          console.error("Error fetching all drinks:", error);
-          throw new Error("Failed to fetch all drinks");
-        }
-    },
   },
 
   Mutation: {
@@ -196,6 +183,11 @@ const resolvers = {
             ingredients: validIngredients,
           });
           await user.save();
+          // Update the favoritesCount for the drink
+          await Formulas.findOneAndUpdate(
+            { name: drink },
+            { $inc: { favoritesCount: 1 } }
+        );
         }
 
         return { name: drink, ingredients: ingredients || [] };
@@ -222,6 +214,16 @@ const resolvers = {
 
         // Save the updated user
         await user.save();
+        // Get the current favorites count
+        const formula = await Formulas.findOne({ name: drink });
+        if (formula && formula.favoritesCount > 0) {
+            // we making sure the count can't go below 0
+            await Formulas.findOneAndUpdate(
+                { name: drink },
+                { $inc: { favoritesCount: -1 } },
+                { new: true }
+            );
+        }
 
         return { name: drink };
       } catch (err) {
