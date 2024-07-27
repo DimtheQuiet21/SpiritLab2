@@ -17,6 +17,7 @@ function Search() {
   const [formulas, setFormulas] = useState([]);
   const [selectedAlcoholTypes, setSelectedAlcoholTypes] = useState(location.state?.selectedAlcoholTypes || []);
   const [selectedLiquidTypes, setSelectedLiquidTypes] = useState(location.state?.selectedLiquidTypes || []);
+  const [selectedGlassTypes, setSelectedGlassTypes] = useState(location.state?.selectedGlassTypes || []);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [gimmeDrinksClicked, setGimmeDrinksClicked] = useState(false);
 
@@ -26,12 +27,13 @@ function Search() {
   useEffect(() => {
     if (!queryLoading && data) {
       const formulaArray = data.formulas;
+      const allGlassTypes = data.formulas.map((formula) => formula.glass);
       const ingredients = formulaArray.flatMap((formula) =>
         [...formula.alcohol, ...formula.liquid, ...formula.garnish, ...formula.assembly].map(
           (element) => element.name
         )
       );
-      setSearchOptions([...new Set(ingredients)]);
+      setSearchOptions([...new Set([ingredients, allGlassTypes].flat())]);
     }
   }, [queryLoading, data]);
 
@@ -78,15 +80,22 @@ function Search() {
           : [...prev, option];
         return newSelection;
       });
+    } else if (type === 'glass') {
+    setSelectedGlassTypes((prev) => {
+      const newSelection = prev.includes(option)
+        ? prev.filter((item) => item !== option)
+        : [...prev, option];
+      return newSelection;
+      });
     }
   };
 
   // conditionally rendering the results page based on the types for alcohol and liquid (mixers)
   const handleApplySelections = () => {
-    if (selectedAlcoholTypes.length === 0 && selectedLiquidTypes.length === 0) {
+    if (selectedAlcoholTypes.length === 0 && selectedLiquidTypes.length === 0 && selectedGlassTypes.length === 0) {
       setGimmeDrinksClicked(true);
     } else {
-      navigate('/results', { state: { selectedAlcoholTypes, selectedLiquidTypes } });
+      navigate('/results', { state: { selectedAlcoholTypes, selectedLiquidTypes, selectedGlassTypes } });
     }
   };
 
@@ -94,6 +103,7 @@ function Search() {
   const handleClearSelections = () => {
     setSelectedAlcoholTypes([]);
     setSelectedLiquidTypes([]);
+    setSelectedGlassTypes([]);
   };
 
   // we are clearing the search term and formulas when the user clicks the clear button
@@ -176,6 +186,17 @@ function Search() {
                   )}
                   handleCheckboxChange={(option) => handleCheckboxChange(option, 'liquid')}
                   selectedOptions={selectedLiquidTypes}
+                />
+                <FilterChecklist
+                  title="Select Glass Type(s)"
+                  searchLabel={'Search Glasses'}
+                  options={searchOptions.filter((option) =>
+                    data.formulas.some((formula) =>
+                      formula.glass === option
+                    )
+                  )}
+                  handleCheckboxChange={(option) => handleCheckboxChange(option, 'glass')}
+                  selectedOptions={selectedGlassTypes}
                 />
                 <Box display="flex" justifyContent="center" mt={2}>
                   <Button variant="contained" onClick={handleApplySelections}>

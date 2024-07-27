@@ -15,6 +15,34 @@ export const GET_ALL_FORMULAS = gql`
     formulas {
       name
       icon
+      glass
+      alcohol {
+        name
+        amount
+        technique
+      }
+      liquid {
+        name
+        amount
+        technique
+      }
+      garnish {
+        name
+        amount
+        technique
+      }
+      assembly
+      favoritesCount
+    }
+  }
+`;
+
+export const GET_TOP_FAVORITE_DRINKS = gql`
+  query GetTopFavoriteDrinks {
+    formulas {
+      name
+      icon
+      favoritesCount
       alcohol {
         name
         amount
@@ -103,6 +131,13 @@ export const RANDOM_DRINK_QUERY = gql`
     }
   }
 `;
+
+export const GET_ALL_GLASS_TYPES = gql`
+  query GetAllGlassTypes {
+    allGlassTypes
+  }
+`;
+
 export const GET_ALL_DRINKS = gql`
   query GetAllDrinks {
     allDrinks {

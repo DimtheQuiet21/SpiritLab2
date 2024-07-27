@@ -23,7 +23,7 @@ import "../components/Search/FormulaResults/ResultsList.css"
 const Results = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { selectedAlcoholTypes, selectedLiquidTypes } = location.state || {};
+  const { selectedAlcoholTypes, selectedLiquidTypes, selectedGlassTypes } = location.state || {};
   const { loading, data } = useQuery(GET_ALL_FORMULAS);
   const { globalState, setGlobalState } = useGlobalContext();
   const [matchingFormulas, setMatchingFormulas] = useState([]);
@@ -39,18 +39,22 @@ const Results = () => {
         const liquidMatchCount = selectedLiquidTypes.filter((liquid) =>
           formula.liquid.some((item) => item.name === liquid)
         ).length;
-        return { ...formula, alcoholMatchCount, liquidMatchCount };
+        const glassMatchCount = selectedGlassTypes.filter((glass) =>
+          formula.glass === glass
+        ).length;
+
+        return { ...formula, alcoholMatchCount, liquidMatchCount, glassMatchCount };
       });
 
       const sortedFormulas = formulas.sort((a, b) => {
-        const aTotalMatch = a.alcoholMatchCount + a.liquidMatchCount;
-        const bTotalMatch = b.alcoholMatchCount + b.liquidMatchCount;
+        const aTotalMatch = a.alcoholMatchCount + a.liquidMatchCount + a.glassMatchCount;
+        const bTotalMatch = b.alcoholMatchCount + b.liquidMatchCount + b.glassMatchCount;
         return bTotalMatch - aTotalMatch;
       });
 
       setMatchingFormulas(sortedFormulas);
     }
-  }, [loading, data, selectedAlcoholTypes, selectedLiquidTypes]);
+  }, [loading, data, selectedAlcoholTypes, selectedLiquidTypes, selectedGlassTypes]);
 
   if (loading) return <CircularProgress />;
 
@@ -64,17 +68,22 @@ const Results = () => {
   };
 
   const getBackgroundColor = (formula) => {
-    const selectedTypes = [...selectedAlcoholTypes];
+    const selectedTypes = [
+      ...selectedAlcoholTypes,
+      ...selectedLiquidTypes,
+      ...selectedGlassTypes
+    ];
     const ingredientNames = [
       ...formula.alcohol.map((a) => a.name),
-      // ...formula.liquid.map((l) => l.name),
+      ...formula.liquid.map((l) => l.name),
+      formula.glass
     ];
 
     const matches = selectedTypes.filter((type) =>
       ingredientNames.includes(type)
     ).length;
 
-    if (matches === 1) return "default";
+    if (matches === 1) return "#00b3b3";
     if (matches === 2) return "#004ab3";
     if (matches === 3) return "#b638ff";
     if (matches >= 4) return "orange";
@@ -87,7 +96,7 @@ const Results = () => {
         <IconButton
           onClick={() =>
             navigate("/search", {
-              state: { selectedAlcoholTypes, selectedLiquidTypes },
+              state: { selectedAlcoholTypes, selectedLiquidTypes, selectedGlassTypes },
             })
           }
         >

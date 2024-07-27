@@ -15,6 +15,12 @@ const formulaSchema = new Schema ({
         trim: true,
     },
 
+    glass: {
+        type: String,
+        required: false,
+        trim: true,
+    },
+
     icon: {
         type: String, // 
         required: false,
@@ -86,27 +92,11 @@ const formulaSchema = new Schema ({
         required: false,
         trim: true
     },
+    favoritesCount: {
+        type: Number,
+        default: 0
+    }
 })
-formulaSchema.virtual('totalFavorites').get(function() {
-    let total = 0;
-    // Loop through all alcohol, liquid, and garnish arrays and sum up the favorites
-    this.alcohol.forEach(ingredient => {
-      if (ingredient.favorites) {
-        total += ingredient.favorites;
-      }
-    });
-    this.liquid.forEach(ingredient => {
-      if (ingredient.favorites) {
-        total += ingredient.favorites;
-      }
-    });
-    this.garnish.forEach(ingredient => {
-      if (ingredient.favorites) {
-        total += ingredient.favorites;
-      }
-    });
-    return total;
-  });
 
 const Formulas = model('Formulas', formulaSchema); 
 
