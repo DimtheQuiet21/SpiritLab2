@@ -25,13 +25,30 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_TO_FAVORITES = gql`
-  mutation AddToFavorites($userId: ID!, $drink: String!, $ingredients: [String]!) {
+  mutation AddToFavorites($userId: ID!, $drink: String!, $ingredients: IngredientsInput!) {
     addToFavorites(userId: $userId, drink: $drink, ingredients: $ingredients) {
       name
-      ingredients
+      icon
+      ingredients {
+        alcohol {
+          name
+          amount
+          technique
+        }
+        liquid {
+          name
+          amount
+          technique
+        }
+        garnish {
+          name
+          amount
+          technique
+        }
+      }
     }
-  }
-`;
+  }`
+;
 
 export const REMOVE_FAVORITE_DRINK = gql`
   mutation RemoveFavoriteDrink($userId: ID!, $drink: String!) {

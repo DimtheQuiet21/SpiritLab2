@@ -128,6 +128,7 @@ export const RANDOM_DRINK_QUERY = gql`
         technique
       }
       assembly
+      favoritesCount
     }
   }
 `;
@@ -157,13 +158,29 @@ query GetSearchCocktail($name: String!) {
 }
 `
 export const GET_USER_FAVORITE_DRINKS = gql`
-query GetUserFavoriteDrinks($userId: ID!) {
-  userFavorites(userId: $userId) {
-    name
-    ingredients
-    icon
+  query GetUserFavoriteDrinks($userId: ID!) {
+    userFavorites(userId: $userId) {
+      name
+      icon
+      ingredients {
+        alcohol {
+          name
+          amount
+          technique
+        }
+        liquid {
+          name
+          amount
+          technique
+        }
+        garnish {
+          name
+          amount
+          technique
+        }
+      }
+    }
   }
-}
 `;
 
 export const GET_ALL_FAVORITE_DRINKS = gql`

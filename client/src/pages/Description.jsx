@@ -19,6 +19,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddToFavoritesButton from "../components/AddFavorites/AddToFavoritesButton";
+import UserReview from "../components/Reviews/UserReview";
 import "../components/Search/FormulaDescription/DrinkPage.css";
 
 const Description = () => {
@@ -45,23 +46,28 @@ const Description = () => {
     navigate("/lab", { state: { formula } });
   };
 
+  const capFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   const renderIngredientsList = () => {
     if (!drinkInfo) return null;
 
     return (
       <ul>
         {drinkInfo.alcohol && drinkInfo.alcohol.map((ingredient, index) => (
-          <li key={index}>{ingredient.name}</li>
+          <li key={index}>{capFirstLetter(ingredient.name)} - {ingredient.amount}</li>
         ))}
         {drinkInfo.liquid && drinkInfo.liquid.map((ingredient, index) => (
-          <li key={index}>{ingredient.name}</li>
+          <li key={index}>{capFirstLetter(ingredient.name)} - {ingredient.amount}</li>
         ))}
         {drinkInfo.garnish && drinkInfo.garnish.map((ingredient, index) => (
-          <li key={index}>{ingredient.name}</li>
+          <li key={index}>{capFirstLetter(ingredient.name)} - {ingredient.amount}</li>
         ))}
       </ul>
     );
   };
+
 
   return (
     <Box className='drinkCardBox'>
@@ -109,6 +115,7 @@ const Description = () => {
       <Tabs value={tabIndex} onChange={handleTabChange} centered>
         <Tab label="Ingredients" />
         <Tab label="Reviews" />
+        <Tab label="Instructions" />
       </Tabs>
       <Box sx={{ padding: "20px" }}>
         {tabIndex === 0 && (
@@ -122,11 +129,19 @@ const Description = () => {
         {tabIndex === 1 && (
           <Box>
             <Typography variant="h6">Reviews</Typography>
-            <Typography>No reviews yet.</Typography>
+            <Box>
+            <UserReview />
+            </Box>
             <Button variant="contained" color="primary" sx={{ width: "100%" }}>
               Leave a Review
             </Button>
           </Box>
+        )}
+        {tabIndex === 2 && (
+          <Box>
+          <Typography variant="h6">Assembly:</Typography>
+          {drinkInfo.assembly}
+        </Box>
         )}
       </Box>
     </Box>

@@ -68,56 +68,41 @@ const resolvers = {
         if (!user) {
           throw new Error("User does not exist");
         }
-
         // Populate the ingredients for each favorite drink
         const favoriteDrinksWithIngredients = await Promise.all(
           user.favoriteDrinks.map(async (favoriteDrink) => {
             try {
               // Fetch the formula to get names, ingredients, and icon
-              const formula = await Formulas.findOne({
-                name: favoriteDrink.name,
-              });
+              const formula = await Formulas.findOne({ name: favoriteDrink.name });
               if (!formula) {
                 console.warn(`Formula ${favoriteDrink.name} not found`);
                 return null;
               }
-              // Return the formula data with the favorite drink's name and icon
+              
+              // Return the formula data
               return {
                 name: favoriteDrink.name,
-                ingredients: [
-                  ...formula.alcohol.map((ingredient) => ingredient.name),
-                  ...formula.liquid.map((ingredient) => ingredient.name),
-                  ...formula.garnish.map((ingredient) => ingredient.name),
-                ],
                 icon: formula.icon,
+                ingredients: {
+                  alcohol: formula.alcohol,
+                  liquid: formula.liquid,
+                  garnish: formula.garnish,
+                },
               };
             } catch (err) {
-              console.error(
-                `Error fetching formula for ${favoriteDrink.name}:`,
-                err
-              );
+              console.error(`Error fetching formula for ${favoriteDrink.name}:`, err);
               return null;
             }
           })
         );
-
-        // Filter out any drinks that were not found
-        // Filter out duplicates based on name
-        const uniqueFavoriteDrinks = favoriteDrinksWithIngredients.filter(
-          (drink, index, self) =>
-            index === self.findIndex((d) => d && drink && d.name === drink.name)
-        );
-
-        return uniqueFavoriteDrinks;
+    
+        return favoriteDrinksWithIngredients.filter(Boolean);
       } catch (err) {
         console.error(err);
-        throw new Error(
-          "Failed to get user favorites with ingredients: " + err.message
-        );
+        throw new Error("Failed to get user favorites with ingredients: " + err.message);
       }
+    }
     },
-
-  },
 
   Mutation: {
     addUser: async (parent, { userName, email, password }) => {
@@ -166,31 +151,42 @@ const resolvers = {
         if (!user) {
           throw new Error("User does not exist");
         }
-
+        
         // Ensure favoriteDrinks is an array
         if (!Array.isArray(user.favoriteDrinks)) {
           user.favoriteDrinks = [];
         }
+        
         // Check if the drink is already in the user's favorites list
-        const alreadyExists = user.favoriteDrinks.some(
-          (fav) => fav.name === drink
-        );
+        const alreadyExists = user.favoriteDrinks.some(fav => fav.name === drink);
         if (!alreadyExists) {
-          // Ensure ingredients is always an array
-          const validIngredients = ingredients || [];
+          const formula = await Formulas.findOne({ name: drink });
+          if (!formula) {
+            throw new Error("Drink not found");
+          }
+    
           user.favoriteDrinks.push({
             name: drink,
-            ingredients: validIngredients,
+            icon: formula.icon,
+            ingredients: {
+              alcohol: formula.alcohol,
+              liquid: formula.liquid,
+              garnish: formula.garnish,
+            },
           });
           await user.save();
           // Update the favoritesCount for the drink
           await Formulas.findOneAndUpdate(
             { name: drink },
             { $inc: { favoritesCount: 1 } }
-        );
+          );
         }
-
-        return { name: drink, ingredients: ingredients || [] };
+    
+        return {
+          name: drink,
+          icon: user.favoriteDrinks.find(fav => fav.name === drink).icon,
+          ingredients,
+        };
       } catch (err) {
         console.error(err);
         throw new Error("Failed to add drink to favorites" + err.message);

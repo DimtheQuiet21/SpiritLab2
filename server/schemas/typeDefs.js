@@ -46,8 +46,27 @@ type Cocktail {
 type DrinkFavorite {
     name: String!
     icon: String
-    ingredients: [String]!
-}
+    ingredients: Ingredients
+    assembly: String
+  }
+  
+  type Ingredients {
+    alcohol: [Ingredient]
+    liquid: [Ingredient]
+    garnish: [Ingredient]
+  }
+  
+  input IngredientsInput {
+    alcohol: [IngredientInput]
+    liquid: [IngredientInput]
+    garnish: [IngredientInput]
+  }
+  
+  input IngredientInput {
+    name: String
+    amount: String
+    technique: String
+  }
 
 type Drink {
     name: String
@@ -60,6 +79,7 @@ type User {
     userName: String
     email: String
     password: String
+    favoriteDrinks: [DrinkFavorite]
 }
 
 type Auth {
@@ -88,7 +108,7 @@ type Query {
 type Mutation {
     addUser(userName: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addToFavorites(userId: ID!, drink: String!, ingredients: [String]!): DrinkFavorite
+    addToFavorites(userId: ID!, drink: String!, ingredients: IngredientsInput!): DrinkFavorite
     removeFavoriteDrink(userId: ID!, drink: String!): DrinkFavorite
 }
 `
