@@ -27,7 +27,7 @@ const Profile = () => {
       setGlobalState({ ...globalState, favorites: uniqueDrinks.map(drink => drink.name) });
       console.log("Unique drinks:", uniqueDrinks);
     }
-  }, [data]);
+  }, [data, setGlobalState]);
 
   // this helper function will ensure to remove duplicates based on a key
   const removeDuplicates = (array, key) => {
@@ -74,6 +74,7 @@ const Profile = () => {
       <UserProfile 
         username={username} 
         favoriteDrinks={uniqueFavoriteDrinks} 
+        favorites={globalState.favorites}
       />
     </>
   );

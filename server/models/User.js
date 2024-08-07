@@ -20,14 +20,42 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   },
-  favoriteDrinks: {
-    type: [{
-      name: String,
-      ingredients: [String],
-    }],
-  }
+  favoriteDrinks: [
+    {
+      name: {
+        type: String,
+        required: true,
+      },
+      icon: {
+        type: String,
+        required: false,
+      },
+      ingredients: {
+        alcohol: [
+          {
+            name: String,
+            amount: String,
+            technique: String,
+          },
+        ],
+        liquid: [
+          {
+            name: String,
+            amount: String,
+            technique: String,
+          },
+        ],
+        garnish: [
+          {
+            name: String,
+            amount: String,
+            technique: String,
+          },
+        ],
+      },
+    },
+  ],
 });
-
 
 userSchema.pre("save", async function (next) {
   if (this.isNew || this.isModified("password")) {

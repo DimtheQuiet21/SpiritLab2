@@ -81,12 +81,7 @@ function Search() {
         return newSelection;
       });
     } else if (type === 'glass') {
-    setSelectedGlassTypes((prev) => {
-      const newSelection = prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option];
-      return newSelection;
-      });
+      setSelectedGlassTypes((prev) => [option]);
     }
   };
 
@@ -188,7 +183,7 @@ function Search() {
                   selectedOptions={selectedLiquidTypes}
                 />
                 <FilterChecklist
-                  title="Select Glass Type(s)"
+                  title="Select A Glass"
                   searchLabel={'Search Glasses'}
                   options={searchOptions.filter((option) =>
                     data.formulas.some((formula) =>

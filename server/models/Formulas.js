@@ -95,7 +95,23 @@ const formulaSchema = new Schema ({
     favoritesCount: {
         type: Number,
         default: 0
-    }
+    },
+    // reviews: [
+    //     {
+    //       userName: {
+    //         type: String,
+    //         required: true,
+    //       },
+    //       review: {
+    //         type: String,
+    //         required: true,
+    //       },
+    //       createdAt: {
+    //         type: Date,
+    //         default: Date.now,
+    //       },
+    //     },
+    //   ]
 })
 
 const Formulas = model('Formulas', formulaSchema); 

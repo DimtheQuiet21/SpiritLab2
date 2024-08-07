@@ -8,18 +8,23 @@ const FavoriteDisplay = ({ favoriteDrinks, searchQuery }) => {
   const navigate = useNavigate();
   const { setGlobalState } = useGlobalContext();
 
+  // Filter favorite drinks based on search query (drink name or ingredient name)
   const filteredDrinks = favoriteDrinks.filter((drink) => {
     const drinkNameMatch = drink.name
       ?.toLowerCase()
       .includes(searchQuery.toLowerCase());
-    const ingredientMatch = drink.ingredients?.some((ingredient) =>
-      ingredient?.toLowerCase().includes(searchQuery.toLowerCase())
+      const ingredientMatch = Object.values(drink.ingredients).flat().some((ingredient) =>
+      ingredient.name?.toLowerCase().includes(searchQuery.toLowerCase())
     );
     return drinkNameMatch || ingredientMatch;
   });
 
+  // this function will set the selected drink in the global state and navigate to the description page once a user clicks on a drink from the favorites within Profile page
   const handleDrinkClick = (drink) => {
-    setGlobalState(drink);
+    setGlobalState(prevState => ({
+      ...prevState,
+      selectedDrink: drink
+    }));
     navigate("/description", { state: { formula: drink } });
   };
 
