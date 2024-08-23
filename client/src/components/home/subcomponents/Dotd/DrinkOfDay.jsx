@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { useQuery } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 import { RANDOM_DRINK_QUERY } from "../../../../utils/queries";
 import "./DrinkOfDay.css";
 
 const DrinkOfDay = () => {
   const [drink, setDrink] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
+  const navigate = useNavigate();
   const { loading, error, data } = useQuery(RANDOM_DRINK_QUERY, {
     skip: drink !== null // ensures we skip query if drink is already set
   });
@@ -16,8 +18,6 @@ const DrinkOfDay = () => {
     const storedDrink = localStorage.getItem('drinkOfDay');
     const storedTimestamp = localStorage.getItem('drinkOfDayTimestamp');
     const currentTime = new Date().getTime();
-    console.log(storedDrink);
-    console.log(storedTimestamp);
 
     if (storedDrink && storedTimestamp) {
       const timestamp = parseInt(storedTimestamp, 10);
@@ -29,7 +29,7 @@ const DrinkOfDay = () => {
       }
     }
 
-    // If no valid saved drink, we gets a new one
+    // If no valid saved drink, fetch a new one
     if (data) {
       const newDrink = data.randomDrink;
       setDrink(newDrink);
@@ -40,6 +40,12 @@ const DrinkOfDay = () => {
     }
   }, [data]);
 
+  const handleViewMore = () => {
+    if (drink) {
+      navigate("/description", { state: { formula: drink } });
+    }
+  };
+
   if (loading) return <Typography>Loading...</Typography>;
   if (error) return <Typography>Error: {error.message}</Typography>;
 
@@ -49,20 +55,26 @@ const DrinkOfDay = () => {
         Drink of the Day
       </Typography>
       {drink && (
-        <Box className = "drinkModal"
-          sx={{
-            width: 100,
-            height: 100,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            margin: "0 auto 16px auto",
-            backgroundImage: `url('/assets/icons/${drink.icon}')`,
-          }}
-        />
+        <>
+          <Box
+            className="drinkModal"
+            sx={{
+              width: 100,
+              height: 100,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              margin: "0 auto 16px auto",
+              backgroundImage: `url('/assets/icons/${drink.icon}')`,
+            }}
+          />
+          <Typography variant="h5" mb={2}>
+            {drink.name}
+          </Typography>
+          <Button variant="contained" color="primary" onClick={handleViewMore}>
+            View More
+          </Button>
+        </>
       )}
-      <Typography variant="h5" mb={2}>
-        {drink ? drink.name : 'No drink available'}
-      </Typography>
     </Box>
   );
 };

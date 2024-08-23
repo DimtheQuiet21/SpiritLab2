@@ -64,31 +64,25 @@ const resolvers = {
     
     userFavorites: async (parent, { userId }) => {
       try {
+        // Find the user in the database
         const user = await User.findById(userId);
         if (!user) {
           throw new Error("User does not exist");
         }
-        // Populate the ingredients for each favorite drink
-        const favoriteDrinksWithIngredients = await Promise.all(
+    
+        // Fetch all favorite drinks with their full formula details
+        const favoriteDrinksWithDetails = await Promise.all(
           user.favoriteDrinks.map(async (favoriteDrink) => {
             try {
-              // Fetch the formula to get names, ingredients, and icon
+              // Fetch the full formula for each favorite drink
               const formula = await Formulas.findOne({ name: favoriteDrink.name });
               if (!formula) {
                 console.warn(`Formula ${favoriteDrink.name} not found`);
                 return null;
               }
               
-              // Return the formula data
-              return {
-                name: favoriteDrink.name,
-                icon: formula.icon,
-                ingredients: {
-                  alcohol: formula.alcohol,
-                  liquid: formula.liquid,
-                  garnish: formula.garnish,
-                },
-              };
+              // Return the full formula data
+              return formula;
             } catch (err) {
               console.error(`Error fetching formula for ${favoriteDrink.name}:`, err);
               return null;
@@ -96,13 +90,28 @@ const resolvers = {
           })
         );
     
-        return favoriteDrinksWithIngredients.filter(Boolean);
+        // Filter out any null results
+        return favoriteDrinksWithDetails.filter(Boolean);
       } catch (err) {
         console.error(err);
-        throw new Error("Failed to get user favorites with ingredients: " + err.message);
+        throw new Error("Failed to get user favorites with full formula details: " + err.message);
       }
-    }
     },
+    getLikes: async (parent, { formulaId }) => {
+      const formula = await Formulas.findById(formulaId);
+      if (!formula) {
+        throw new Error("Formula not found");
+      }
+      return formula;
+    },
+    getDislikes: async (parent, { formulaId }) => {
+      const formula = await Formulas.findById(formulaId);
+      if (!formula) {
+        throw new Error("Formula not found");
+      }
+      return formula
+    }
+  },
 
   Mutation: {
     addUser: async (parent, { userName, email, password }) => {
@@ -144,9 +153,9 @@ const resolvers = {
 
       return { token, user };
     },
-    addToFavorites: async (parent, { userId, drink, ingredients }) => {
+    addToFavorites: async (parent, { userId, drink }) => {
       try {
-        // add the drink to the user's favorites list in the database
+        // Find the user in the database
         const user = await User.findById(userId);
         if (!user) {
           throw new Error("User does not exist");
@@ -159,37 +168,31 @@ const resolvers = {
         
         // Check if the drink is already in the user's favorites list
         const alreadyExists = user.favoriteDrinks.some(fav => fav.name === drink);
+        let formula;
+    
         if (!alreadyExists) {
-          const formula = await Formulas.findOne({ name: drink });
+          formula = await Formulas.findOne({ name: drink });
           if (!formula) {
             throw new Error("Drink not found");
           }
     
-          user.favoriteDrinks.push({
-            name: drink,
-            icon: formula.icon,
-            ingredients: {
-              alcohol: formula.alcohol,
-              liquid: formula.liquid,
-              garnish: formula.garnish,
-            },
-          });
+          // Add the full formula to the user's favorites
+          user.favoriteDrinks.push(formula);
           await user.save();
+    
           // Update the favoritesCount for the drink
           await Formulas.findOneAndUpdate(
             { name: drink },
-            { $inc: { favoritesCount: 1 } }
+            { $inc: { favoritesCount: 1 } },
+            { new: true }
           );
         }
     
-        return {
-          name: drink,
-          icon: user.favoriteDrinks.find(fav => fav.name === drink).icon,
-          ingredients,
-        };
+        // Return the formula
+        return formula;
       } catch (err) {
         console.error(err);
-        throw new Error("Failed to add drink to favorites" + err.message);
+        throw new Error("Failed to add drink to favorites: " + err.message);
       }
     },
     removeFavoriteDrink: async (parent, { userId, drink }) => {
@@ -221,12 +224,219 @@ const resolvers = {
             );
         }
 
-        return { name: drink };
+        return formula;
       } catch (err) {
         console.error(err);
         throw new Error("Failed to remove drink from favorites" + err.message);
       }
     },
+    addCommentToFormula: async (parent, { userId, formulaId, post }) => {
+      try {
+        // Find the user in the database
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User must be logged in to post a comment");
+        }
+    
+        // Add the comment to the formula
+        // We use $push to add the comment to the comments array
+        // I will get the timestamp working later as its been giving me issues for whatever the hell reason
+        const formula = await Formulas.findByIdAndUpdate(
+          formulaId,
+          {
+            $push: {
+              comments: {
+                userName: user.userName,
+                post: post,
+                timestamp: new Date(),
+                likeCount: 0,
+                isLiked: false, 
+                likedBy: [],
+              },
+            },
+          },
+          { new: true }
+        );
+    
+        if (!formula) {
+          throw new Error("Formula not found");
+        }
+    
+        return formula;
+      } catch (error) {
+        console.error("Error adding comment to formula:", error);
+        throw new Error("Failed to add comment to formula");
+      }
+    },
+
+    removeCommentFromFormula: async (parent, { userId, commentId }) => {
+      try {
+        // Find the user in the database
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
+    
+        // Find the formula containing the comment
+        const formula = await Formulas.findOne({ "comments._id": commentId });
+        if (!formula) {
+          throw new Error("Formula not found");
+        }
+    
+        // Check if the comment exists and is owned by the user
+        const commentIndex = formula.comments.findIndex(
+          (comment) => comment._id.toString() === commentId && comment.userName === user.userName
+        );
+    
+        if (commentIndex === -1) {
+          throw new Error("Comment not found or not owned by user");
+        }
+    
+        // this will ensure that we remove the comment from the formula
+        formula.comments.splice(commentIndex, 1);
+        await formula.save();
+    
+        return formula;
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to remove comment: " + err.message);
+      }
+    }
+    ,
+
+    likeDrink: async (parent, { formulaId, userId }) => {
+      try {
+        const formula = await Formulas.findById(formulaId);
+        if (!formula) {
+          throw new Error("Formula not found");
+        }
+
+        const alreadyLiked = formula.likedBy.includes(userId);
+        const alreadyDisliked = formula.dislikedBy.includes(userId);
+
+        if (alreadyLiked) {
+          // User already liked the drink, so we remove the like
+          formula.likeCount -= 1;
+          formula.likedBy.pull(userId);
+        } else {
+          // User is liking the drink
+          if (alreadyDisliked) {
+            // Remove the dislike if the user previously disliked the drink
+            formula.dislikeCount -= 1;
+            formula.dislikedBy.pull(userId);
+          }
+          formula.likeCount += 1;
+          formula.likedBy.push(userId);
+        }
+
+        await formula.save();
+        return formula;
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to like drink: " + err.message);
+      }
+    },
+
+    dislikeDrink: async (parent, { formulaId, userId }) => {
+      try {
+        const formula = await Formulas.findById(formulaId);
+        if (!formula) {
+          throw new Error("Formula not found");
+        }
+
+        const alreadyDisliked = formula.dislikedBy.includes(userId);
+        const alreadyLiked = formula.likedBy.includes(userId);
+
+        if (alreadyDisliked) {
+          // User already disliked the drink, so we remove the dislike
+          formula.dislikeCount -= 1;
+          formula.dislikedBy.pull(userId);
+        } else {
+          // User is disliking the drink
+          if (alreadyLiked) {
+            // Remove the like if the user previously liked the drink
+            formula.likeCount -= 1;
+            formula.likedBy.pull(userId);
+          }
+          formula.dislikeCount += 1;
+          formula.dislikedBy.push(userId);
+        }
+
+        await formula.save();
+        return formula;
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to dislike drink: " + err.message);
+      }
+    },
+    editCommentOnFormula: async (parent, { userId, commentId, newPost }) => {
+      try {
+        // Find the user in the database
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        // Find the formula containing the comment
+        const formula = await Formulas.findOne({ "comments._id": commentId });
+        if (!formula) {
+          throw new Error("Formula not found");
+        }
+
+        // Find the comment and ensure it's owned by the user
+        const comment = formula.comments.id(commentId);
+        if (!comment || comment.userName !== user.userName) {
+          throw new Error("Comment not found or not owned by user");
+        }
+
+        // Update the comment
+        comment.post = newPost;
+        await formula.save();
+
+        return formula;
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to edit comment: " + err.message);
+      }
+    },
+    likeComment: async (parent, { userId, commentId }) => {
+      try {
+        // Find the user in the database
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
+    
+        // Find the formula containing the comment
+        const formula = await Formulas.findOne({ "comments._id": commentId });
+        if (!formula) {
+          throw new Error("Formula not found");
+        }
+    
+        // Find the comment
+        const comment = formula.comments.id(commentId);
+        if (!comment) {
+          throw new Error("Comment not found");
+        }
+    
+        const alreadyLiked = comment.likedBy.includes(userId);
+    
+        if (alreadyLiked) {
+          // Removes the like
+          comment.likeCount -= 1;
+          comment.likedBy.pull(userId);
+        } else {
+          // Adds a new like
+          comment.likeCount += 1;
+          comment.likedBy.push(userId);
+        }
+        await formula.save();
+        return comment;
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to like comment: " + err.message);
+      }
+      },
   },
 };
 

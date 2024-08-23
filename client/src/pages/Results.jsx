@@ -15,8 +15,7 @@ import {
   Chip,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import StarIcon from "@mui/icons-material/Star";
-import AddToFavoritesButton from "../components/AddFavorites/AddToFavoritesButton";
+import AddToFavoritesButton from "../components/addFavorites/AddToFavoritesButton";
 import Auth from "../utils/auth";
 import "../components/Search/FormulaResults/ResultsList.css"
 
@@ -127,12 +126,9 @@ const Results = () => {
 
                   {/* Reviews will be available once we set up the server to track the user preferences. For now we will have 'N/A' displayed */}
                   <Box className = 'drinkCardReviews'>
-                    <Typography variant="body2" className="cardHeaderItem">
-                      <StarIcon
-                        fontSize="small"
-                        sx={{ color: "var(--main-coral)" }}
-                      />
-                      {formula.rating || "N/A"}
+                  <Typography variant="body2" className="cardHeaderItem">
+                      {/* Display the number of matches here */}
+                      {formula.alcoholMatchCount + formula.liquidMatchCount + formula.glassMatchCount} match
                     </Typography>
                     <Stack direction="column" spacing={1}>
                       {formula.alcohol.slice(0, 2).map((ingredient, index) => (
