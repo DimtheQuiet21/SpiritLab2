@@ -12,6 +12,16 @@ type Inventory {
     icon: Int
     }
 
+type Comment {
+  _id: ID
+  userName: String
+  post: String
+  timestamp: String
+  isLiked: Boolean
+  likeCount: Int
+  likedBy: [ID] 
+}
+
 type Formulas {
     _id: ID
     name: String
@@ -23,6 +33,11 @@ type Formulas {
     garnish: [Ingredient]
     assembly: String
     favoritesCount: Int
+    likeCount: Int
+    dislikeCount: Int
+    likedBy: [ID]
+    dislikes: [ID]
+    comments: [Comment]
 }
 
 type Ingredient {
@@ -43,31 +58,6 @@ type Cocktail {
     image: String
 }
 
-type DrinkFavorite {
-    name: String!
-    icon: String
-    ingredients: Ingredients
-    assembly: String
-  }
-  
-  type Ingredients {
-    alcohol: [Ingredient]
-    liquid: [Ingredient]
-    garnish: [Ingredient]
-  }
-  
-  input IngredientsInput {
-    alcohol: [IngredientInput]
-    liquid: [IngredientInput]
-    garnish: [IngredientInput]
-  }
-  
-  input IngredientInput {
-    name: String
-    amount: String
-    technique: String
-  }
-
 type Drink {
     name: String
     ingredients: [String]
@@ -79,7 +69,7 @@ type User {
     userName: String
     email: String
     password: String
-    favoriteDrinks: [DrinkFavorite]
+    favoriteDrinks: [Formulas]
 }
 
 type Auth {
@@ -100,16 +90,23 @@ type Query {
     drinkOfDay: DayDrink
     users: [User]
     user(userName: String!): User
-    userFavorites(userId: ID!): [DrinkFavorite]
+    userFavorites(userId: ID!): [Formulas]
     allDrinks: [Drink]
-
+    getLikes(formulaId: ID!): Formulas
+    getDislikes(formulaId: ID!): Formulas
 }
 
 type Mutation {
     addUser(userName: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addToFavorites(userId: ID!, drink: String!, ingredients: IngredientsInput!): DrinkFavorite
-    removeFavoriteDrink(userId: ID!, drink: String!): DrinkFavorite
+    addToFavorites(userId: ID!, drink: String!): Formulas
+    removeFavoriteDrink(userId: ID!, drink: String!): Formulas
+    addCommentToFormula(userId: ID!, formulaId: ID!, post: String!): Formulas
+    removeCommentFromFormula(userId: ID!, commentId: ID!): Formulas
+    editCommentOnFormula(userId: ID!, commentId: ID!, newPost: String!): Formulas
+    likeDrink(userId: ID!, formulaId: ID!): Formulas
+    dislikeDrink(userId: ID!, formulaId: ID!): Formulas
+    likeComment(userId: ID!, commentId: ID!): Comment
 }
 `
 module.exports = typeDefs;

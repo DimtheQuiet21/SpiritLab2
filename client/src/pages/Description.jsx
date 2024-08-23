@@ -10,16 +10,17 @@ import {
   Tab,
   Button,
   CircularProgress,
+  TextField,
 } from "@mui/material";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { GET_ALL_FORMULAS } from "../utils/queries";
+import { ADD_COMMENT_TO_FORMULA, REMOVE_COMMENT_FROM_FORMULA, EDIT_COMMENT_ON_FORMULA } from "../utils/mutations";
 import { useGlobalContext } from "../globalProvider";
 import Auth from "../utils/auth";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import AddToFavoritesButton from "../components/AddFavorites/AddToFavoritesButton";
+import AddToFavoritesButton from "../components/addFavorites/AddToFavoritesButton";
 import UserReview from "../components/Reviews/UserReview";
+import LikeDislikeButtons from "../components/Reviews/Like-Dislike/LikeDislikeButton";
 import "../components/Search/FormulaDescription/DrinkPage.css";
 
 const Description = () => {
@@ -27,7 +28,12 @@ const Description = () => {
   const navigate = useNavigate();
   const { formula } = location.state || {};
   const { loading, error, data } = useQuery(GET_ALL_FORMULAS);
+  const [addComment] = useMutation(ADD_COMMENT_TO_FORMULA);
+  const [removeComment] = useMutation(REMOVE_COMMENT_FROM_FORMULA);
+  const [editComment] = useMutation(EDIT_COMMENT_ON_FORMULA);
+  const [showCommentBox, setShowCommentBox] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
+  const [comment, setComment] = useState("");
   const { globalState, setGlobalState } = useGlobalContext();
   const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
   const isFavorite = globalState.favorites?.includes(formula?.name); 
@@ -48,6 +54,61 @@ const Description = () => {
 
   const capFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const handleCommentSubmit = async () => {
+    try {
+      if (!comment.trim()) return;
+
+      await addComment({
+        variables: {
+          userId,
+          formulaId: drinkInfo._id,
+          post: comment,
+        },
+      });
+
+      console.log("Comment added successfully");
+      setComment("");
+      setShowCommentBox(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleCommentDelete = async (commentId) => {
+    try {
+      if (!userId) {
+        console.error("Missing userId");
+        return;
+      }
+  
+      await removeComment({
+        variables: {
+          userId,
+          commentId,
+        },
+      });
+  
+      console.log("Comment removed successfully");
+    } catch (error) {
+      console.error("Error removing comment:", error.message);
+    }
+  };
+  
+  const handleCommentEdit = async (commentId, newPost) => {
+    try {
+      await editComment({
+        variables: {
+          userId,
+          commentId,
+          newPost,
+        },
+      });
+      console.log("Comment edited successfully");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const renderIngredientsList = () => {
@@ -92,26 +153,24 @@ const Description = () => {
         </Box>
         <Box className="drinkCardIcon" sx={{ backgroundImage: `url('/assets/icons/${formula?.icon}')` }} />
       </Card>
+      {/*  */}
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box>
             <Typography variant="h5">{drinkInfo?.name}</Typography>
             <Typography variant="subtitle2">Concocted by: Spirit Labs</Typography>
           </Box>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <IconButton>
-              <CheckIcon sx={{ color: "green" }} />
-            </IconButton>
-            <Typography variant="body2">12k</Typography> {/* Placeholder for check count */}
-          </Box>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <IconButton>
-              <CloseIcon sx={{ color: "red" }} />
-            </IconButton>
-            <Typography variant="body2">7k</Typography> {/* Placeholder for close count */}
+          <Box>
+            <LikeDislikeButtons
+              userId={userId}
+              formulaId={drinkInfo?._id}
+              initialLikeCount={drinkInfo?.likeCount || 0}
+              initialDislikeCount={drinkInfo?.dislikeCount || 0}
+            />
           </Box>
         </Box>
       </CardContent>
+      
       <Tabs value={tabIndex} onChange={handleTabChange} centered>
         <Tab label="Ingredients" />
         <Tab label="Reviews" />
@@ -129,12 +188,48 @@ const Description = () => {
         {tabIndex === 1 && (
           <Box>
             <Typography variant="h6">Reviews</Typography>
-            <Box>
-            <UserReview />
-            </Box>
-            <Button variant="contained" color="primary" sx={{ width: "100%" }}>
-              Leave a Review
-            </Button>
+            <UserReview reviews={drinkInfo?.comments || []} formulaId={drinkInfo?._id} handleCommentDelete={handleCommentDelete} handleCommentEdit={handleCommentEdit}/>
+            {userId && (
+              <Box mt={2}>
+                {!showCommentBox ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setShowCommentBox(true)}
+                  >
+                    Write a Review
+                  </Button>
+                ) : (
+                  <Box>
+                    <TextField
+                      label="Write a review"
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      fullWidth
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleCommentSubmit}
+                      sx={{ marginTop: "10px" }}
+                    >
+                      Submit Review
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => setShowCommentBox(false)}
+                      sx={{ marginTop: "10px", marginLeft: "10px" }}
+                    >
+                      Cancel
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+            )}
           </Box>
         )}
         {tabIndex === 2 && (

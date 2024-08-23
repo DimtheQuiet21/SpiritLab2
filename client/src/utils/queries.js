@@ -13,6 +13,7 @@ export const QUERY_ME = gql`
 export const GET_ALL_FORMULAS = gql`
   query getFormulaNames {
     formulas {
+      _id
       name
       icon
       glass
@@ -33,6 +34,17 @@ export const GET_ALL_FORMULAS = gql`
       }
       assembly
       favoritesCount
+      comments {
+        _id
+        userName
+        post
+        timestamp
+        likeCount
+  isLiked
+  likedBy
+      }
+      likeCount
+      dislikeCount
     }
   }
 `;
@@ -160,25 +172,26 @@ query GetSearchCocktail($name: String!) {
 export const GET_USER_FAVORITE_DRINKS = gql`
   query GetUserFavoriteDrinks($userId: ID!) {
     userFavorites(userId: $userId) {
+      _id
       name
+      glass
       icon
-      ingredients {
-        alcohol {
-          name
-          amount
-          technique
-        }
-        liquid {
-          name
-          amount
-          technique
-        }
-        garnish {
-          name
-          amount
-          technique
-        }
+      alcohol {
+        name
+        amount
+        technique
       }
+      liquid {
+        name
+        amount
+        technique
+      }
+      garnish {
+        name
+        amount
+        technique
+      }
+      assembly
     }
   }
 `;
@@ -208,6 +221,32 @@ export const GET_ALL_INGREDIENTS = gql`
     }
   }
 `;
+
+export const GET_LIKE_COUNT = gql`
+  query GetLikes($formulaId: ID!) {
+    getLikes(formulaId: $formulaId)
+  }
+`;
+
+export const GET_DISLIKE_COUNT = gql`
+  query GetDislikes($formulaId: ID!) {
+    getDislikes(formulaId: $formulaId)
+  }
+`;
+
+// export const GET_COMMENT_FOR_DRINK = gql`
+//   query GetCommentForDrink($formulaId: ID!) {
+//     formula(_id: $formulaId) {
+//       _id
+//       name
+//       comments {
+//         userName
+//         post
+//         timestamp
+//       }
+//     }
+//   }
+// `;
 
 // To make this query run, the body of the quest must have req.body = {"name" : [ARRAY OF TERMS IN SEARCH BAR], "liquid": [ARRAY OF TERMS IN SEARCH BAR], "garnish": [ARRAY OF TERMS IN SEARCH BAR]}
 // export const GET_FORMULA_INGREDIENTS = gql`

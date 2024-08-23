@@ -81,7 +81,9 @@ function Search() {
         return newSelection;
       });
     } else if (type === 'glass') {
-      setSelectedGlassTypes((prev) => [option]);
+      setSelectedGlassTypes((prev) => {
+        return prev.includes(option) ? [] : [option];
+      });
     }
   };
 

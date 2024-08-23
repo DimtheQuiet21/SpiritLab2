@@ -25,7 +25,7 @@ const AddToFavoritesButton = ({ drinkName, userId, onSuccess }) => {
         await removeFromFavorites({ variables: { userId, drink: drinkName } });
         updatedFavorites = favorites.filter(fav => fav !== drinkName);
       } else {
-        await addToFavorites({ variables: { userId, drink: drinkName, ingredients: [] } });
+        await addToFavorites({ variables: { userId, drink: drinkName } });
         updatedFavorites = [...favorites, drinkName];
       }
 

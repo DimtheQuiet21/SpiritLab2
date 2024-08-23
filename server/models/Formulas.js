@@ -2,6 +2,38 @@ const mongoose = require ('mongoose');
 
 const { model, Schema } = mongoose;
 
+const commentSchema = new Schema({
+    userName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    post: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+    likeCount: {
+        type: Number,
+        default: 0,
+    },
+    isLiked: {
+        type: Boolean,
+        default: false,
+    },
+    likedBy: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'User',
+        },
+      ],
+    
+  });
+
 const formulaSchema = new Schema ({
     name: {
         type: String,
@@ -96,22 +128,45 @@ const formulaSchema = new Schema ({
         type: Number,
         default: 0
     },
-    // reviews: [
-    //     {
-    //       userName: {
-    //         type: String,
-    //         required: true,
-    //       },
-    //       review: {
-    //         type: String,
-    //         required: true,
-    //       },
-    //       createdAt: {
-    //         type: Date,
-    //         default: Date.now,
-    //       },
-    //     },
-    //   ]
+    likeCount: {
+        type: Number,
+        default: 0
+    },
+    dislikeCount: {
+        type: Number,
+        default: 0
+    },
+    comments: [
+        {
+            userName: {
+                type: String,
+                required: true,
+                trim: true,
+            },
+          post: {
+            type: String,
+            required: true,
+            trim: true,
+          },
+          timestamp: {
+            type: Date,
+            default: Date.now,
+          },
+        }
+        ],
+        likedBy: [
+            {
+              type: Schema.Types.ObjectId,
+              ref: 'User',
+            },
+          ],
+          dislikedBy: [
+            {
+              type: Schema.Types.ObjectId,
+              ref: 'User',
+            },
+          ],
+          comments: [commentSchema]
 })
 
 const Formulas = model('Formulas', formulaSchema); 
