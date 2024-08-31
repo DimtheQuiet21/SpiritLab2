@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Box } from "@mui/material";
 import "./Welcome.css";
 
-const Welcome = ({ username }) => {
+const WelcomeText = ({ username }) => {
     // simply display the username
     return (
         <Box className='welcome-user'>
@@ -13,4 +13,4 @@ const Welcome = ({ username }) => {
     );
 }
 
-export default Welcome;
+export default WelcomeText;
