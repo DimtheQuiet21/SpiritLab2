@@ -40,8 +40,17 @@ export const GET_ALL_FORMULAS = gql`
         post
         timestamp
         likeCount
-  isLiked
-  likedBy
+        isLiked
+        likedBy
+        replies {
+          _id
+          userName
+          post
+          timestamp
+          likeCount
+          isLiked
+          likedBy
+        }
       }
       likeCount
       dislikeCount

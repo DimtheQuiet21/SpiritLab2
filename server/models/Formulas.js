@@ -1,38 +1,6 @@
 const mongoose = require ('mongoose');
-
+const commentSchema = require('./Comments');
 const { model, Schema } = mongoose;
-
-const commentSchema = new Schema({
-    userName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    post: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    timestamp: {
-      type: Date,
-      default: Date.now,
-    },
-    likeCount: {
-        type: Number,
-        default: 0,
-    },
-    isLiked: {
-        type: Boolean,
-        default: false,
-    },
-    likedBy: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'User',
-        },
-      ],
-    
-  });
 
 const formulaSchema = new Schema ({
     name: {
@@ -54,7 +22,7 @@ const formulaSchema = new Schema ({
     },
 
     icon: {
-        type: String, // 
+        type: String,
         required: false,
         trim: true,
     },
@@ -136,24 +104,6 @@ const formulaSchema = new Schema ({
         type: Number,
         default: 0
     },
-    comments: [
-        {
-            userName: {
-                type: String,
-                required: true,
-                trim: true,
-            },
-          post: {
-            type: String,
-            required: true,
-            trim: true,
-          },
-          timestamp: {
-            type: Date,
-            default: Date.now,
-          },
-        }
-        ],
         likedBy: [
             {
               type: Schema.Types.ObjectId,

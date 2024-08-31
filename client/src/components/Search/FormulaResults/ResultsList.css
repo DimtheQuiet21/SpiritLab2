@@ -23,3 +23,77 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.results-container {
+    padding: var(--morepadding);
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--moremargin);
+  }
+  
+  .formula-card {
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .formula-card:hover {
+    background-color: rgba(186, 192, 244, 0.361); 
+  }
+  
+  .drinkCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: var(--margin);
+    padding: var(--morepadding);
+    border-radius: var(--round);
+    background-size: cover;
+    min-height: 250px;
+  }
+  
+  .drinkCardImage {
+    background-position: center;
+    height: 150px;
+  }
+  
+  .drinkCardReviews {
+    display: flex;
+    justify-content: left;
+    margin-top: var(--margin);
+    color: var(--main-black);
+  }
+  
+  .cardHeaderItem {
+    display: flex;
+    justify-content: center;
+    padding: var(--padding);
+    padding-left: var(--morepadding);
+    padding-right: var(--morepadding);
+    color: var(--main-black);
+    font-weight: bolder;
+    max-height: 24pt;
+    background-color: var(--main-white);
+    border-radius: 12pt;
+  }
+  
+  .cardContent {
+    position: relative;
+    color: #ffffff;
+    text-shadow: 
+      -1px -1px 0 #000,  
+      1px -1px 0 #000,  
+      -1px 1px 0 #000; 
+  }
+  
+  .no-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: var(--morepadding);
+    background-color: #f5f5f5;
+    border-radius: var(--round);
+  }

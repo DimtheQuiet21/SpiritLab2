@@ -16,6 +16,9 @@
     --margin: 4pt;
     --moremargin: 8pt;
 }
+.homepageContainer {
+  min-height: auto;
+}
 
 .exploreCard {
 display: flex;
@@ -76,3 +79,41 @@ justify-content: space-between;
 .cardFavoriteButton {
     background-color: var(--dark-overlay) !important;
 }
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    height: 70vh;
+    background-color: #c8c8c8;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .profile-message-box {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-message-text {
+    margin-bottom: 16px;
+    color: #333333;
+  }
+  
+  .profile-button {
+    margin-top: 16px;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .empty-favorites {
+    background-color: #808080;
+    padding: 20px;
+    border-radius: 10px;
+  }

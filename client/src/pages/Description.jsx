@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ALL_FORMULAS } from "../utils/queries";
-import { ADD_COMMENT_TO_FORMULA, REMOVE_COMMENT_FROM_FORMULA, EDIT_COMMENT_ON_FORMULA } from "../utils/mutations";
+import { ADD_COMMENT_TO_FORMULA, REMOVE_COMMENT_FROM_FORMULA, EDIT_COMMENT_ON_FORMULA, ADD_REPLY_TO_COMMENT, REMOVE_REPLY_FROM_COMMENT } from "../utils/mutations";
 import { useGlobalContext } from "../globalProvider";
 import Auth from "../utils/auth";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -27,9 +27,11 @@ const Description = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { formula } = location.state || {};
-  const { loading, error, data } = useQuery(GET_ALL_FORMULAS);
+  const { loading, error, data, refetch } = useQuery(GET_ALL_FORMULAS);
   const [addComment] = useMutation(ADD_COMMENT_TO_FORMULA);
+  const [addReplyToComment] = useMutation(ADD_REPLY_TO_COMMENT);
   const [removeComment] = useMutation(REMOVE_COMMENT_FROM_FORMULA);
+  const [removeReplyFromComment] = useMutation(REMOVE_REPLY_FROM_COMMENT);
   const [editComment] = useMutation(EDIT_COMMENT_ON_FORMULA);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
@@ -56,6 +58,7 @@ const Description = () => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  // Function to handle submitting a comment to the database
   const handleCommentSubmit = async () => {
     try {
       if (!comment.trim()) return;
@@ -76,6 +79,29 @@ const Description = () => {
     }
   };
 
+  // Function to handle submitting a reply to a comment
+  const handleReplySubmit = async (commentId, replyComment) => {
+    try {
+      if (!replyComment.trim() || !commentId) {
+        console.log("Error: Missing replyComment or commentId");
+        return;
+      }
+  
+      await addReplyToComment({
+        variables: {
+          userId,
+          commentId,
+          post: replyComment,
+        },
+      });
+  
+      console.log("Reply added successfully");
+    } catch (err) {
+      console.error("Error adding reply:", err);
+    }
+  };
+
+  // Function to handle deleting a comment
   const handleCommentDelete = async (commentId) => {
     try {
       if (!userId) {
@@ -89,13 +115,15 @@ const Description = () => {
           commentId,
         },
       });
-  
+      
+      refetch();
       console.log("Comment removed successfully");
     } catch (error) {
       console.error("Error removing comment:", error.message);
     }
   };
   
+  // Function to handle editing a comment
   const handleCommentEdit = async (commentId, newPost) => {
     try {
       await editComment({
@@ -105,12 +133,37 @@ const Description = () => {
           newPost,
         },
       });
+      
       console.log("Comment edited successfully");
     } catch (err) {
       console.error(err);
     }
   };
 
+  // Function to handle deleting a reply
+  const handleReplyDelete = async (commentId, replyId) => {
+    try {
+      if (!userId) {
+        console.error("Missing userId");
+        return;
+      }
+  
+      await removeReplyFromComment({
+        variables: {
+          userId,
+          commentId,
+          replyId,
+        },
+      });
+      
+      refetch();
+      console.log("Reply removed successfully");
+    } catch (error) {
+      console.error("Error removing reply:", error.message);
+    }
+  };
+
+  // Function to render the ingredients list
   const renderIngredientsList = () => {
     if (!drinkInfo) return null;
 
@@ -153,7 +206,6 @@ const Description = () => {
         </Box>
         <Box className="drinkCardIcon" sx={{ backgroundImage: `url('/assets/icons/${formula?.icon}')` }} />
       </Card>
-      {/*  */}
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box>
@@ -188,7 +240,7 @@ const Description = () => {
         {tabIndex === 1 && (
           <Box>
             <Typography variant="h6">Reviews</Typography>
-            <UserReview reviews={drinkInfo?.comments || []} formulaId={drinkInfo?._id} handleCommentDelete={handleCommentDelete} handleCommentEdit={handleCommentEdit}/>
+            <UserReview reviews={drinkInfo?.comments || []} formulaId={drinkInfo?._id} handleCommentDelete={handleCommentDelete} handleCommentEdit={handleCommentEdit} handleReplySubmit={handleReplySubmit} handleReplyDelete={handleReplyDelete} />
             {userId && (
               <Box mt={2}>
                 {!showCommentBox ? (

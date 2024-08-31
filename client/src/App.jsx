@@ -48,9 +48,35 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// Apollo was giving a warning stating cache data could be lost when replacing the comments field of a Formula and replacing the replies field of a Comment object. This could cause additional network requests to fetch data that were otherwise cached. So a recommended solution was to use a merge function to merge the incoming data with the existing data( this is done in the ApolloClient constructor)
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Comment: {
+        fields: {
+          replies: {
+            merge(existing = [], incoming = []) {
+              const existingRepliesMap = new Map(existing.map(reply => [reply.__ref, reply]));
+              incoming.forEach(reply => existingRepliesMap.set(reply.__ref, reply));
+              return Array.from(existingRepliesMap.values());
+            }
+          }
+        }
+      },
+      Formulas: {
+        fields: {
+          comments: {
+            merge(existing = [], incoming = []) {
+              const existingCommentsMap = new Map(existing.map(comment => [comment.__ref, comment]));
+              incoming.forEach(comment => existingCommentsMap.set(comment.__ref, comment));
+              return Array.from(existingCommentsMap.values());
+            }
+          }
+        }
+      }
+    }
+  }),
 });
 
 function App() {

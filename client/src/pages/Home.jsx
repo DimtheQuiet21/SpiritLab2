@@ -11,7 +11,7 @@ function Home() {
   const username = Auth.loggedIn() ? Auth.getProfile().data.userName : null;
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} className="homepageContainer">
       {username && (
         <Grid item xs={12}>
           <Welcome username={username} />
@@ -42,7 +42,7 @@ function Home() {
               marginTop: "16px",
             }}
           >
-            Mixology 101
+            Mixology 101 COMING SOON!
           </Box>
         </Grid>
         <Grid item xs={7}>

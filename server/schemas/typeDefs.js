@@ -20,7 +20,18 @@ type Comment {
   isLiked: Boolean
   likeCount: Int
   likedBy: [ID] 
+  replies: [Reply]
 }
+
+type Reply {
+    _id: ID
+    userName: String
+    post: String
+    timestamp: String
+    isLiked: Boolean
+    likeCount: Int
+    likedBy: [ID]
+  }
 
 type Formulas {
     _id: ID
@@ -36,7 +47,7 @@ type Formulas {
     likeCount: Int
     dislikeCount: Int
     likedBy: [ID]
-    dislikes: [ID]
+    dislikedBy: [ID]
     comments: [Comment]
 }
 
@@ -63,6 +74,10 @@ type Drink {
     ingredients: [String]
     icon: String
   }
+
+type MessageResponse {
+    message: String
+}
 
 type User {
     _id: ID
@@ -98,15 +113,18 @@ type Query {
 
 type Mutation {
     addUser(userName: String!, email: String!, password: String!): Auth
+    removeUser(userId: ID!): MessageResponse
     login(email: String!, password: String!): Auth
     addToFavorites(userId: ID!, drink: String!): Formulas
     removeFavoriteDrink(userId: ID!, drink: String!): Formulas
     addCommentToFormula(userId: ID!, formulaId: ID!, post: String!): Formulas
+    addReplyToComment(userId: ID!, commentId: ID!, post: String!): Formulas
     removeCommentFromFormula(userId: ID!, commentId: ID!): Formulas
+    removeReplyFromComment(userId: ID!, commentId: ID!, replyId: ID!): Formulas
     editCommentOnFormula(userId: ID!, commentId: ID!, newPost: String!): Formulas
     likeDrink(userId: ID!, formulaId: ID!): Formulas
     dislikeDrink(userId: ID!, formulaId: ID!): Formulas
-    likeComment(userId: ID!, commentId: ID!): Comment
+    likeComment(userId: ID!, commentId: ID!, replyId: ID): Comment
 }
 `
 module.exports = typeDefs;

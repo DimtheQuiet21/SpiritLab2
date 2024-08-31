@@ -134,9 +134,9 @@ function Search() {
           fullWidth
         />
         {isSearchFocused && (
-          <IconButton onClick={() => setIsSearchFocused(false)}>
-            <CloseIcon onClick={handleClearFormulas} />
-          </IconButton>
+          <IconButton onClick={handleClearFormulas}>
+          <CloseIcon />
+        </IconButton>
         )}
       </Box>
       <Box display="flex" justifyContent="center">
@@ -195,7 +195,7 @@ function Search() {
                   handleCheckboxChange={(option) => handleCheckboxChange(option, 'glass')}
                   selectedOptions={selectedGlassTypes}
                 />
-                <Box display="flex" justifyContent="center" mt={2}>
+                <Box display="flex" justifyContent="center" mt={2} mb={4}>
                   <Button variant="contained" onClick={handleApplySelections}>
                     Gimme Drinks!
                   </Button>
