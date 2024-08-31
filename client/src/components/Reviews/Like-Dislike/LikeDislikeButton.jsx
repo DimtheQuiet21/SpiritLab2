@@ -60,7 +60,7 @@ const LikeDislikeButtons = ({ userId, formulaId }) => {
         ...prev,
         [`${formulaId}_liked`]: false,
       }));
-      setLikeCount((prevCount) => prevCount - 1);
+      setLikeCount((prevCount) => Math.max(prevCount - 1, 0));
     } else {
       likeDrink();
     }
@@ -73,7 +73,7 @@ const LikeDislikeButtons = ({ userId, formulaId }) => {
         ...prev,
         [`${formulaId}_disliked`]: false,
       }));
-      setDislikeCount((prevCount) => prevCount - 1);
+      setDislikeCount((prevCount) => Math.max(prevCount - 1, 0));
     } else {
       dislikeDrink();
     }

@@ -73,7 +73,7 @@ const PopularDrinks = () => {
             <Box textAlign="center" mr={2}>
 
               {/* We do not have to keep this but it is here if you decide to do something with the rankings */}
-              <Typography variant="h6">{`${position}${
+              {/* <Typography variant="h6">{`${position}${
                 position === 1
                   ? "st"
                   : position === 2
@@ -81,7 +81,7 @@ const PopularDrinks = () => {
                   : position === 3
                   ? "rd"
                   : "th"
-              }`}</Typography>
+              }`}</Typography> */}
               <Typography>{capFirstLetter(displayedDrink.name)}</Typography>
               <Box
                 className="randomButtonModalImage"

@@ -50,7 +50,7 @@ const DrinkOfDay = () => {
   if (error) return <Typography>Error: {error.message}</Typography>;
 
   return (
-    <Box className="drinkOfTheDay">
+    <Box className="drinkOfTheDay" sx={{height:'1'}}>
       <Typography variant="h6" mb={2}>
         Drink of the Day
       </Typography>
@@ -59,8 +59,8 @@ const DrinkOfDay = () => {
           <Box
             className="drinkModal"
             sx={{
-              width: 100,
-              height: 100,
+              width: 120,
+              height: 120,
               backgroundSize: "cover",
               backgroundPosition: "center",
               margin: "0 auto 16px auto",

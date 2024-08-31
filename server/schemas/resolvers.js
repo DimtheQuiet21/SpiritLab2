@@ -132,6 +132,34 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    removeUser: async (parent, { userId }, context) => {
+      try {
+        // Find and remove the user
+        const user = await User.findByIdAndDelete(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        // Clean up any references to the user in other collections if necessary
+        await Formulas.updateMany(
+          { likedBy: userId },
+          { $pull: { likedBy: userId } }
+        );
+        await Formulas.updateMany(
+          { dislikedBy: userId },
+          { $pull: { dislikedBy: userId } }
+        );
+        await Formulas.updateMany(
+          { "comments.userName": user.userName },
+          { $pull: { comments: { userName: user.userName } } }
+        );
+
+        return { message: "User removed successfully" };
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to remove user: " + err.message);
+      }
+    },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       console.log(password);
@@ -268,7 +296,6 @@ const resolvers = {
         throw new Error("Failed to add comment to formula");
       }
     },
-
     removeCommentFromFormula: async (parent, { userId, commentId }) => {
       try {
         // Find the user in the database
@@ -301,8 +328,49 @@ const resolvers = {
         console.error(err);
         throw new Error("Failed to remove comment: " + err.message);
       }
-    }
-    ,
+    },
+
+    removeReplyFromComment: async (parent, { userId, commentId, replyId }) => {
+      try {
+        // Find the user in the database
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
+    
+        // Find the formula containing the comment and the reply
+        const formula = await Formulas.findOne({ "comments._id": commentId });
+        if (!formula) {
+          throw new Error("Formula not found");
+        }
+    
+        // Find the comment
+        const comment = formula.comments.id(commentId);
+        if (!comment) {
+          throw new Error("Comment not found");
+        }
+    
+        // Check if the reply exists
+        const reply = comment.replies.id(replyId);
+        if (!reply) {
+          throw new Error("Reply not found");
+        }
+    
+        // Check if the user is either the owner of the reply or the owner of the comment
+        if (reply.userName !== user.userName && comment.userName !== user.userName) {
+          throw new Error("You do not have permission to delete this reply");
+        }
+    
+        // Remove the reply using the pull method
+        comment.replies.pull(replyId);
+        await formula.save();
+    
+        return formula;
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to remove reply: " + err.message);
+      }
+    },
 
     likeDrink: async (parent, { formulaId, userId }) => {
       try {
@@ -399,43 +467,105 @@ const resolvers = {
         throw new Error("Failed to edit comment: " + err.message);
       }
     },
-    likeComment: async (parent, { userId, commentId }) => {
+    addReplyToComment: async (parent, { userId, commentId, post }) => {
       try {
+        console.log('Post content:', post);
+        if (!post || post.trim() === "") {
+          throw new Error("Post content is required for a reply.");
+        }
         // Find the user in the database
         const user = await User.findById(userId);
         if (!user) {
-          throw new Error("User not found");
+          throw new Error("User must be logged in to post a comment");
         }
     
-        // Find the formula containing the comment
-        const formula = await Formulas.findOne({ "comments._id": commentId });
+        // Find the comment to reply to and push the new reply
+        const formula = await Formulas.findOneAndUpdate(
+          { 'comments._id': commentId },
+          {
+            $push: {
+              'comments.$.replies': {
+                userName: user.userName,
+                post: post.trim(),
+                timestamp: new Date(),
+                likeCount: 0,
+                isLiked: false,
+                likedBy: [],
+              },
+            },
+          },
+          { new: true }
+        );
+    
         if (!formula) {
-          throw new Error("Formula not found");
-        }
-    
-        // Find the comment
-        const comment = formula.comments.id(commentId);
-        if (!comment) {
           throw new Error("Comment not found");
         }
     
-        const alreadyLiked = comment.likedBy.includes(userId);
-    
-        if (alreadyLiked) {
-          // Removes the like
-          comment.likeCount -= 1;
-          comment.likedBy.pull(userId);
-        } else {
-          // Adds a new like
-          comment.likeCount += 1;
-          comment.likedBy.push(userId);
-        }
-        await formula.save();
-        return comment;
-      } catch (err) {
-        console.error(err);
-        throw new Error("Failed to like comment: " + err.message);
+        return formula;
+      } catch (error) {
+        console.error("Error adding comment to comment:", error);
+        throw new Error("Failed to add comment to comment");
       }
+  }
+,  
+likeComment: async (parent, { userId, commentId, replyId }) => {
+  try {
+    // Find the user in the database
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Find the formula containing the comment
+    const formula = await Formulas.findOne({ "comments._id": commentId });
+    if (!formula) {
+      throw new Error("Formula not found");
+    }
+
+    // Find the comment
+    const comment = formula.comments.id(commentId);
+    if (!comment) {
+      throw new Error("Comment not found");
+    }
+
+    if (replyId) {
+      // If replyId is provided, find the reply and like it
+      const reply = comment.replies.id(replyId);
+      if (!reply) {
+        throw new Error("Reply not found");
+      }
+
+      const alreadyLiked = reply.likedBy.includes(userId);
+
+      if (alreadyLiked) {
+        // Remove like
+        reply.likeCount -= 1;
+        reply.likedBy.pull(userId);
+      } else {
+        // Add like
+        reply.likeCount += 1;
+        reply.likedBy.push(userId);
+      }
+    } else {
+      // If no replyId, like the comment itself
+      const alreadyLiked = comment.likedBy.includes(userId);
+
+      if (alreadyLiked) {
+        comment.likeCount -= 1;
+        comment.likedBy.pull(userId);
+      } else {
+        comment.likeCount += 1;
+        comment.likedBy.push(userId);
+      }
+    }
+
+    await formula.save();
+    // Return the comment or reply that was liked
+    return replyId ? comment.replies.id(replyId) : comment;
+  } catch (err) {
+    console.error(err);
+    throw new Error("Failed to like comment: " + err.message);
+  }
       },
   },
 };

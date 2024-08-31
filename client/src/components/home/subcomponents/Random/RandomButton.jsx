@@ -51,10 +51,10 @@ const RandomButton = () => {
     <div>
       <Box className="randomButtonContainer" onClick={handleOpen}>
         <Typography variant="h6" mb={2}>
-          Hit Me
+          Surprise?
         </Typography>
         <Box fontSize="3rem" mb={2}>
-          🎲🎲
+          🎲
         </Box>
       </Box>
       <Modal

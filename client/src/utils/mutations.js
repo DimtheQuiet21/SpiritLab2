@@ -104,26 +104,23 @@ export const DISLIKE_DRINK = gql`
 `;
 
 export const ADD_REPLY_TO_COMMENT = gql`
-mutation AddReplyToComment($commentId: ID!, $userId: ID!, $post: String!) {
-  addReplyToComment(userId: $userId, commentId: $commentId, post: $post) {
-    id
-    content
-    createdAt
-    user {
-      id
-      username
-    }
-    replies {
-      id
-      content
-      createdAt
-      user {
-        id
-        username
+  mutation AddReplyToComment($commentId: ID!, $userId: ID!, $post: String!) {
+    addReplyToComment(userId: $userId, commentId: $commentId, post: $post) {
+      _id
+      comments {
+        _id
+        userName
+        post
+        timestamp
+        replies {
+          userName
+          post
+          timestamp
+        }
       }
     }
   }
-}`
+`;
 
 export const EDIT_COMMENT_ON_FORMULA = gql`
   mutation EditCommentOnFormula($userId: ID!, $commentId: ID!, $newPost: String!) {
@@ -139,9 +136,29 @@ export const EDIT_COMMENT_ON_FORMULA = gql`
   }
 `;
 
+export const REMOVE_REPLY_FROM_COMMENT = gql`
+  mutation RemoveReplyFromComment($userId: ID!, $commentId: ID!, $replyId: ID!) {
+    removeReplyFromComment(userId: $userId, commentId: $commentId, replyId: $replyId) {
+      _id
+      comments {
+        _id
+        userName
+        post
+        replies {
+          _id
+          userName
+          post
+          timestamp
+        }
+    }
+  }
+}
+`;
+
+
 export const LIKE_COMMENT = gql`
-  mutation LIKE_COMMENT($userId: ID!, $commentId: ID!) {
-    likeComment(userId: $userId, commentId: $commentId) {
+  mutation LIKE_COMMENT($userId: ID!, $commentId: ID!, $replyId: ID) {
+    likeComment(userId: $userId, commentId: $commentId, replyId: $replyId) {
       _id
       likeCount
       isLiked

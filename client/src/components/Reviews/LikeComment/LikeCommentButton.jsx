@@ -10,6 +10,7 @@ import { useGlobalContext } from "../../../globalProvider";
 
 const LikeCommentButton = ({
   commentId,
+  replyId = null,
   initialLikeCount,
   isInitiallyLiked,
   likedByOthers 
@@ -28,35 +29,29 @@ const LikeCommentButton = ({
         return;
     }
 
-    // Ensure globalState.favorites is an array before using it
     const favorites = globalState.favorites || [];
 
-    // Check if the comment is liked by the current user from global state
-    if (favorites.includes(commentId)) {
+    if (favorites.includes(replyId || commentId)) {
       setIsLiked(true);
     } else {
       setIsLiked(false);
     }
-  }, [globalState.favorites, commentId, userId]);
+  }, [globalState.favorites, commentId, replyId, userId]);
 
   const handleLikeComment = async () => {
-    if (!userId) {
-        // If user is not logged in, do nothing
-        return;
-    }
+    if (!userId) return;
 
     try {
       const { data } = await likeComment({
-        variables: { userId, commentId },
+        variables: { userId, commentId, replyId },
       });
 
       if (data.likeComment) {
         setLikeCount(data.likeComment.likeCount);
 
-        // Update the global state with the liked status
         const updatedFavorites = isLiked
-          ? (globalState.favorites || []).filter((id) => id !== commentId)
-          : [...(globalState.favorites || []), commentId];
+          ? (globalState.favorites || []).filter((id) => id !== (replyId || commentId))
+          : [...(globalState.favorites || []), replyId || commentId];
 
         setGlobalState({ ...globalState, favorites: updatedFavorites });
         setIsLiked(!isLiked);
