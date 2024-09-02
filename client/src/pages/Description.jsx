@@ -71,6 +71,7 @@ const Description = () => {
         },
       });
 
+      refetch();
       console.log("Comment added successfully");
       setComment("");
       setShowCommentBox(false);
@@ -94,7 +95,8 @@ const Description = () => {
           post: replyComment,
         },
       });
-  
+      
+      refetch();
       console.log("Reply added successfully");
     } catch (err) {
       console.error("Error adding reply:", err);
@@ -134,6 +136,7 @@ const Description = () => {
         },
       });
       
+      refetch();
       console.log("Comment edited successfully");
     } catch (err) {
       console.error(err);

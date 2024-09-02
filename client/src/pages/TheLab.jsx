@@ -1,5 +1,5 @@
 import Concoct from '../components/concoct/concoct';
-import ConcoctV3 from '../components/concoctv3/ConcoctV3';
+import ConcoctV3 from '../components/concoctV3/ConcoctV3';
 
 import { useGlobalContext } from "../globalProvider.jsx";
 import LocalContext from '../utils/neighborContext';
