@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Auth from "../utils/auth";
-import WelcomeText from "../components/Home/subcomponents/Welcome/WelcomeText";
 import RandomButton from "../components/Home/subcomponents/Random/RandomButton";
 import PopularDrinks from "../components/Home/subcomponents/Popular/PopularDrinks";
 import DrinkOfDay from "../components/Home/subcomponents/Dotd/DrinkOfDay";
@@ -13,7 +12,11 @@ function Home() {
   return (
     <Grid container spacing={2} className="homepageContainer">
         <Grid item xs={12}>
-          <WelcomeText username={username} />
+        <Box className='welcome-user'>
+            <Typography variant="h5">
+                {username ? `Welcome, ${username}` : 'Welcome, Guest'}
+            </Typography>
+        </Box>
         </Grid>
       <PopularDrinks />
       <Grid container item xs={12} spacing={2}>
