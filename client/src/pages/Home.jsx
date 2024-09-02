@@ -12,11 +12,9 @@ function Home() {
 
   return (
     <Grid container spacing={2} className="homepageContainer">
-      {username && (
         <Grid item xs={12}>
           <WelcomeText username={username} />
         </Grid>
-      )}
       <PopularDrinks />
       <Grid container item xs={12} spacing={2}>
         <Grid item xs={5}>
