@@ -3,8 +3,8 @@ import { useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { Box, Grid, IconButton, Typography, Button } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { useGlobalContext } from "../../../../globalProvider";
-import { GET_TOP_FAVORITE_DRINKS } from "../../../../utils/queries";
+import { useGlobalContext } from "../../../globalProvider";
+import { GET_TOP_FAVORITE_DRINKS } from "../../../utils/queries";
 import "./PopularDrinks.css";
 
 const PopularDrinks = () => {

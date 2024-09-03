@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { Box, Typography, Modal, Button } from "@mui/material";
-import { RANDOM_DRINK_QUERY } from "../../../../utils/queries";
-import { useGlobalContext } from "../../../../globalProvider";
+import { RANDOM_DRINK_QUERY } from "../../../utils/queries";
+import { useGlobalContext } from "../../../globalProvider";
 import { useNavigate } from "react-router-dom";
 import "./RandomButton.css";
 
