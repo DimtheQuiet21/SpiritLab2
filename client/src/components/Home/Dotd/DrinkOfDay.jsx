@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import { RANDOM_DRINK_QUERY } from "../../../../utils/queries";
+import { RANDOM_DRINK_QUERY } from "../../../utils/queries";
 import "./DrinkOfDay.css";
 
 const DrinkOfDay = () => {

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { Box, Typography } from "@mui/material";
 import Auth from "../utils/auth";
-import RandomButton from "../components/Home/subcomponents/Random/RandomButton";
-import PopularDrinks from "../components/Home/subcomponents/Popular/PopularDrinks";
-import DrinkOfDay from "../components/Home/subcomponents/Dotd/DrinkOfDay";
+import RandomButton from "../components/Home/Random/RandomButton"
+import PopularDrinks from "../components/Home/Popular/PopularDrinks";
+import DrinkOfDay from "../components/Home/Dotd/DrinkOfDay";
 
 function Home() {
   const username = Auth.loggedIn() ? Auth.getProfile().data.userName : null;

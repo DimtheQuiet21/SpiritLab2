@@ -14,7 +14,7 @@ import Results from './pages/Results.jsx';
 import Description from './pages/Description.jsx';
 
 //Temporary for Development
-import ConcoctV2 from './components/concoctV2/ConcoctV2.jsx';
+// import ConcoctV2 from './components/concoctV2/ConcoctV2.jsx';
 import ConcoctV3 from './components/concoctV3/ConcoctV3.jsx';
 
 //Universal Styles
@@ -43,14 +43,14 @@ const router = createBrowserRouter([
         element: <TheLab />
       },
       //Temporary for Development
-      {
-        path: '/concoctV2',
-        element: <ConcoctV2 />
-      },
-      {
-        path: '/concoctV2',
-        element: <ConcoctV2 />
-      },
+      // {
+      //   path: '/concoctV2',
+      //   element: <ConcoctV2 />
+      // },
+      // {
+      //   path: '/concoctV2',
+      //   element: <ConcoctV2 />
+      // },
       {
         path: '/concoctV3',
         element: <ConcoctV3 />
