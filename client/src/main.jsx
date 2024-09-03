@@ -15,7 +15,7 @@ import Description from './pages/Description.jsx';
 
 //Temporary for Development
 // import ConcoctV2 from './components/concoctV2/ConcoctV2.jsx';
-import ConcoctV3 from './components/concoctV3/ConcoctV3.jsx';
+// import ConcoctV3 from './components/concoctV3/ConcoctV3.jsx';
 
 //Universal Styles
 import './global.css';
@@ -51,10 +51,10 @@ const router = createBrowserRouter([
       //   path: '/concoctV2',
       //   element: <ConcoctV2 />
       // },
-      {
-        path: '/concoctV3',
-        element: <ConcoctV3 />
-      },
+      // {
+      //   path: '/concoctV3',
+      //   element: <ConcoctV3 />
+      // },
       {
         path: '/results',
         element: <Results />

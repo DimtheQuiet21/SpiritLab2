@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { ButtonGroup, Divider, Drawer} from "@mui/material";
 
 import IngredientDiv from "./subcomponents/ingredientBox/IngredientDiv";
-import DrinkSVG from "./subcomponents/drinkSvg/DrinkSVG";
+import DrinkSVG from "./subcomponents/drinkSVG/DrinkSVG.jsx";
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
