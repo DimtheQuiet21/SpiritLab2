@@ -2,7 +2,14 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_FORMULAS } from '../utils/queries';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Box, Grid, Typography, IconButton, CircularProgress, Button, TextField } from '@mui/material';
+// import { Box, Grid2, Typography, IconButton, CircularProgress, Button, TextField } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid2 from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from '../globalProvider.jsx';
 import FilterChecklist from '../components/Search/SearchFilters/FilterChecklist.jsx';
@@ -144,9 +151,9 @@ function Search() {
           <CircularProgress />
         ) : (
           <div>
-            <Grid container spacing={1} justifyContent="center">
+            <Grid2 container spacing={1} justifyContent="center">
               {formulas.map((formula, index) => (
-                <Grid item key={index}>
+                <Grid2 item key={index}>
                   <Button
                     variant="contained"
                     onClick={() => handleSetChoice(formula.name)}
@@ -157,9 +164,9 @@ function Search() {
                   >
                     {formula.name}
                   </Button>
-                </Grid>
+                </Grid2>
               ))}
-            </Grid>
+            </Grid2>
             {!isSearchFocused && (
               <>
                 <FilterChecklist

@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  IconButton,
-  Tabs,
-  Tab,
-  Button,
-  CircularProgress,
-  TextField,
-} from "@mui/material";
+// import {
+//   Box,
+//   Typography,
+//   Card,
+//   CardContent,
+//   IconButton,
+//   Tabs,
+//   Tab,
+//   Button,
+//   CircularProgress,
+//   TextField,
+// } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import IconButton from "@mui/material/IconButton";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import TextField from "@mui/material/TextField";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ALL_FORMULAS } from "../utils/queries";
 import { ADD_COMMENT_TO_FORMULA, REMOVE_COMMENT_FROM_FORMULA, EDIT_COMMENT_ON_FORMULA, ADD_REPLY_TO_COMMENT, REMOVE_REPLY_FROM_COMMENT } from "../utils/mutations";

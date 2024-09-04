@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment  } from "react";
 
 import {
     Box,
@@ -226,7 +226,12 @@ const DrinkSVG = ({ drinkData }) => {
                
     }
 
-    const testDrawing = ingredientHeights.map((e,index) => {return (drawShape(e,index))})
+    // const testDrawing = ingredientHeights.map((e,index) => {return (drawShape(e,index))})
+    const testDrawing = ingredientHeights.map((e, index) => (
+        <Fragment key={index}>
+            {drawShape(e, index)}
+        </Fragment>
+    ));
 
     // console.log(testDrawing)
 
@@ -260,7 +265,7 @@ const DrinkSVG = ({ drinkData }) => {
                                     {receipeVar.matrix.map((mat, matIndex) => 
                                         <div key = {matIndex}>
                                             {mat.map((ingredient, index) => (
-                                                <Typography key={index}>
+                                                <Typography key={`${matIndex}-${index}`}>
                                                     {ingredient.name}: {ingredient.amount}
                                                 </Typography>)
                                                 )

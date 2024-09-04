@@ -178,10 +178,8 @@ const ConcoctV3 = () => {
             return receipeVar.matrix.map((ingredientMatrix,index) => {
                 //console.log("BlockRender")
                     return (
-                        <>
-                            {/* <IngredientDiv ingredients={ingredientMatrix} type={receipeVar.keys[index]} index = {index} localState = {localState} setLocalState = {setLocalState}/> */}
+                            // {/* <IngredientDiv ingredients={ingredientMatrix} type={receipeVar.keys[index]} index = {index} localState = {localState} setLocalState = {setLocalState}/> */}
                             <IngredientDiv key = {`${receipeVar.keys[index]}-${index}`} ingredients={ingredientMatrix} type={receipeVar.keys[index]} index = {index} searchList = {localState.searchList}/>
-                        </>
             
                     )
             })
