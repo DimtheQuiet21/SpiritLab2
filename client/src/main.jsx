@@ -6,12 +6,15 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import App from './App.jsx'
-import Home from './pages/Home';
-import TheLab from './pages/TheLab';
-import Profile from './pages/Profile.jsx';
-import Search from './pages/Search.jsx';
-import Results from './pages/Results.jsx';
-import Description from './pages/Description.jsx';
+
+
+// Dynamically import the pages
+const Home = React.lazy(() => import('./pages/Home'));
+const TheLab = React.lazy(() => import('./pages/TheLab'));
+const Profile = React.lazy(() => import('./pages/Profile.jsx'));
+const Search = React.lazy(() => import('./pages/Search.jsx'));
+const Results = React.lazy(() => import('./pages/Results.jsx'));
+const Description = React.lazy(() => import('./pages/Description.jsx'));
 
 //Temporary for Development
 // import ConcoctV2 from './components/concoctV2/ConcoctV2.jsx';
@@ -28,45 +31,32 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <React.Suspense fallback={<div>Loading...</div>}><Home /></React.Suspense>,
       },
       {
         path: '/search',
-        element: <Search />
+        element: <React.Suspense fallback={<div>Loading...</div>}><Search /></React.Suspense>,
       },
       {
         path: '/me',
-        element: <Profile />
-      }, 
+        element: <React.Suspense fallback={<div>Loading...</div>}><Profile /></React.Suspense>,
+      },
       {
         path: '/lab',
-        element: <TheLab />
+        element: <React.Suspense fallback={<div>Loading...</div>}><TheLab /></React.Suspense>,
       },
-      //Temporary for Development
-      // {
-      //   path: '/concoctV2',
-      //   element: <ConcoctV2 />
-      // },
-      // {
-      //   path: '/concoctV2',
-      //   element: <ConcoctV2 />
-      // },
-      // {
-      //   path: '/concoctV3',
-      //   element: <ConcoctV3 />
-      // },
       {
         path: '/results',
-        element: <Results />
+        element: <React.Suspense fallback={<div>Loading...</div>}><Results /></React.Suspense>,
       },
       {
         path: '/description',
-        element: <Description />
-      }
+        element: <React.Suspense fallback={<div>Loading...</div>}><Description /></React.Suspense>,
+      },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <RouterProvider router={router} />
-)
+);
