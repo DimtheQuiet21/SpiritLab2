@@ -4,7 +4,7 @@ import { GET_ALL_FORMULAS } from '../utils/queries';
 import { useNavigate, useLocation } from 'react-router-dom';
 // import { Box, Grid2, Typography, IconButton, CircularProgress, Button, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
-import Grid2 from '@mui/material/Grid';
+import Grid2 from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';

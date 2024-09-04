@@ -19,7 +19,7 @@ import { useGlobalContext } from "../globalProvider";
 //   DialogContent,
 // } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import Grid2 from "@mui/material/Grid";
+import Grid2 from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
