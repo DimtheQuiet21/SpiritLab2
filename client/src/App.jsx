@@ -3,8 +3,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import { useLocation, Outlet } from "react-router-dom";
-import Navbar from "./components/main/Navbar";
-import Footer from "./components/main/Footer";
 import GlobalProvider from "./globalProvider.jsx";
 import { setContext } from "@apollo/client/link/context";
 
@@ -14,6 +12,10 @@ import {
   ApolloProvider,
   createHttpLink,
 } from "@apollo/client";
+
+// Dynamic imports for code splitting
+const Navbar = React.lazy(() => import("./components/main/Navbar"));
+const Footer = React.lazy(() => import("./components/main/Footer"));
 
 const labTheme = createTheme({
   palette: {
@@ -89,12 +91,15 @@ function App() {
       <GlobalProvider>
         <ThemeProvider theme={labTheme}>
           <CssBaseline />
-          {/* <div className="fixed-navbar">  */}{" "}
-            <Navbar /> 
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Navbar />
+          </React.Suspense>
           <Container maxWidth="xl" sx={{ pt: "24px" }}>
             <Outlet />
           </Container>
-          <Footer />
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Footer />
+          </React.Suspense>
         </ThemeProvider>
       </GlobalProvider>
     </ApolloProvider>
