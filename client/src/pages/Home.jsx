@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@mui/material/Grid";
-import { Box, Typography } from "@mui/material";
+import Grid2 from "@mui/material/Grid2";
+// import { Box, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import Auth from "../utils/auth";
 import RandomButton from "../components/Home/Random/RandomButton"
 import PopularDrinks from "../components/Home/Popular/PopularDrinks";
@@ -10,17 +12,19 @@ function Home() {
   const username = Auth.loggedIn() ? Auth.getProfile().data.userName : null;
 
   return (
-    <Grid container spacing={2} className="homepageContainer">
-        <Grid item xs={12}>
+    <Grid2 container spacing={2} className="homepageContainer">
+        <Grid2 item="true" size={12}>
         <Box className='welcome-user'>
             <Typography variant="h5">
                 {username ? `Welcome, ${username}` : 'Welcome, Guest'}
             </Typography>
         </Box>
-        </Grid>
+        </Grid2>
+        <Grid2 item="true" size={12}>
       <PopularDrinks />
-      <Grid container item xs={12} spacing={2}>
-        <Grid item xs={5}>
+      </Grid2>
+      <Grid2 container item="true" size={12} spacing={2}>
+        <Grid2 item="true" size={5}>
           <RandomButton />
           <Box
             sx={{
@@ -45,12 +49,12 @@ function Home() {
           >
             Mixology 101 COMING SOON!
           </Box>
-        </Grid>
-        <Grid item xs={7}>
+        </Grid2>
+        <Grid2 item="true" size={7}>
           <DrinkOfDay />
-        </Grid>
-      </Grid>
-    </Grid>
+        </Grid2>
+      </Grid2>
+    </Grid2>
   );
 }
 

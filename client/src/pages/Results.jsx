@@ -3,21 +3,34 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_FORMULAS } from "../utils/queries";
 import { useGlobalContext } from "../globalProvider";
-import {
-  CircularProgress,
-  Grid,
-  Box,
-  Typography,
-  IconButton,
-  Card,
-  CardContent,
-  Button,
-  Stack,
-  Chip,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-} from "@mui/material";
+// import {
+//   CircularProgress,
+//   Grid2,
+//   Box,
+//   Typography,
+//   IconButton,
+//   Card,
+//   CardContent,
+//   Button,
+//   Stack,
+//   Chip,
+//   Dialog,
+//   DialogTitle,
+//   DialogContent,
+// } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Grid2 from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import Chip from "@mui/material/Chip";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddToFavoritesButton from "../components/addFavorites/AddToFavoritesButton";
 import Auth from "../utils/auth";
@@ -172,10 +185,10 @@ const Results = () => {
           Matching Formulas
         </Typography>
       </Box>
-      <Grid container spacing={2}>
+      <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {matchingFormulas.length > 0 ? (
           matchingFormulas.map((formula, index) => (
-            <Grid item key={index} xs={12} sm={6} md={4}>
+            <Grid2 item="true" key={index} size={4} sm={6} md={4}>
               <Card
                 onClick={() => handleFormulaClick(formula)}
                 className="formula-card"
@@ -237,7 +250,7 @@ const Results = () => {
                   </CardContent>
                 </Box>
               </Card>
-            </Grid>
+            </Grid2>
           ))
         ) : (
           <Box className="no-results">
@@ -246,7 +259,7 @@ const Results = () => {
             </Typography>
           </Box>
         )}
-      </Grid>
+      </Grid2>
 
       {/* MODAL */}
       <Dialog

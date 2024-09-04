@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import { Box, Grid, IconButton, Typography, Button } from "@mui/material";
+import { Box, Grid2, IconButton, Typography, Button } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { useGlobalContext } from "../../../globalProvider";
 import { GET_TOP_FAVORITE_DRINKS } from "../../../utils/queries";
@@ -62,7 +62,7 @@ const PopularDrinks = () => {
   const position = startIndex + 1; // Position is 1-based index
 
   return (
-    <Grid item xs={12}>
+    <Grid2 item="true" xs={12} >
       <Box className="popularDrinksContainer">
         <Typography variant="h6">Top Drinks</Typography>
         <Box className="popularDrinksItems">
@@ -135,7 +135,7 @@ const PopularDrinks = () => {
           ))}
         </Box>
       </Box>
-    </Grid>
+    </Grid2>
   );
 };
 
