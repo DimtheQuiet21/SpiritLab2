@@ -20,19 +20,38 @@ import { Box, Container } from '@mui/material';
 
 import './drinkRenderer.css';
 import { useGlobalContext } from "../../globalProvider.jsx";
-import { GET_ALL_INGREDIENTS } from "../../utils/queries.js"
+import { GET_ALL_INGREDIENTS, GET_ALL_GLASSES  } from "../../utils/queries.js"
 
 const ConcoctV3 = () => {
 
     const { globalState, setGlobalState } = useGlobalContext();
     const [localState, setLocalState] = useState({});
-    const {loading, data, error} = useQuery(GET_ALL_INGREDIENTS);
-    
+
+    const {loading: formulaLoading, data: formulaData, error} = useQuery(GET_ALL_INGREDIENTS);
+    const {loading: glassLoading, data: glassData} = useQuery(GET_ALL_GLASSES);
+
+    //const data = queryFormula.data || queryGlass.data;
+    // queryLoading = queryFormula.queryLoading || queryGlass.queryLoading;
+  
+    useEffect (() => {
+      if (!glassLoading && glassData) {
+        console.log("Glasses are loaded", glassData);
+      }
+    }, [glassLoading, glassData]);
+
+    useEffect (() => {
+        console.log("Setting Local State", localState)
+    }, [localState]);
+
+    useEffect (() => {
+        console.log("YOU UPDATED THE GLOBAL STATE", globalState);
+    }, [globalState])
+
     useEffect (()=>{
 
         async function tuneGlobalState () {
 
-            if (!loading && data) {
+            if (!formulaLoading && !glassLoading && formulaData && glassData) {
 
                 //This sets the local state baseond on the global state for the fist time.
                 if (Object.keys(localState).length < 1) {
@@ -41,7 +60,7 @@ const ConcoctV3 = () => {
                     const assembleSearchList = () => {
                         const ingredients = [];
                         //console.log(data)
-                        const formulas = data.formulas;
+                        const formulas = formulaData.formulas;
                         formulas.forEach((el) => {
                             const receipeVar = [el.alcohol, el.liquid, el.garnish];
                             receipeVar.forEach((ingredientMat)=>{
@@ -138,11 +157,11 @@ const ConcoctV3 = () => {
                     };
 
                     const newFormula = await assembleFormula();
-    
-                    console.log("Setting Local State", globalState)
+
                     setLocalState ({
                         formula: newFormula,
                         searchList: assembleSearchList(),
+                        glasses:glassData,
                         ready:true
                     })
                 };
@@ -150,18 +169,8 @@ const ConcoctV3 = () => {
         }
 
         tuneGlobalState()
-    }, [loading, data]);
+    }, [formulaLoading, glassLoading, formulaData, glassData]);
 
-    // useEffect (() => {
-    //     if (localState.formula){
-    //         console.log("Setting Global State")
-    //         setGlobalState(localState.formula)
-    //     }
-    // }, [localState.formula])
-
-    useEffect (() => {
-        console.log("YOU UPDATED THE GLOBAL STATE")
-    }, [globalState])
 
     const ingredientRender = useMemo(() => {
         if (localState.ready === true){
@@ -205,6 +214,7 @@ const ConcoctV3 = () => {
     }
     
     return (
+
         <>
             {
                 localState.ready === true? 
@@ -213,14 +223,12 @@ const ConcoctV3 = () => {
                         <CardContent> {titleRender()}</CardContent>
                         {ingredientRender}
                     </Card>
-                        <DrinkSVG drinkData={globalState}/>
+                        <DrinkSVG drinkData={globalState} glassData = {localState.glasses}/>
                 </> : <></>
             }
         </>
        
     )
 }
-
-
 
 export default ConcoctV3;

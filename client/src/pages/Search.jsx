@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_ALL_FORMULAS } from '../utils/queries';
+import { GET_ALL_FORMULAS} from '../utils/queries';
 import { useNavigate, useLocation } from 'react-router-dom';
 // import { Box, Grid2, Typography, IconButton, CircularProgress, Button, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -29,6 +29,8 @@ function Search() {
   const [gimmeDrinksClicked, setGimmeDrinksClicked] = useState(false);
 
   const { loading: queryLoading, data } = useQuery(GET_ALL_FORMULAS);
+
+  //const queryFormula = useQuery(GET_ALL_FORMULAS);
 
   // this will populate the searchOptions array with all the ingredients and will remove any duplicates
   useEffect(() => {
@@ -64,7 +66,7 @@ function Search() {
     if (formulaMatch) {
       setGlobalState(prevState => ({
         ...prevState,
-        formula: formulaMatch
+        formula: formulaMatch,
       }));
       navigate("/description", { state: { formula: formulaMatch } });
     } else {

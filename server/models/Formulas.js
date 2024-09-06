@@ -27,6 +27,12 @@ const formulaSchema = new Schema ({
         trim: true,
     },
 
+    glass: {
+        type:String,
+        required:false,
+        trim: true,
+    },
+
     alcohol: [
         {
             name:{

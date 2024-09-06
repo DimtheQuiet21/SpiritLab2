@@ -64,6 +64,7 @@ export const GET_TOP_FAVORITE_DRINKS = gql`
       name
       icon
       favoritesCount
+      glass
       alcohol {
         name
         amount
@@ -91,6 +92,7 @@ export const GET_FORMULA_BY_NAME = gql`
       name
       type
       icon
+      glass
       alcohol {
         name
         amount
@@ -218,6 +220,7 @@ export const GET_ALL_FAVORITE_DRINKS = gql`
 export const GET_ALL_INGREDIENTS = gql`
   query Formulas {
     formulas {
+    glass
       alcohol {
         name
       }
@@ -256,6 +259,22 @@ export const GET_DISLIKE_COUNT = gql`
 //     }
 //   }
 // `;
+
+export const GET_ALL_GLASSES = gql `
+  query Glasses {
+    glasses {
+      name
+      size
+      function
+      coefficents
+      svg
+      xInitial
+      yInitial
+      currentVol
+      scaleFactors
+    }
+  }
+`
 
 // To make this query run, the body of the quest must have req.body = {"name" : [ARRAY OF TERMS IN SEARCH BAR], "liquid": [ARRAY OF TERMS IN SEARCH BAR], "garnish": [ARRAY OF TERMS IN SEARCH BAR]}
 // export const GET_FORMULA_INGREDIENTS = gql`
