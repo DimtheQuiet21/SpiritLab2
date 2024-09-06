@@ -20,7 +20,4 @@ export default defineConfig({
       localsConvention: 'camelCaseOnly'
     }
   },
-  build: {
-    outDir: 'dist',
-  },
 });
