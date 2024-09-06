@@ -1790,7 +1790,7 @@ const formulas = [
     {
         "name":"Nectarine Dream",
         "type":margarita,
-        "glass": wineGlass,
+        "glass": redWineGlass,
         "icon": randomIcon(),
         "glass": redWineGlass,
         "alcohol":[
