@@ -39,7 +39,6 @@ type Formulas {
     type : String
     glass: String
     icon: String
-    glass: String
     alcohol: [Ingredient]
     liquid: [Ingredient]
     garnish: [Ingredient]
