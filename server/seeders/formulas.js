@@ -156,14 +156,33 @@ const worcester = "worcestershire sauce";
 const margarita = "margarita";
 const unsweetendCocoaPowder = "unsweetened cocoa powder";
 
-const highballGlass = "highball glass";
-const martiniGlass = "martini glass";
-const oldFashionedGlass = "old-fashioned glass";
-const margaritaGlass = "margarita glass";
-const shotGlass = "shot glass";
-const collinsGlass = "collins glass";
-const wineGlass = "wine glass";
-const sourGlass = "sour glass";
+const beerGlass = "Beer Mug";
+const brandyGlass ="Brandy Snifter";
+const champagneGlass = "Champagne Coupe";
+const champagneFlute = "Champagne Flute";
+const cocktailGlass = "Cocktail Glass";
+const collinsGlass = "Collins Glass";
+const cordialGlass = "Cordial Glass";
+const highballGlass = "Highball Glass";
+const hurricanteGlass = "Hurricane Glass";
+const irishCoffeGlass= "Irish Coffee Glass";
+const margaritaGlass= "Margarita Glass";
+const martiniGlass = "Martini Glass";
+const oldFashionedGlass = "Old-Fashioned Glass";
+const doubleOldFashionedGlass = "Double Old-Fashioned Glass";
+const parfaitGlass = "Parfait Glass";
+const pilsnerGlass ="Pilsner Glass";
+const pitcher = "Pitcher";
+const ponyGlass = "Pony Glass";
+const portGlass = "Port Glass";
+const pusseCafeGlass = "Pousse-Café Glass";
+const punchCup = "Punch Cup";
+const shotGlass = "Shot Glass";
+const sourGlass = "Sour Glass";
+const redWineGlass = "Red Wine Glass";
+const whiteWineGlass = "White Wine Glass";
+
+
 
 const namesArray = [
     "045-cocktails-3.png",
@@ -225,6 +244,7 @@ const formulas = [
         "type":tequila,
         "glass":highballGlass,
         "icon": randomIcon(),
+        "glass":highballGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -251,11 +271,6 @@ const formulas = [
             },
         ],
         "garnish": [
-            {
-                "name":"",
-                "amount":"",
-                "technique":""
-            },
         ],
         "assembly":"Shake the ingredients vigorously with ice. Strain into an ice-filled highball glass"
     },
@@ -264,6 +279,7 @@ const formulas = [
         "type":tequila,
         "glass":martiniGlass,
         "icon": randomIcon(),
+        "glass":cocktailGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -297,6 +313,7 @@ const formulas = [
         "type":tequila,
         "glass": margaritaGlass,
         "icon": randomIcon(),
+        "glass":margaritaGlass,
         "alcohol":[
             {
                 "name":pepperTequila,
@@ -355,6 +372,7 @@ const formulas = [
         "type":tequila,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass":cocktailGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -383,6 +401,7 @@ const formulas = [
         "type":tequila,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass":highballGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -441,6 +460,7 @@ const formulas = [
         "type":tequila,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass":cocktailGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -475,6 +495,7 @@ const formulas = [
         "glass": martiniGlass,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass":cocktailGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -503,6 +524,7 @@ const formulas = [
         "type":tequila,
         "glass": margaritaGlass,
         "icon": randomIcon(),
+        "glass":margaritaGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -556,6 +578,7 @@ const formulas = [
         "type":tequila,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass":oldFashionedGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -584,6 +607,7 @@ const formulas = [
         "type":tequila,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass":oldFashionedGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -617,6 +641,7 @@ const formulas = [
         "type":tequila,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass":doubleOldFashionedGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -660,6 +685,7 @@ const formulas = [
         "type":tequila,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass":cocktailGlass,
         "alcohol":[
             {
                 "name": goldTequila,
@@ -698,6 +724,7 @@ const formulas = [
         "type":tequila,
         "glass": shotGlass,
         "icon": randomIcon(),
+        "glass":shotGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -726,6 +753,7 @@ const formulas = [
         "type":tequila,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass":highballGlass,
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -764,6 +792,7 @@ const formulas = [
         "type":tequila,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass": oldFashionedGlass,
         "alcohol":[
             {
                 "name": tequila,
@@ -797,6 +826,7 @@ const formulas = [
         "type":tequila,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -825,6 +855,7 @@ const formulas = [
         "type":tequila,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -863,6 +894,7 @@ const formulas = [
         "type":tequila,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass":oldFashionedGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -906,6 +938,7 @@ const formulas = [
         "type":tequila,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -944,6 +977,7 @@ const formulas = [
         "type":tequila,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass": oldFashionedGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -982,6 +1016,7 @@ const formulas = [
         "type":tequila,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass": oldFashionedGlass,
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -1020,6 +1055,7 @@ const formulas = [
         "type":tequila,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass":cocktailGlass,
         "alcohol":[
             {
                 "name":vanillaTequila,
@@ -1068,6 +1104,7 @@ const formulas = [
         "type":tequila,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass":oldFashionedGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1096,6 +1133,7 @@ const formulas = [
         "type":tequila,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1129,6 +1167,7 @@ const formulas = [
         "type":margarita,
         "glass": margaritaGlass,
         "icon": randomIcon(),
+        "glass":margaritaGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1167,6 +1206,7 @@ const formulas = [
         "type":margarita,
         "glass": margaritaGlass,
         "icon": randomIcon(),
+        "glass": margaritaGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -1215,6 +1255,7 @@ const formulas = [
         "type":margarita,
         "glass": margaritaGlass,
         "icon": randomIcon(),
+        "glass": margaritaGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -1258,6 +1299,7 @@ const formulas = [
         "type":margarita,
         "glass": margaritaGlass,
         "icon": randomIcon(),
+        "glass": margaritaGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -1296,6 +1338,7 @@ const formulas = [
         "type":margarita,
         "glass": margaritaGlass,
         "icon": randomIcon(),
+        "glass": margaritaGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -1339,6 +1382,7 @@ const formulas = [
         "type":margarita,
         "glass": margaritaGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1397,6 +1441,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -1430,6 +1475,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1473,6 +1519,7 @@ const formulas = [
         "type":margarita,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass": oldFashionedGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1511,6 +1558,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -1554,6 +1602,7 @@ const formulas = [
         "type":margarita,
         "glass": margaritaGlass,
         "icon": randomIcon(),
+        "glass": pitcher,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1597,6 +1646,7 @@ const formulas = [
         "type":margarita,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass":oldFashionedGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1635,6 +1685,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1668,6 +1719,7 @@ const formulas = [
         "type":margarita,
         "glass": collinsGlass,
         "icon": randomIcon(),
+        "glass": collinsGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -1701,6 +1753,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":amaretto,
@@ -1739,6 +1792,7 @@ const formulas = [
         "type":margarita,
         "glass": wineGlass,
         "icon": randomIcon(),
+        "glass": redWineGlass,
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -1788,6 +1842,7 @@ const formulas = [
         "glass": margaritaGlass,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": margaritaGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1842,6 +1897,7 @@ const formulas = [
         "glass": martiniGlass,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -1880,6 +1936,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -1913,6 +1970,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -1946,6 +2004,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -1974,6 +2033,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":goldTequila,
@@ -2017,6 +2077,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -2055,6 +2116,7 @@ const formulas = [
         "type":margarita,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass": oldFashionedGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -2088,6 +2150,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -2121,6 +2184,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2154,6 +2218,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -2192,6 +2257,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2225,6 +2291,7 @@ const formulas = [
         "type":margarita,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass": oldFashionedGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2253,6 +2320,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2286,6 +2354,7 @@ const formulas = [
         "type":margarita,
         "glass": sourGlass,
         "icon": randomIcon(),
+        "glass": sourGlass,
         "alcohol":[
             {
                 "name":tequila,
@@ -2320,6 +2389,7 @@ const formulas = [
         "glass": highballGlass,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2353,6 +2423,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":joseCuervoEspecial,
@@ -2386,6 +2457,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2417,8 +2489,8 @@ const formulas = [
     {
         "name":"Tijuana Speedball",
         "type":margarita,
-        "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -2457,6 +2529,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":reposadoTequila,
@@ -2510,6 +2583,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2543,6 +2617,7 @@ const formulas = [
         "type":margarita,
         "glass": martiniGlass,
         "icon": randomIcon(),
+        "glass": cocktailGlass,
         "alcohol":[
             {
                 "name":cabernetSauvignon,
@@ -2571,6 +2646,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":silverTequila,
@@ -2634,6 +2710,7 @@ const formulas = [
         "type":margarita,
         "glass": highballGlass,
         "icon": randomIcon(),
+        "glass": highballGlass,
         "alcohol":[
             {
                 "name":mezcal,
@@ -2667,6 +2744,7 @@ const formulas = [
         "type":margarita,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass": oldFashionedGlass,
         "alcohol":[
             {
                 "name":mezcal,
@@ -2700,6 +2778,7 @@ const formulas = [
         "type":margarita,
         "glass": oldFashionedGlass,
         "icon": randomIcon(),
+        "glass": oldFashionedGlass,
         "alcohol":[
             {
                 "name":mezcal,

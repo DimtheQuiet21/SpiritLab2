@@ -39,6 +39,7 @@ type Formulas {
     type : String
     glass: String
     icon: String
+    glass: String
     alcohol: [Ingredient]
     liquid: [Ingredient]
     garnish: [Ingredient]
@@ -49,6 +50,32 @@ type Formulas {
     likedBy: [ID]
     dislikedBy: [ID]
     comments: [Comment]
+}
+
+type Glasses {
+    _id: ID
+    name: String 
+    size: Float
+    function: String
+    coefficents: [Float]
+    svg:  [String]
+    xInitial: [Float]    
+    yInitial: [Float]  
+    currentVol: Float
+    scaleFactors: [Float]
+}
+
+type Glasses {
+    _id: ID
+    name: String 
+    size: Float
+    function: String
+    coefficents: [Float]
+    svg:  [String]
+    xInitial: [Float]    
+    yInitial: [Float]  
+    currentVol: Float
+    scaleFactors: [Float]
 }
 
 type Ingredient {
@@ -99,6 +126,7 @@ type Query {
     formulasbytype(type: String!):[Formulas]
     formulasbyingredient(terms:[String]!):[Formulas]
     formula(name: String!): Formulas
+    glasses:[Glasses]
     randomDrink: Formulas
     allGlassTypes: [String]
     searchCocktail(name: String!): Cocktail

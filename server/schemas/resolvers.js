@@ -1,4 +1,4 @@
-const { Inventory, Formulas, User } = require("../models");
+const { Inventory, Formulas, User, Glasses } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
@@ -28,6 +28,10 @@ const resolvers = {
           { "garnish.name": { $in: regex } },
         ],
       });
+    },
+    
+    glasses: async () => {
+      return Glasses.find({})
     },
 
     inventorybyterms: async (parent, { terms }) => {
